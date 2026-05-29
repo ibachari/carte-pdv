@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nos points de vente – Maison Savary</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f9f7f4;
+      color: #1a1a1a;
+    }
+
+    header {
+      background: #fff;
+      border-bottom: 1px solid #e8e4de;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+
+    header p {
+      font-size: 13px;
+      color: #888;
+      margin-top: 2px;
+    }
+
+    .filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-size: 12px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: #fff;
+      cursor: pointer;
+      color: #555;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .filter-btn.active {
+      background: #1a1a1a;
+      color: #fff;
+      border-color: #1a1a1a;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 13px;
+      width: 220px;
+    }
+
+    .search-bar input {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 13px;
+      background: transparent;
+      color: #1a1a1a;
+    }
+
+    .layout {
+      display: flex;
+      height: calc(100vh - 65px);
+    }
+
+    #sidebar {
+      width: 320px;
+      flex-shrink: 0;
+      background: #fff;
+      border-right: 1px solid #e8e4de;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0ede8;
+      font-size: 12px;
+      color: #888;
+      background: #faf9f7;
+    }
+
+    .client-card {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0ede8;
+      cursor: pointer;
+      transition: background .1s;
+    }
+
+    .client-card:hover { background: #faf9f7; }
+    .client-card.active { background: #f0ede8; }
+
+    .client-card .name {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 2px;
+      color: #1a1a1a;
+    }
+
+    .client-card .addr {
+      font-size: 12px;
+      color: #888;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .client-card .badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 10px;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    #map { flex: 1; }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
+
+    .status-bar {
+      padding: 8px 16px;
+      font-size: 12px;
+      color: #888;
+      background: #faf9f7;
+      border-top: 1px solid #f0ede8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spinner {
+      width: 14px; height: 14px;
+      border: 2px solid #ddd;
+      border-top-color: #1a1a1a;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      display: inline-block;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty {
+      padding: 32px 16px;
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    @media (max-width: 640px) {
+      .layout { flex-direction: column; }
+      #sidebar { width: 100%; height: 220px; }
+      #map { height: 400px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Nos points de vente</h1>
+    <p id="count-label">Chargement…</p>
+  </div>
+  <div class="search-bar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search" placeholder="Rechercher un client…" oninput="applyFilters()"/>
+  </div>
+  <div class="filters" id="filter-btns"></div>
+</header>
+
+<div class="layout">
+  <div id="sidebar">
+    <div class="sidebar-header" id="sidebar-count">—</div>
+    <div id="client-list"><div class="empty"><div class="spinner"></div></div></div>
+    <div class="status-bar" id="status-bar">
+      <div class="spinner"></div> Connexion au Google Sheet…
+    </div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<!-- ─── CONFIGURATION ──────────────────────────────────────────── -->
+<!--
+  Remplacez SPREADSHEET_ID par l'ID de votre Google Sheet.
+  Le Sheet doit être partagé en lecture publique ("Toute personne avec le lien").
+  Colonnes attendues : Nom | Adresse (rue) | Ville | Pays | Adresse complète | Latitude | Longitude
+-->
+<script>
+const SPREADSHEET_ID = "1XKMIXqKTpHe-rvC8mFCL_s8GQ6VYao_HHMZD5GUrtZk";
+const SHEET_NAME     = "Points de vente";
+const REFRESH_MIN    = 5; // Relecture automatique toutes les X minutes
+</script>
+<!-- ──────────────────────────────────────────────────────────────── -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const ZONE_COLORS = {
+  paris:    "#1a73e8",
+  idf:      "#1d9e75",
+  province: "#e07b00",
+  export:   "#9d50dd",
+  autre:    "#888",
+};
+
+const ZONE_LABELS = {
+  paris:    "Paris",
+  idf:      "Île-de-France",
+  province: "Province",
+  export:   "Export",
+  autre:    "Autre",
+};
+
+function getZone(city, country) {
+  if (!country || country === "France") {
+    if (!city) return "autre";
+    const c = city.toLowerCase();
+    if (c === "paris" || c.startsWith("paris ")) return "paris";
+    const idf = ["seine","oise","marne","yvelines","essonne","hauts-de-seine","val-d","versailles","cergy","meudon","puteaux","clichy","bagnolet","issy","rueil","saint-ouen","herblay","domont","chambly","éragny","eragny","villebon","montgeron","bessancourt","maffliers","plaisir","saint-maur"];
+    if (idf.some(k => c.includes(k))) return "idf";
+    return "province";
+  }
+  return "export";
+}
+
+function makeIcon(color) {
+  return L.divIcon({
+    className: "",
+    html: `<div style="width:12px;height:12px;border-radius:50%;background:${color};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+  });
+}
+
+// ── State ────────────────────────────────────────────────────────
+let allClients   = [];
+let markers      = [];
+let activeZone   = "all";
+let activeCardEl = null;
+let map, lastUpdated;
+
+// ── Map init ─────────────────────────────────────────────────────
+window.addEventListener("DOMContentLoaded", () => {
+  map = L.map("map", { zoomControl: true }).setView([46.5, 2.5], 6);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap contributors",
+    maxZoom: 19,
+  }).addTo(map);
+
+  loadSheet();
+  setInterval(loadSheet, REFRESH_MIN * 60 * 1000);
+});
+
+// ── Fetch Google Sheet CSV ────────────────────────────────────────
+async function loadSheet() {
+  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
+  try {
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const csv  = await resp.text();
+    allClients = parseCSV(csv);
+    lastUpdated = new Date();
+    buildFilterButtons();
+    applyFilters();
+    setStatus(`Mis à jour à ${lastUpdated.toLocaleTimeString("fr-FR", {hour:"2-digit",minute:"2-digit"})}`);
+  } catch (e) {
+    setStatus("Erreur de chargement — " + e.message, true);
+  }
+}
+
+// ── CSV parser (handles quoted fields) ───────────────────────────
+function parseCSV(text) {
+  const lines  = text.trim().split("\n");
+  const headers = splitCSVLine(lines[0]).map(h => h.replace(/^"|"$/g, "").trim());
+  const clients = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const vals = splitCSVLine(lines[i]).map(v => v.replace(/^"|"$/g, "").trim());
+    const row  = {};
+    headers.forEach((h, idx) => row[h] = vals[idx] || "");
+
+    const lat = parseFloat(row["Latitude"]);
+    const lng = parseFloat(row["Longitude"]);
+    if (!row["Nom"] || isNaN(lat) || isNaN(lng)) continue;
+
+    const city    = row["Ville"] || "";
+    const country = row["Pays"] || "France";
+    clients.push({
+      name:    row["Nom"],
+      street:  row["Adresse (rue)"] || "",
+      city,
+      country,
+      address: row["Adresse complète"] || [row["Adresse (rue)"], city, country].filter(Boolean).join(", "),
+      lat, lng,
+      zone:    getZone(city, country),
+    });
+  }
+  return clients;
+}
+
+function splitCSVLine(line) {
+  const result = [];
+  let cur = "", inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === "," && !inQ) { result.push(cur); cur = ""; }
+    else cur += ch;
+  }
+  result.push(cur);
+  return result;
+}
+
+// ── Filter buttons ────────────────────────────────────────────────
+function buildFilterButtons() {
+  const zones = ["all", ...Object.keys(ZONE_COLORS)];
+  const counts = { all: allClients.length };
+  allClients.forEach(c => { counts[c.zone] = (counts[c.zone] || 0) + 1; });
+
+  const container = document.getElementById("filter-btns");
+  container.innerHTML = "";
+
+  zones.forEach(z => {
+    if (z !== "all" && !counts[z]) return;
+    const label = z === "all" ? `Tous (${counts.all})` : `${ZONE_LABELS[z] || z} (${counts[z] || 0})`;
+    const btn = document.createElement("button");
+    btn.className = "filter-btn" + (z === activeZone ? " active" : "");
+    btn.textContent = label;
+    if (z !== "all") {
+      const dot = document.createElement("span");
+      dot.className = "dot";
+      dot.style.background = ZONE_COLORS[z];
+      btn.prepend(dot);
+    }
+    btn.onclick = () => { activeZone = z; applyFilters(); };
+    container.appendChild(btn);
+  });
+}
+
+// ── Apply filters + search ────────────────────────────────────────
+function applyFilters() {
+  const q = (document.getElementById("search").value || "").toLowerCase().trim();
+
+  const filtered = allClients.filter(c => {
+    const zoneOk = activeZone === "all" || c.zone === activeZone;
+    const searchOk = !q || c.name.toLowerCase().includes(q) || c.city.toLowerCase().includes(q) || c.address.toLowerCase().includes(q);
+    return zoneOk && searchOk;
+  });
+
+  document.getElementById("count-label").textContent =
+    `${allClients.length} points de vente géolocalisés`;
+  document.getElementById("sidebar-count").textContent =
+    `${filtered.length} résultat${filtered.length > 1 ? "s" : ""}`;
+
+  document.querySelectorAll(".filter-btn").forEach((btn, idx) => {
+    const zones = ["all", ...Object.keys(ZONE_COLORS).filter(z => allClients.some(c => c.zone === z))];
+    btn.classList.toggle("active", zones[idx] === activeZone);
+  });
+
+  renderMarkers(filtered);
+  renderList(filtered);
+}
+
+// ── Markers ───────────────────────────────────────────────────────
+function renderMarkers(clients) {
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  clients.forEach(c => {
+    const m = L.marker([c.lat, c.lng], { icon: makeIcon(ZONE_COLORS[c.zone] || "#888") })
+      .addTo(map)
+      .bindPopup(`<strong style="font-size:13px;">${c.name}</strong><br><span style="font-size:12px;color:#666;">${c.address}</span>`);
+    m._clientData = c;
+    markers.push(m);
+  });
+
+  if (clients.length > 0) {
+    const group = L.featureGroup(markers);
+    map.fitBounds(group.getBounds().pad(0.1));
+  }
+}
+
+// ── Sidebar list ──────────────────────────────────────────────────
+function renderList(clients) {
+  const list = document.getElementById("client-list");
+  if (clients.length === 0) {
+    list.innerHTML = `<div class="empty">Aucun résultat</div>`;
+    return;
+  }
+
+  list.innerHTML = clients.map((c, i) => `
+    <div class="client-card" data-idx="${i}" onclick="focusClient(${i})">
+      <div class="name">${c.name}</div>
+      <div class="addr">${c.street ? c.street + ", " : ""}${c.city}</div>
+      <span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone] || c.zone}</span>
+    </div>
+  `).join("");
+
+  list._clients = clients;
+}
+
+function focusClient(idx) {
+  const list = document.getElementById("client-list");
+  const clients = list._clients;
+  if (!clients || !clients[idx]) return;
+  const c = clients[idx];
+
+  document.querySelectorAll(".client-card").forEach(el => el.classList.remove("active"));
+  const card = document.querySelector(`.client-card[data-idx="${idx}"]`);
+  if (card) { card.classList.add("active"); card.scrollIntoView({ block: "nearest" }); }
+
+  map.setView([c.lat, c.lng], 15);
+  const marker = markers.find(m => m._clientData === c);
+  if (marker) marker.openPopup();
+}
+
+// ── Status bar ────────────────────────────────────────────────────
+function setStatus(msg, isError = false) {
+  const bar = document.getElementById("status-bar");
+  bar.innerHTML = isError
+    ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e24b4a" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${msg}`
+    : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d9e75" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ${msg}`;
+}
+</script>
+</body>
+</html>
