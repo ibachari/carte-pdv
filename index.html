@@ -9,48 +9,61 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;}
 header{background:#fff;border-bottom:1px solid #e8e4de;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
-header h1{font-size:17px;font-weight:600;letter-spacing:-.3px;}
+header h1{font-size:17px;font-weight:600;}
 header p{font-size:13px;color:#888;margin-top:2px;}
 .filters{display:flex;gap:6px;flex-wrap:wrap;}
 .filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#555;white-space:nowrap;}
 .filter-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
 .search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:220px;}
-.search-bar input{border:none;outline:none;width:100%;font-size:13px;background:transparent;}
+.search-bar input{border:none;outline:none;width:100%;font-size:13px;}
 .layout{display:flex;height:calc(100vh - 65px);}
 #sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column;}
 .sidebar-header{padding:12px 16px;border-bottom:1px solid #f0ede8;font-size:12px;color:#888;background:#faf9f7;}
-.client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer;transition:background .1s;}
+.client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer;}
 .client-card:hover{background:#faf9f7;}
 .client-card.active{background:#f0ede8;}
-.client-card .cname{font-size:13px;font-weight:500;margin-bottom:2px;}
-.client-card .addr{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.client-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.cname{font-size:13px;font-weight:500;margin-bottom:2px;}
+.addr{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
 .badge{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500;}
 #map{flex:1;}
 .status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8;}
 .empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
-@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}#map{height:400px;}}
+@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:200px;}#map{height:400px;}}
 </style>
 </head>
 <body>
 <header>
-<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">38 points de vente</p></div>
-<div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
-<div class="filters" id="filter-btns"></div>
+  <div>
+    <h1>Nos Points de Vente - Maison Savary</h1>
+    <p id="count-label">Chargement...</p>
+  </div>
+  <div class="search-bar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search" placeholder="Rechercher..." oninput="applyFilters()"/>
+  </div>
+  <div class="filters" id="filter-btns"></div>
 </header>
 <div class="layout">
-<div id="sidebar">
-<div class="sidebar-header" id="sidebar-count">—</div>
-<div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 29/05/2026</div>
-</div>
-<div id="map"></div>
+  <div id="sidebar">
+    <div class="sidebar-header" id="sidebar-count">-</div>
+    <div id="client-list"><div class="empty">Chargement...</div></div>
+    <div class="status-bar">Mis a jour le 29/05/2026</div>
+  </div>
+  <div id="map"></div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const ZONE_COLORS={paris:"#178bff",idf:"#1d9e75",province:"#e07b00",export:"#9d50dd",autre:"#888"};
-const ZONE_LABELS={paris:"Paris",idf:"Île-de-France",province:"Province",export:"Export",autre:"Autre"};
-const SECTEUR_COLORS={"Epicerie":"#e63946","Épicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd","Chaine de boulangerie":"#7b2d8b","Restaurant":"#888","Chaine de restaurant":"#ff007f","Coffee shop":"#cab641","Chaine de coffee shop":"#333333","Traiteur":"#ff5ac4","Grossiste":"#007eb5","Marché":"#bb3354","Meal box":"#9cd326","Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575","A definir":"#757575"};
+var ZONE_COLORS = {paris:"#178bff",idf:"#1d9e75",province:"#e07b00",export:"#9d50dd",autre:"#888"};
+var ZONE_LABELS = {paris:"Paris",idf:"Ile-de-France",province:"Province",export:"Export",autre:"Autre"};
+var SECTEUR_COLORS = {
+  "Epicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd",
+  "Chaine de boulangerie":"#7b2d8b","Restaurant":"#999","Chaine de restaurant":"#ff007f",
+  "Coffee shop":"#cab641","Chaine de coffee shop":"#333","Traiteur":"#ff5ac4",
+  "Grossiste":"#007eb5","Marche":"#bb3354","Meal box":"#9cd326",
+  "Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575"
+};
+
 const DATA=[
     {name:"API RESTAURATION site de Saint Gobain",secteur:"Restaurant",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.8575475,lng:2.3513765,zone:"paris"},
     {name:"Otera Illies",secteur:"GMS",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.5477601,lng:2.8270886,zone:"province"},
@@ -91,14 +104,107 @@ const DATA=[
     {name:"VRAC & BOC",secteur:"Epicerie",street:"7 Rue du Docteur Bauer",city:"Saint-Ouen-sur-Seine",country:"France",address:"7 Rue du Dr Bauer, 93400 Saint-Ouen-sur-Seine, France",lat:48.9123685,lng:2.335989,zone:"idf"},
     {name:"Le Comptoir François - POUR DE BON PRO",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"}
 ];
-let map,markers=[],activeZone="all";
-function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]);}
-function sc(s){return SECTEUR_COLORS[s]||"#888";}
-function applyFilters(){const q=(document.getElementById("search").value||"").toLowerCase();const f=DATA.filter(c=>(activeZone==="all"||c.zone===activeZone)&&(!q||c.name.toLowerCase().includes(q)||c.city.toLowerCase().includes(q)||(c.secteur||"").toLowerCase().includes(q)));document.getElementById("count-label").textContent=DATA.length+" points de vente";renderMarkers(f);renderList(f);}
-function renderMarkers(cl){markers.forEach(m=>map.removeLayer(m));markers=[];cl.forEach(c=>{const m=L.marker([c.lat,c.lng],{icon:makeIcon(sc(c.secteur))}).addTo(map).bindPopup(`<strong>${c.name}</strong><br><span style="font-size:11px;color:#888;">${c.secteur}</span><br><span style="font-size:12px;color:#666;">${c.address||c.city}</span>`);m._c=c;markers.push(m);});if(cl.length>0)map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));}
-function renderList(cl){document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");const list=document.getElementById("client-list");if(!cl.length){list.innerHTML='<div class="empty">Aucun résultat</div>';list._c=[];return;}list.innerHTML=cl.map((c,i)=>`<div class="client-card" data-i="${i}" onclick="focusClient(${i})"><div class="cname">${c.name}</div><div class="addr">${c.street?c.street+", ":""}${c.city}</div><div class="badges"><span class="badge" style="background:${sc(c.secteur)}22;color:${sc(c.secteur)};">${c.secteur||"—"}</span><span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone]}</span></div></div>`).join("");list._c=cl;}
-function focusClient(i){const c=document.getElementById("client-list")._c[i];document.querySelectorAll(".client-card").forEach(el=>el.classList.remove("active"));document.querySelector(`.client-card[data-i="${i}"]`)?.classList.add("active");map.setView([c.lat,c.lng],15);const m=markers.find(m=>m._c===c);if(m)m.openPopup();}
-window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zones=["all",...Object.keys(ZONE_COLORS)];const zc={all:DATA.length};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+(zc[z]||0)+")"}</button>`).join("");applyFilters();});
+
+var map, markers = [], activeZone = "all";
+
+function sc(s) { return SECTEUR_COLORS[s] || "#888"; }
+
+function makeIcon(color) {
+  var div = document.createElement("div");
+  div.style.cssText = "width:12px;height:12px;border-radius:50%;background:" + color + ";border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);";
+  return L.divIcon({className:"", html:div.outerHTML, iconSize:[12,12], iconAnchor:[6,6]});
+}
+
+function applyFilters() {
+  var q = (document.getElementById("search").value || "").toLowerCase();
+  var f = DATA.filter(function(c) {
+    var zoneOk = activeZone === "all" || c.zone === activeZone;
+    var searchOk = !q || c.name.toLowerCase().indexOf(q) !== -1 || c.city.toLowerCase().indexOf(q) !== -1 || (c.secteur||"").toLowerCase().indexOf(q) !== -1;
+    return zoneOk && searchOk;
+  });
+  document.getElementById("count-label").textContent = DATA.length + " points de vente";
+  renderMarkers(f);
+  renderList(f);
+}
+
+function renderMarkers(clients) {
+  markers.forEach(function(m) { map.removeLayer(m); });
+  markers = [];
+  clients.forEach(function(c) {
+    var color = sc(c.secteur) || ZONE_COLORS[c.zone] || "#888";
+    var m = L.marker([c.lat, c.lng], {icon: makeIcon(color)})
+      .addTo(map)
+      .bindPopup("<strong>" + c.name + "</strong><br><em style='font-size:11px;color:#888;'>" + (c.secteur||"") + "</em><br><span style='font-size:12px;color:#666;'>" + (c.address||c.city) + "</span>");
+    m._c = c;
+    markers.push(m);
+  });
+  if (clients.length > 0) {
+    map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));
+  }
+}
+
+function renderList(clients) {
+  document.getElementById("sidebar-count").textContent = clients.length + " resultat" + (clients.length > 1 ? "s" : "");
+  var list = document.getElementById("client-list");
+  if (!clients.length) { list.innerHTML = '<div class="empty">Aucun resultat</div>'; list._c = []; return; }
+  var html = "";
+  for (var i = 0; i < clients.length; i++) {
+    var c = clients[i];
+    var sColor = sc(c.secteur);
+    var zColor = ZONE_COLORS[c.zone] || "#888";
+    html += '<div class="client-card" data-i="' + i + '" onclick="focusClient(' + i + ')">';
+    html += '<div class="cname">' + c.name + '</div>';
+    html += '<div class="addr">' + (c.street ? c.street + ", " : "") + c.city + '</div>';
+    html += '<div class="badges">';
+    html += '<span class="badge" style="background:' + sColor + '22;color:' + sColor + ';">' + (c.secteur||"-") + '</span>';
+    html += '<span class="badge" style="background:' + zColor + '22;color:' + zColor + ';">' + (ZONE_LABELS[c.zone]||c.zone) + '</span>';
+    html += '</div></div>';
+  }
+  list.innerHTML = html;
+  list._c = clients;
+}
+
+function focusClient(i) {
+  var clients = document.getElementById("client-list")._c;
+  if (!clients || !clients[i]) return;
+  var c = clients[i];
+  document.querySelectorAll(".client-card").forEach(function(el) { el.classList.remove("active"); });
+  var card = document.querySelector(".client-card[data-i='" + i + "']");
+  if (card) { card.classList.add("active"); card.scrollIntoView({block:"nearest"}); }
+  map.setView([c.lat, c.lng], 15);
+  var m = null;
+  for (var j = 0; j < markers.length; j++) { if (markers[j]._c === c) { m = markers[j]; break; } }
+  if (m) m.openPopup();
+}
+
+function setActiveFilter(btn, zone) {
+  document.querySelectorAll(".filter-btn").forEach(function(b) { b.classList.remove("active"); });
+  btn.classList.add("active");
+  activeZone = zone;
+  applyFilters();
+}
+
+window.addEventListener("load", function() {
+  map = L.map("map").setView([46.5, 2.5], 6);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap", maxZoom: 19
+  }).addTo(map);
+
+  var zones = ["all", "paris", "idf", "province"];
+  var zc = {all: DATA.length};
+  DATA.forEach(function(c) { zc[c.zone] = (zc[c.zone] || 0) + 1; });
+
+  var btnsHtml = "";
+  zones.forEach(function(z) {
+    if (z !== "all" && !zc[z]) return;
+    var label = z === "all" ? "Tous (" + DATA.length + ")" : ZONE_LABELS[z] + " (" + (zc[z]||0) + ")";
+    var active = z === "all" ? " active" : "";
+    btnsHtml += '<button class="filter-btn' + active + '" onclick="setActiveFilter(this, '' + z + '')">' + label + '</button>';
+  });
+  document.getElementById("filter-btns").innerHTML = btnsHtml;
+
+  applyFilters();
+});
 </script>
 </body>
 </html>
