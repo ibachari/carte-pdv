@@ -204,18 +204,9 @@
   <div id="map"></div>
 </div>
 
-<!-- ─── CONFIGURATION ──────────────────────────────────────────── -->
-<!--
-  Remplacez SPREADSHEET_ID par l'ID de votre Google Sheet.
-  Le Sheet doit être partagé en lecture publique ("Toute personne avec le lien").
-  Colonnes attendues : Nom | Adresse (rue) | Ville | Pays | Adresse complète | Latitude | Longitude
--->
 <script>
-const SPREADSHEET_ID = "1XKMIXqKTpHe-rvC8mFCL_s8GQ6VYao_HHMZD5GUrtZk";
-const SHEET_NAME     = "Points de vente";
-const REFRESH_MIN    = 5; // Relecture automatique toutes les X minutes
+const REFRESH_MIN = 5;
 </script>
-<!-- ──────────────────────────────────────────────────────────────── -->
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -275,21 +266,93 @@ window.addEventListener("DOMContentLoaded", () => {
   setInterval(loadSheet, REFRESH_MIN * 60 * 1000);
 });
 
-// ── Fetch Google Sheet CSV ────────────────────────────────────────
-async function loadSheet() {
-  const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(SHEET_NAME)}`;
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error("HTTP " + resp.status);
-    const csv  = await resp.text();
-    allClients = parseCSV(csv);
-    lastUpdated = new Date();
-    buildFilterButtons();
-    applyFilters();
-    setStatus(`Mis à jour à ${lastUpdated.toLocaleTimeString("fr-FR", {hour:"2-digit",minute:"2-digit"})}`);
-  } catch (e) {
-    setStatus("Erreur de chargement — " + e.message, true);
-  }
+// ── Données statiques embarquées ─────────────────────────────────
+function loadSheet() {
+  const STATIC_DATA = [
+    {name:"Novotel Château de Maffliers",street:"Allée des Marronniers",city:"Maffliers",country:"France",address:"Allée des Marronniers, Maffliers, France",lat:49.073515,lng:2.309556},
+    {name:"La petite voile touquet",street:"",city:"Le Touquet-Paris-Plage",country:"France",address:"Le Touquet-Paris-Plage, France",lat:50.521276,lng:1.590675},
+    {name:"Source de Beaute",street:"",city:"Bessancourt",country:"France",address:"Bessancourt, France",lat:49.038027,lng:2.216363},
+    {name:"API RESTAURATION Saint Gobain",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.857548,lng:2.351377},
+    {name:"29 PICPUS (Noi)",street:"29 Rue de Picpus",city:"Paris",country:"France",address:"29 Rue de Picpus, Paris, France",lat:48.845814,lng:2.394995},
+    {name:"FRECOM - The French Comte",street:"",city:"Londres",country:"Royaume-Uni",address:"Londres, Royaume-Uni",lat:51.507218,lng:-0.127586},
+    {name:"Otera Illies",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.547760,lng:2.827089},
+    {name:"Hotel beige",street:"12 Rue de Maubeuge",city:"Paris",country:"France",address:"12 Rue de Maubeuge, 75009 Paris",lat:48.876657,lng:2.341781},
+    {name:"GOÛT MORNING",street:"27 Rue d'Epluches",city:"Saint-Ouen-l'Aumône",country:"France",address:"27 Rue d'Epluches, Saint-Ouen-l'Aumône, France",lat:49.058088,lng:2.121796},
+    {name:"Otera Brest",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.386770,lng:-4.529340},
+    {name:"GO GO KIWI",street:"16 Avenue de Laumière",city:"Paris",country:"France",address:"16 Avenue de Laumière, 75019 Paris",lat:48.883892,lng:2.380797},
+    {name:"Le Cri du Radis Chamant",street:"4 Rue de la Seigneurie",city:"Lamorlaye",country:"France",address:"4 Rue de la Seigneurie, 60260 Lamorlaye, France",lat:49.146597,lng:2.438988},
+    {name:"COFFEE YA (Japan Sweets)",street:"25 Boulevard Voltaire",city:"Paris",country:"France",address:"25 Boulevard Voltaire, 75011 Paris",lat:48.865048,lng:2.368370},
+    {name:"Bernhard Möllers GmbH",street:"",city:"Cologne",country:"Allemagne",address:"Cologne, Allemagne",lat:50.937531,lng:6.960279},
+    {name:"Pépins",street:"21 Rue de Miromesnil",city:"Paris",country:"France",address:"21 Rue de Miromesnil, 75008 Paris",lat:48.872588,lng:2.315881},
+    {name:"SCAROR - Scarabée or",street:"",city:"Enghien-les-Bains",country:"France",address:"95880 Enghien-les-Bains, France",lat:48.970876,lng:2.303485},
+    {name:"LHELAM - LHERISSON LAMMASA",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.691099,lng:2.211431},
+    {name:"Univers Primeur Eragny",street:"196 Rue de l'Ambassadeur",city:"Éragny",country:"France",address:"196 Rue de l'Ambassadeur, 95610 Éragny, France",lat:49.001163,lng:2.097712},
+    {name:"Epic SODIGERMAIN",street:"14 Rue Lobineau",city:"Paris",country:"France",address:"14 Rue Lobineau, 75006 Paris",lat:48.851783,lng:2.335843},
+    {name:"AFFINEZ - Fromagerie L'affinez",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong, 91230 Montgeron",lat:48.701249,lng:2.466317},
+    {name:"Epicerie Bon Sens",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet",lat:48.869341,lng:2.419753},
+    {name:"Davoli",street:"34 Rue Cler",city:"Paris",country:"France",address:"34 Rue Cler, 75007 Paris",lat:48.856935,lng:2.306179},
+    {name:"Apertivus - Saint Antoine",street:"83 Rue Saint-Antoine",city:"Paris",country:"France",address:"83 Rue Saint-Antoine, 75004 Paris",lat:48.854484,lng:2.362808},
+    {name:"Apertivus Poteau",street:"39 Rue du Poteau",city:"Paris",country:"France",address:"39 Rue du Poteau, 75018 Paris",lat:48.894247,lng:2.341299},
+    {name:"Bizas - La vie de quartier",street:"25 Rue Custine",city:"Paris",country:"France",address:"25 Rue Custine, 75018 Paris",lat:48.888777,lng:2.346284},
+    {name:"HIMAAS - Hilton MAISON Astor",street:"11 Rue d'Astorg",city:"Paris",country:"France",address:"11 Rue d'Astorg, 75008 Paris",lat:48.872865,lng:2.319418},
+    {name:"La Marnière",street:"8 Rue Paul Langevin",city:"Plaisir",country:"France",address:"8 Rue Paul Langevin, 78370 Plaisir",lat:48.830565,lng:1.952948},
+    {name:"Chez Virginie Fromagerie",street:"54 Rue Damrémont",city:"Paris",country:"France",address:"54 Rue Damrémont, 75018 Paris",lat:48.890421,lng:2.334418},
+    {name:"L'ANNEXE",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris",lat:48.880671,lng:2.333371},
+    {name:"MATS - MATSURI",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.857548,lng:2.351377},
+    {name:"MARRON - Café des Marronniers",street:"113 Rue de Rivoli",city:"Paris",country:"France",address:"113 Rue de Rivoli, 75001 Paris",lat:48.863492,lng:2.327494},
+    {name:"HANGY - Hangar Y",street:"9 Avenue de Trivaux",city:"Meudon",country:"France",address:"9 Avenue de Trivaux, 92190 Meudon",lat:48.797854,lng:2.233184},
+    {name:"OTERA - Otera Amiens",street:"151 Av. Valéry Giscard d'Estaing",city:"Amiens",country:"France",address:"151 Av. Valéry Giscard d'Estaing, 80000 Amiens",lat:49.883948,lng:2.264740},
+    {name:"MAXART - L'épicurien - St Barth",street:"",city:"Saint-Barthélemy",country:"Saint-Barthélemy",address:"Saint-Barthélemy",lat:17.9,lng:-62.833333},
+    {name:"OTEAVE - Otera Avelin",street:"33 Rue de Seclin",city:"Avelin",country:"France",address:"33 Rue de Seclin, 59710 Avelin",lat:50.538562,lng:3.077088},
+    {name:"Affinord",street:"15 Avenue Du Great Eastern",city:"Longueau",country:"France",address:"15 Avenue Du Great Eastern, 80330 Longueau",lat:49.870889,lng:2.373030},
+    {name:"Renaissance la Défense",street:"60 Cours Valmy",city:"Puteaux",country:"France",address:"60 Cours Valmy, 92800 Puteaux",lat:48.892534,lng:2.232649},
+    {name:"OTESAR - Otera Sart",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 Rue Louis Constant, 59491 Villeneuve-d'Ascq",lat:50.653014,lng:3.140879},
+    {name:"Léonie Bakery",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris",lat:48.878569,lng:2.295342},
+    {name:"LES TROIS PARCS - BELLEVUES",street:"12/14 Avenue du Gros Chêne",city:"Éragny",country:"France",address:"12/14 Avenue du Gros Chêne, 95610 Éragny",lat:49.027695,lng:2.107526},
+    {name:"Léonie Sacré Coeur",street:"15 Avenue Trudaine",city:"Paris",country:"France",address:"15 Avenue Trudaine, 75009 Paris",lat:48.881447,lng:2.345033},
+    {name:"Léonie Saint Germain",street:"2 Passage Emma Calve",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris",lat:48.848194,lng:2.385906},
+    {name:"Léonie Erlanger",street:"2 Passage Emma Calve",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris",lat:48.848194,lng:2.385906},
+    {name:"Léonie Hauteville",street:"2 Passage Emma Calve",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris",lat:48.848194,lng:2.385906},
+    {name:"Léonie Ternes",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris",lat:48.878569,lng:2.295342},
+    {name:"Léonie Headquarter",street:"96 Rue de Lévis",city:"Paris",country:"France",address:"96 Rue de Lévis, 75017 Paris",lat:48.885106,lng:2.311455},
+    {name:"Chez Alex - Bar à vins",street:"1 Lot. les Meissugues",city:"Le Cannet-des-Maures",country:"France",address:"1 Lot. les Meissugues, Le Cannet-des-Maures",lat:43.392575,lng:6.331634},
+    {name:"Monoprix Nice",street:"42 Avenue Jean Médecin",city:"Nice",country:"France",address:"42 Avenue Jean Médecin, Nice",lat:43.702489,lng:7.267351},
+    {name:"Pullman Paris Tour Eiffel",street:"22 Rue Jean Rey",city:"Paris",country:"France",address:"22 Rue Jean Rey, 75015 Paris",lat:48.855649,lng:2.292858},
+    {name:"Au nez et à la barbe",street:"59 Boulevard Jean Jaurès",city:"Clichy",country:"France",address:"59 Boulevard Jean Jaurès, 92110 Clichy",lat:48.900757,lng:2.305426},
+    {name:"La Flottille",street:"Allée d'Apollon",city:"Versailles",country:"France",address:"Allée d'Apollon, 78000 Versailles",lat:48.808794,lng:2.110897},
+    {name:"Monoprix 4ème",street:"",city:"Paris",country:"France",address:"75004 Paris",lat:48.853428,lng:2.358279},
+    {name:"Monoprix Issy les Moulineaux",street:"1 Rue Lamartine",city:"Issy-les-Moulineaux",country:"France",address:"1 Rue Lamartine, 92130 Issy-les-Moulineaux",lat:48.823526,lng:2.274670},
+    {name:"Nanie",street:"6 Place de l'Église",city:"Rueil-Malmaison",country:"France",address:"6 Place de l'Église, Rueil-Malmaison",lat:48.876735,lng:2.180985},
+    {name:"Atelier papilles",street:"320 Avenue Archimède",city:"Aix-en-Provence",country:"France",address:"320 Avenue Archimède, Aix-en-Provence",lat:43.491021,lng:5.340078},
+    {name:"Fromagerie Bonaparte",street:"",city:"Nice",country:"France",address:"Nice",lat:43.710173,lng:7.261953},
+    {name:"Hotel Felicien Paris",street:"21 Rue Félicien David",city:"Paris",country:"France",address:"21 Rue Félicien David, 75016 Paris",lat:48.849347,lng:2.274386},
+    {name:"LAIT FROMAGERES",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213},
+    {name:"le ginette (SARL CARSEB)",street:"5 Place Charost",city:"Versailles",country:"France",address:"5 Place Charost, Versailles",lat:48.804030,lng:2.132751},
+    {name:"PROBON",street:"1 Place de la Porte de Pantin",city:"Paris",country:"France",address:"1 Place de la Porte de Pantin, 75019 Paris",lat:48.889630,lng:2.394868},
+    {name:"Bleu et Crème",street:"17 Rue Alphonse Milon",city:"Saint-Grégoire",country:"France",address:"17 Rue Alphonse Milon, 35760 Saint-Grégoire",lat:48.154126,lng:-1.684315},
+    {name:"MGALLERY PARIS BASTILLE BOUTET",street:"22 Rue Faidherbe",city:"Paris",country:"France",address:"22 Rue Faidherbe, 75011 Paris",lat:48.851855,lng:2.383803},
+    {name:"Fromagerie Lou",street:"447 Av. du Gal de Gaulle",city:"Simiane-Collongue",country:"France",address:"447 Av. du Gal de Gaulle, 13109 Simiane-Collongue",lat:43.433532,lng:5.430161},
+    {name:"Les cuisines du marché",street:"3 Rue Baudin",city:"Saint-Maur-des-Fossés",country:"France",address:"3 Rue Baudin, 94210 Saint-Maur-des-Fossés",lat:48.792034,lng:2.515467},
+    {name:"VRAC & BOC",street:"7 Rue du Dr Bauer",city:"Saint-Ouen-sur-Seine",country:"France",address:"7 Rue du Dr Bauer, 93400 Saint-Ouen-sur-Seine",lat:48.912369,lng:2.335989},
+    {name:"la Civette",street:"",city:"Chambly",country:"France",address:"Chambly, France",lat:49.165882,lng:2.244301},
+    {name:"Lait Prés Verts",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande",lat:47.316229,lng:-2.376317},
+    {name:"RUVA - Toqué de fromages",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes",lat:43.580576,lng:7.122942},
+    {name:"Le Comptoir François",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"5 Place Rabelais, 92190 Meudon",lat:48.811458,lng:2.236542},
+    {name:"La Fromagerie Fregier",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Grande Rue, 07300 Tournon-sur-Rhône",lat:45.066593,lng:4.833537},
+    {name:"L'Univers du Fromage",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris",lat:48.852461,lng:2.383819},
+    {name:"La Fromagerie par Bruno",street:"2 Rue de l'Hôtel de ville",city:"Brive-la-Gaillarde",country:"France",address:"2 Rue de l'Hôtel de ville, Brive-la-Gaillarde",lat:45.158269,lng:1.532342},
+    {name:"La farandole de fromages",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac",lat:45.567921,lng:-0.676483},
+    {name:"FROMAGERIE FROUMAI",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille",lat:43.298452,lng:5.384212},
+    {name:"ID Croisé - Romain Vallon",street:"7 Allée Camille Pissaro",city:"Bourg-lès-Valence",country:"France",address:"7 Allée Camille Pissaro, Bourg-lès-Valence",lat:44.942997,lng:4.903504},
+    {name:"B&C Épicerie",street:"Route nationale 1 bis",city:"Laroque-de-Fa",country:"France",address:"Route nationale 1 bis, 11330 Laroque-de-Fa",lat:42.956936,lng:2.562742},
+    {name:"L'Apparthé",street:"9 Place de la Halle",city:"Herblay-sur-Seine",country:"France",address:"9 Place de la Halle, 95220 Herblay-sur-Seine",lat:48.991778,lng:2.165426}
+  ];
+
+  allClients = STATIC_DATA.map(c => ({...c, zone: getZone(c.city, c.country)}));
+  lastUpdated = new Date();
+  buildFilterButtons();
+  applyFilters();
+  setStatus("Données chargées · " + allClients.length + " points de vente");
 }
 
 // ── CSV parser (handles quoted fields) ───────────────────────────
