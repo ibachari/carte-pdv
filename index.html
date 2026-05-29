@@ -1,513 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Nos Points de Vente - Maison Savary</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f9f7f4;
-      color: #1a1a1a;
-    }
-
-    header {
-      background: #fff;
-      border-bottom: 1px solid #e8e4de;
-      padding: 16px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    header h1 {
-      font-size: 17px;
-      font-weight: 600;
-      letter-spacing: -0.3px;
-    }
-
-    header p {
-      font-size: 13px;
-      color: #888;
-      margin-top: 2px;
-    }
-
-    .filters {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .filter-btn {
-      font-size: 12px;
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1px solid #ddd;
-      background: #fff;
-      cursor: pointer;
-      color: #555;
-      transition: all .15s;
-      white-space: nowrap;
-    }
-
-    .filter-btn.active {
-      background: #1a1a1a;
-      color: #fff;
-      border-color: #1a1a1a;
-    }
-
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 13px;
-      width: 220px;
-    }
-
-    .search-bar input {
-      border: none;
-      outline: none;
-      width: 100%;
-      font-size: 13px;
-      background: transparent;
-      color: #1a1a1a;
-    }
-
-    .layout {
-      display: flex;
-      height: calc(100vh - 65px);
-    }
-
-    #sidebar {
-      width: 320px;
-      flex-shrink: 0;
-      background: #fff;
-      border-right: 1px solid #e8e4de;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sidebar-header {
-      padding: 12px 16px;
-      border-bottom: 1px solid #f0ede8;
-      font-size: 12px;
-      color: #888;
-      background: #faf9f7;
-    }
-
-    .client-card {
-      padding: 12px 16px;
-      border-bottom: 1px solid #f0ede8;
-      cursor: pointer;
-      transition: background .1s;
-    }
-
-    .client-card:hover { background: #faf9f7; }
-    .client-card.active { background: #f0ede8; }
-
-    .client-card .name {
-      font-size: 13px;
-      font-weight: 500;
-      margin-bottom: 2px;
-      color: #1a1a1a;
-    }
-
-    .client-card .addr {
-      font-size: 12px;
-      color: #888;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .client-card .badge {
-      display: inline-block;
-      font-size: 10px;
-      padding: 1px 6px;
-      border-radius: 10px;
-      margin-top: 4px;
-      font-weight: 500;
-    }
-
-    #map { flex: 1; }
-
-    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
-
-    .status-bar {
-      padding: 8px 16px;
-      font-size: 12px;
-      color: #888;
-      background: #faf9f7;
-      border-top: 1px solid #f0ede8;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .spinner {
-      width: 14px; height: 14px;
-      border: 2px solid #ddd;
-      border-top-color: #1a1a1a;
-      border-radius: 50%;
-      animation: spin .7s linear infinite;
-      display: inline-block;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .empty {
-      padding: 32px 16px;
-      text-align: center;
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    @media (max-width: 640px) {
-      .layout { flex-direction: column; }
-      #sidebar { width: 100%; height: 220px; }
-      #map { height: 400px; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nos Points de Vente - Maison Savary</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;}
+header{background:#fff;border-bottom:1px solid #e8e4de;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+header h1{font-size:17px;font-weight:600;letter-spacing:-.3px;}
+header p{font-size:13px;color:#888;margin-top:2px;}
+.filters{display:flex;gap:6px;flex-wrap:wrap;}
+.filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#555;white-space:nowrap;}
+.filter-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
+.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:220px;}
+.search-bar input{border:none;outline:none;width:100%;font-size:13px;background:transparent;}
+.layout{display:flex;height:calc(100vh - 65px);}
+#sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column;}
+.sidebar-header{padding:12px 16px;border-bottom:1px solid #f0ede8;font-size:12px;color:#888;background:#faf9f7;}
+.client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer;transition:background .1s;}
+.client-card:hover{background:#faf9f7;}
+.client-card.active{background:#f0ede8;}
+.client-card .cname{font-size:13px;font-weight:500;margin-bottom:2px;}
+.client-card .addr{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.client-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.badge{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500;}
+#map{flex:1;}
+.status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8;}
+.empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
+@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}#map{height:400px;}}
+</style>
 </head>
 <body>
-
 <header>
-  <div>
-    <h1>Nos Points de Vente - Maison Savary</h1>
-    <p id="count-label">Chargement…</p>
-  </div>
-  <div class="search-bar">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" id="search" placeholder="Rechercher un client…" oninput="applyFilters()"/>
-  </div>
-  <div class="filters" id="filter-btns"></div>
+<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">31 points de vente</p></div>
+<div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
+<div class="filters" id="filter-btns"></div>
 </header>
-
 <div class="layout">
-  <div id="sidebar">
-    <div class="sidebar-header" id="sidebar-count">—</div>
-    <div id="client-list"><div class="empty"><div class="spinner"></div></div></div>
-    <div class="status-bar" id="status-bar">
-      <div class="spinner"></div> Connexion au Google Sheet…
-    </div>
-  </div>
-  <div id="map"></div>
+<div id="sidebar">
+<div class="sidebar-header" id="sidebar-count">—</div>
+<div id="client-list"><div class="empty">Chargement…</div></div>
+<div class="status-bar">Mis à jour le 29/05/2026</div>
 </div>
-
-<script>
-const REFRESH_MIN = 5;
-</script>
-
+<div id="map"></div>
+</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const ZONE_COLORS = {
-  paris:    "#1a73e8",
-  idf:      "#1d9e75",
-  province: "#e07b00",
-  export:   "#9d50dd",
-  autre:    "#888",
-};
-
-const ZONE_LABELS = {
-  paris:    "Paris",
-  idf:      "Île-de-France",
-  province: "Province",
-  export:   "Export",
-  autre:    "Autre",
-};
-
-function getZone(city, country) {
-  if (!country || country === "France") {
-    if (!city) return "autre";
-    const c = city.toLowerCase();
-    if (c === "paris" || c.startsWith("paris ")) return "paris";
-    const idf = ["seine","oise","marne","yvelines","essonne","hauts-de-seine","val-d","versailles","cergy","meudon","puteaux","clichy","bagnolet","issy","rueil","saint-ouen","herblay","domont","chambly","éragny","eragny","villebon","montgeron","bessancourt","maffliers","plaisir","saint-maur"];
-    if (idf.some(k => c.includes(k))) return "idf";
-    return "province";
-  }
-  return "export";
-}
-
-function makeIcon(color) {
-  return L.divIcon({
-    className: "",
-    html: `<div style="width:12px;height:12px;border-radius:50%;background:${color};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,
-    iconSize: [12, 12],
-    iconAnchor: [6, 6],
-  });
-}
-
-// ── State ────────────────────────────────────────────────────────
-let allClients   = [];
-let markers      = [];
-let activeZone   = "all";
-let activeCardEl = null;
-let map, lastUpdated;
-
-// ── Map init ─────────────────────────────────────────────────────
-window.addEventListener("DOMContentLoaded", () => {
-  map = L.map("map", { zoomControl: true }).setView([46.5, 2.5], 6);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "© OpenStreetMap contributors",
-    maxZoom: 19,
-  }).addTo(map);
-
-  loadSheet();
-  setInterval(loadSheet, REFRESH_MIN * 60 * 1000);
-});
-
-// ── Données statiques embarquées ─────────────────────────────────
-function loadSheet() {
-  const STATIC_DATA = [
-    {name:"Novotel Château de Maffliers",street:"Allée des Marronniers",city:"Maffliers",country:"France",address:"Allée des Marronniers, Maffliers, France",lat:49.073515,lng:2.309556},
-    {name:"La petite voile touquet",street:"",city:"Le Touquet-Paris-Plage",country:"France",address:"Le Touquet-Paris-Plage, France",lat:50.521276,lng:1.590675},
-    {name:"Source de Beaute",street:"",city:"Bessancourt",country:"France",address:"Bessancourt, France",lat:49.038027,lng:2.216363},
-    {name:"API RESTAURATION Saint Gobain",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.857548,lng:2.351377},
-    {name:"29 PICPUS (Noi)",street:"29 Rue de Picpus",city:"Paris",country:"France",address:"29 Rue de Picpus, Paris, France",lat:48.845814,lng:2.394995},
-    {name:"FRECOM - The French Comte",street:"",city:"Londres",country:"Royaume-Uni",address:"Londres, Royaume-Uni",lat:51.507218,lng:-0.127586},
-    {name:"Otera Illies",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.547760,lng:2.827089},
-    {name:"Hotel beige",street:"12 Rue de Maubeuge",city:"Paris",country:"France",address:"12 Rue de Maubeuge, 75009 Paris",lat:48.876657,lng:2.341781},
-    {name:"GOÛT MORNING",street:"27 Rue d'Epluches",city:"Saint-Ouen-l'Aumône",country:"France",address:"27 Rue d'Epluches, Saint-Ouen-l'Aumône, France",lat:49.058088,lng:2.121796},
-    {name:"Otera Brest",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.386770,lng:-4.529340},
-    {name:"GO GO KIWI",street:"16 Avenue de Laumière",city:"Paris",country:"France",address:"16 Avenue de Laumière, 75019 Paris",lat:48.883892,lng:2.380797},
-    {name:"Le Cri du Radis Chamant",street:"4 Rue de la Seigneurie",city:"Lamorlaye",country:"France",address:"4 Rue de la Seigneurie, 60260 Lamorlaye, France",lat:49.146597,lng:2.438988},
-    {name:"COFFEE YA (Japan Sweets)",street:"25 Boulevard Voltaire",city:"Paris",country:"France",address:"25 Boulevard Voltaire, 75011 Paris",lat:48.865048,lng:2.368370},
-    {name:"Bernhard Möllers GmbH",street:"",city:"Cologne",country:"Allemagne",address:"Cologne, Allemagne",lat:50.937531,lng:6.960279},
-    {name:"Pépins",street:"21 Rue de Miromesnil",city:"Paris",country:"France",address:"21 Rue de Miromesnil, 75008 Paris",lat:48.872588,lng:2.315881},
-    {name:"SCAROR - Scarabée or",street:"",city:"Enghien-les-Bains",country:"France",address:"95880 Enghien-les-Bains, France",lat:48.970876,lng:2.303485},
-    {name:"LHELAM - LHERISSON LAMMASA",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.691099,lng:2.211431},
-    {name:"Univers Primeur Eragny",street:"196 Rue de l'Ambassadeur",city:"Éragny",country:"France",address:"196 Rue de l'Ambassadeur, 95610 Éragny, France",lat:49.001163,lng:2.097712},
-    {name:"Epic SODIGERMAIN",street:"14 Rue Lobineau",city:"Paris",country:"France",address:"14 Rue Lobineau, 75006 Paris",lat:48.851783,lng:2.335843},
-    {name:"AFFINEZ - Fromagerie L'affinez",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong, 91230 Montgeron",lat:48.701249,lng:2.466317},
-    {name:"Epicerie Bon Sens",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet",lat:48.869341,lng:2.419753},
-    {name:"Davoli",street:"34 Rue Cler",city:"Paris",country:"France",address:"34 Rue Cler, 75007 Paris",lat:48.856935,lng:2.306179},
-    {name:"Apertivus - Saint Antoine",street:"83 Rue Saint-Antoine",city:"Paris",country:"France",address:"83 Rue Saint-Antoine, 75004 Paris",lat:48.854484,lng:2.362808},
-    {name:"Apertivus Poteau",street:"39 Rue du Poteau",city:"Paris",country:"France",address:"39 Rue du Poteau, 75018 Paris",lat:48.894247,lng:2.341299},
-    {name:"Bizas - La vie de quartier",street:"25 Rue Custine",city:"Paris",country:"France",address:"25 Rue Custine, 75018 Paris",lat:48.888777,lng:2.346284},
-    {name:"HIMAAS - Hilton MAISON Astor",street:"11 Rue d'Astorg",city:"Paris",country:"France",address:"11 Rue d'Astorg, 75008 Paris",lat:48.872865,lng:2.319418},
-    {name:"La Marnière",street:"8 Rue Paul Langevin",city:"Plaisir",country:"France",address:"8 Rue Paul Langevin, 78370 Plaisir",lat:48.830565,lng:1.952948},
-    {name:"Chez Virginie Fromagerie",street:"54 Rue Damrémont",city:"Paris",country:"France",address:"54 Rue Damrémont, 75018 Paris",lat:48.890421,lng:2.334418},
-    {name:"L'ANNEXE",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris",lat:48.880671,lng:2.333371},
-    {name:"MATS - MATSURI",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.857548,lng:2.351377},
-    {name:"MARRON - Café des Marronniers",street:"113 Rue de Rivoli",city:"Paris",country:"France",address:"113 Rue de Rivoli, 75001 Paris",lat:48.863492,lng:2.327494},
-    {name:"HANGY - Hangar Y",street:"9 Avenue de Trivaux",city:"Meudon",country:"France",address:"9 Avenue de Trivaux, 92190 Meudon",lat:48.797854,lng:2.233184},
-    {name:"OTERA - Otera Amiens",street:"151 Av. Valéry Giscard d'Estaing",city:"Amiens",country:"France",address:"151 Av. Valéry Giscard d'Estaing, 80000 Amiens",lat:49.883948,lng:2.264740},
-    {name:"MAXART - L'épicurien - St Barth",street:"",city:"Saint-Barthélemy",country:"Saint-Barthélemy",address:"Saint-Barthélemy",lat:17.9,lng:-62.833333},
-    {name:"OTEAVE - Otera Avelin",street:"33 Rue de Seclin",city:"Avelin",country:"France",address:"33 Rue de Seclin, 59710 Avelin",lat:50.538562,lng:3.077088},
-    {name:"Affinord",street:"15 Avenue Du Great Eastern",city:"Longueau",country:"France",address:"15 Avenue Du Great Eastern, 80330 Longueau",lat:49.870889,lng:2.373030},
-    {name:"Renaissance la Défense",street:"60 Cours Valmy",city:"Puteaux",country:"France",address:"60 Cours Valmy, 92800 Puteaux",lat:48.892534,lng:2.232649},
-    {name:"OTESAR - Otera Sart",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 Rue Louis Constant, 59491 Villeneuve-d'Ascq",lat:50.653014,lng:3.140879},
-    {name:"Léonie Bakery",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris",lat:48.878569,lng:2.295342},
-    {name:"LES TROIS PARCS - BELLEVUES",street:"12/14 Avenue du Gros Chêne",city:"Éragny",country:"France",address:"12/14 Avenue du Gros Chêne, 95610 Éragny",lat:49.027695,lng:2.107526},
-    {name:"Léonie Sacré Coeur",street:"15 Avenue Trudaine",city:"Paris",country:"France",address:"15 Avenue Trudaine, 75009 Paris",lat:48.881447,lng:2.345033},
-    {name:"Léonie Saint Germain",street:"2 Passage Emma Calve",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris",lat:48.848194,lng:2.385906},
-    {name:"Léonie Erlanger",street:"2 Passage Emma Calve",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris",lat:48.848194,lng:2.385906},
-    {name:"Léonie Hauteville",street:"2 Passage Emma Calve",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris",lat:48.848194,lng:2.385906},
-    {name:"Léonie Ternes",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris",lat:48.878569,lng:2.295342},
-    {name:"Léonie Headquarter",street:"96 Rue de Lévis",city:"Paris",country:"France",address:"96 Rue de Lévis, 75017 Paris",lat:48.885106,lng:2.311455},
-    {name:"Chez Alex - Bar à vins",street:"1 Lot. les Meissugues",city:"Le Cannet-des-Maures",country:"France",address:"1 Lot. les Meissugues, Le Cannet-des-Maures",lat:43.392575,lng:6.331634},
-    {name:"Monoprix Nice",street:"42 Avenue Jean Médecin",city:"Nice",country:"France",address:"42 Avenue Jean Médecin, Nice",lat:43.702489,lng:7.267351},
-    {name:"Pullman Paris Tour Eiffel",street:"22 Rue Jean Rey",city:"Paris",country:"France",address:"22 Rue Jean Rey, 75015 Paris",lat:48.855649,lng:2.292858},
-    {name:"Au nez et à la barbe",street:"59 Boulevard Jean Jaurès",city:"Clichy",country:"France",address:"59 Boulevard Jean Jaurès, 92110 Clichy",lat:48.900757,lng:2.305426},
-    {name:"La Flottille",street:"Allée d'Apollon",city:"Versailles",country:"France",address:"Allée d'Apollon, 78000 Versailles",lat:48.808794,lng:2.110897},
-    {name:"Monoprix 4ème",street:"",city:"Paris",country:"France",address:"75004 Paris",lat:48.853428,lng:2.358279},
-    {name:"Monoprix Issy les Moulineaux",street:"1 Rue Lamartine",city:"Issy-les-Moulineaux",country:"France",address:"1 Rue Lamartine, 92130 Issy-les-Moulineaux",lat:48.823526,lng:2.274670},
-    {name:"Nanie",street:"6 Place de l'Église",city:"Rueil-Malmaison",country:"France",address:"6 Place de l'Église, Rueil-Malmaison",lat:48.876735,lng:2.180985},
-    {name:"Atelier papilles",street:"320 Avenue Archimède",city:"Aix-en-Provence",country:"France",address:"320 Avenue Archimède, Aix-en-Provence",lat:43.491021,lng:5.340078},
-    {name:"Fromagerie Bonaparte",street:"",city:"Nice",country:"France",address:"Nice",lat:43.710173,lng:7.261953},
-    {name:"Hotel Felicien Paris",street:"21 Rue Félicien David",city:"Paris",country:"France",address:"21 Rue Félicien David, 75016 Paris",lat:48.849347,lng:2.274386},
-    {name:"LAIT FROMAGERES",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213},
-    {name:"le ginette (SARL CARSEB)",street:"5 Place Charost",city:"Versailles",country:"France",address:"5 Place Charost, Versailles",lat:48.804030,lng:2.132751},
-    {name:"PROBON",street:"1 Place de la Porte de Pantin",city:"Paris",country:"France",address:"1 Place de la Porte de Pantin, 75019 Paris",lat:48.889630,lng:2.394868},
-    {name:"Bleu et Crème",street:"17 Rue Alphonse Milon",city:"Saint-Grégoire",country:"France",address:"17 Rue Alphonse Milon, 35760 Saint-Grégoire",lat:48.154126,lng:-1.684315},
-    {name:"MGALLERY PARIS BASTILLE BOUTET",street:"22 Rue Faidherbe",city:"Paris",country:"France",address:"22 Rue Faidherbe, 75011 Paris",lat:48.851855,lng:2.383803},
-    {name:"Fromagerie Lou",street:"447 Av. du Gal de Gaulle",city:"Simiane-Collongue",country:"France",address:"447 Av. du Gal de Gaulle, 13109 Simiane-Collongue",lat:43.433532,lng:5.430161},
-    {name:"Les cuisines du marché",street:"3 Rue Baudin",city:"Saint-Maur-des-Fossés",country:"France",address:"3 Rue Baudin, 94210 Saint-Maur-des-Fossés",lat:48.792034,lng:2.515467},
-    {name:"VRAC & BOC",street:"7 Rue du Dr Bauer",city:"Saint-Ouen-sur-Seine",country:"France",address:"7 Rue du Dr Bauer, 93400 Saint-Ouen-sur-Seine",lat:48.912369,lng:2.335989},
-    {name:"la Civette",street:"",city:"Chambly",country:"France",address:"Chambly, France",lat:49.165882,lng:2.244301},
-    {name:"Lait Prés Verts",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande",lat:47.316229,lng:-2.376317},
-    {name:"RUVA - Toqué de fromages",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes",lat:43.580576,lng:7.122942},
-    {name:"Le Comptoir François",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"5 Place Rabelais, 92190 Meudon",lat:48.811458,lng:2.236542},
-    {name:"La Fromagerie Fregier",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Grande Rue, 07300 Tournon-sur-Rhône",lat:45.066593,lng:4.833537},
-    {name:"L'Univers du Fromage",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris",lat:48.852461,lng:2.383819},
-    {name:"La Fromagerie par Bruno",street:"2 Rue de l'Hôtel de ville",city:"Brive-la-Gaillarde",country:"France",address:"2 Rue de l'Hôtel de ville, Brive-la-Gaillarde",lat:45.158269,lng:1.532342},
-    {name:"La farandole de fromages",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac",lat:45.567921,lng:-0.676483},
-    {name:"FROMAGERIE FROUMAI",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille",lat:43.298452,lng:5.384212},
-    {name:"ID Croisé - Romain Vallon",street:"7 Allée Camille Pissaro",city:"Bourg-lès-Valence",country:"France",address:"7 Allée Camille Pissaro, Bourg-lès-Valence",lat:44.942997,lng:4.903504},
-    {name:"B&C Épicerie",street:"Route nationale 1 bis",city:"Laroque-de-Fa",country:"France",address:"Route nationale 1 bis, 11330 Laroque-de-Fa",lat:42.956936,lng:2.562742},
-    {name:"L'Apparthé",street:"9 Place de la Halle",city:"Herblay-sur-Seine",country:"France",address:"9 Place de la Halle, 95220 Herblay-sur-Seine",lat:48.991778,lng:2.165426}
-  ];
-
-  allClients = STATIC_DATA.map(c => ({...c, zone: getZone(c.city, c.country)}));
-  lastUpdated = new Date();
-  buildFilterButtons();
-  applyFilters();
-  setStatus("Données chargées · " + allClients.length + " points de vente");
-}
-
-// ── CSV parser (handles quoted fields) ───────────────────────────
-function parseCSV(text) {
-  const lines  = text.trim().split("\n");
-  const headers = splitCSVLine(lines[0]).map(h => h.replace(/^"|"$/g, "").trim());
-  const clients = [];
-
-  for (let i = 1; i < lines.length; i++) {
-    const vals = splitCSVLine(lines[i]).map(v => v.replace(/^"|"$/g, "").trim());
-    const row  = {};
-    headers.forEach((h, idx) => row[h] = vals[idx] || "");
-
-    const lat = parseFloat((row["Latitude"] || "").replace(",", "."));
-    const lng = parseFloat((row["Longitude"] || "").replace(",", "."));
-    if (!row["Nom"] || isNaN(lat) || isNaN(lng)) continue;
-
-    const city    = row["Ville"] || "";
-    const country = row["Pays"] || "France";
-    clients.push({
-      name:    row["Nom"],
-      street:  row["Adresse (rue)"] || "",
-      city,
-      country,
-      address: row["Adresse complète"] || [row["Adresse (rue)"], city, country].filter(Boolean).join(", "),
-      lat, lng,
-      zone:    getZone(city, country),
-    });
-  }
-  return clients;
-}
-
-function splitCSVLine(line) {
-  const result = [];
-  let cur = "", inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') { inQ = !inQ; }
-    else if (ch === "," && !inQ) { result.push(cur); cur = ""; }
-    else cur += ch;
-  }
-  result.push(cur);
-  return result;
-}
-
-// ── Filter buttons ────────────────────────────────────────────────
-function buildFilterButtons() {
-  const zones = ["all", ...Object.keys(ZONE_COLORS)];
-  const counts = { all: allClients.length };
-  allClients.forEach(c => { counts[c.zone] = (counts[c.zone] || 0) + 1; });
-
-  const container = document.getElementById("filter-btns");
-  container.innerHTML = "";
-
-  zones.forEach(z => {
-    if (z !== "all" && !counts[z]) return;
-    const label = z === "all" ? `Tous (${counts.all})` : `${ZONE_LABELS[z] || z} (${counts[z] || 0})`;
-    const btn = document.createElement("button");
-    btn.className = "filter-btn" + (z === activeZone ? " active" : "");
-    btn.textContent = label;
-    if (z !== "all") {
-      const dot = document.createElement("span");
-      dot.className = "dot";
-      dot.style.background = ZONE_COLORS[z];
-      btn.prepend(dot);
-    }
-    btn.onclick = () => { activeZone = z; applyFilters(); };
-    container.appendChild(btn);
-  });
-}
-
-// ── Apply filters + search ────────────────────────────────────────
-function applyFilters() {
-  const q = (document.getElementById("search").value || "").toLowerCase().trim();
-
-  const filtered = allClients.filter(c => {
-    const zoneOk = activeZone === "all" || c.zone === activeZone;
-    const searchOk = !q || c.name.toLowerCase().includes(q) || c.city.toLowerCase().includes(q) || c.address.toLowerCase().includes(q);
-    return zoneOk && searchOk;
-  });
-
-  document.getElementById("count-label").textContent =
-    `${allClients.length} points de vente géolocalisés`;
-  document.getElementById("sidebar-count").textContent =
-    `${filtered.length} résultat${filtered.length > 1 ? "s" : ""}`;
-
-  document.querySelectorAll(".filter-btn").forEach((btn, idx) => {
-    const zones = ["all", ...Object.keys(ZONE_COLORS).filter(z => allClients.some(c => c.zone === z))];
-    btn.classList.toggle("active", zones[idx] === activeZone);
-  });
-
-  renderMarkers(filtered);
-  renderList(filtered);
-}
-
-// ── Markers ───────────────────────────────────────────────────────
-function renderMarkers(clients) {
-  markers.forEach(m => map.removeLayer(m));
-  markers = [];
-
-  clients.forEach(c => {
-    const m = L.marker([c.lat, c.lng], { icon: makeIcon(ZONE_COLORS[c.zone] || "#888") })
-      .addTo(map)
-      .bindPopup(`<strong style="font-size:13px;">${c.name}</strong><br><span style="font-size:12px;color:#666;">${c.address}</span>`);
-    m._clientData = c;
-    markers.push(m);
-  });
-
-  if (clients.length > 0) {
-    const group = L.featureGroup(markers);
-    map.fitBounds(group.getBounds().pad(0.1));
-  }
-}
-
-// ── Sidebar list ──────────────────────────────────────────────────
-function renderList(clients) {
-  const list = document.getElementById("client-list");
-  if (clients.length === 0) {
-    list.innerHTML = `<div class="empty">Aucun résultat</div>`;
-    return;
-  }
-
-  list.innerHTML = clients.map((c, i) => `
-    <div class="client-card" data-idx="${i}" onclick="focusClient(${i})">
-      <div class="name">${c.name}</div>
-      <div class="addr">${c.street ? c.street + ", " : ""}${c.city}</div>
-      <span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone] || c.zone}</span>
-    </div>
-  `).join("");
-
-  list._clients = clients;
-}
-
-function focusClient(idx) {
-  const list = document.getElementById("client-list");
-  const clients = list._clients;
-  if (!clients || !clients[idx]) return;
-  const c = clients[idx];
-
-  document.querySelectorAll(".client-card").forEach(el => el.classList.remove("active"));
-  const card = document.querySelector(`.client-card[data-idx="${idx}"]`);
-  if (card) { card.classList.add("active"); card.scrollIntoView({ block: "nearest" }); }
-
-  map.setView([c.lat, c.lng], 15);
-  const marker = markers.find(m => m._clientData === c);
-  if (marker) marker.openPopup();
-}
-
-// ── Status bar ────────────────────────────────────────────────────
-function setStatus(msg, isError = false) {
-  const bar = document.getElementById("status-bar");
-  bar.innerHTML = isError
-    ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e24b4a" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${msg}`
-    : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1d9e75" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ${msg}`;
-}
+const ZONE_COLORS={paris:"#178bff",idf:"#1d9e75",province:"#e07b00",export:"#9d50dd",autre:"#888"};
+const ZONE_LABELS={paris:"Paris",idf:"Île-de-France",province:"Province",export:"Export",autre:"Autre"};
+const SECTEUR_COLORS={"Epicerie":"#e63946","Épicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd","Chaine de boulangerie":"#7b2d8b","Restaurant":"#888","Chaine de restaurant":"#ff007f","Coffee shop":"#cab641","Chaine de coffee shop":"#333333","Traiteur":"#ff5ac4","Grossiste":"#007eb5","Marché":"#bb3354","Meal box":"#9cd326","Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575","A definir":"#757575"};
+const DATA=[
+    {name:"API RESTAURATION site de Saint Gobain",secteur:"Restaurant",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.8575475,lng:2.3513765,zone:"paris"},
+    {name:"GO GO KIWI",secteur:"Epicerie",street:"16 Avenue de Laumière",city:"Paris",country:"France",address:"16 Avenue de Laumière, Paris, France",lat:48.8838923,lng:2.3807968,zone:"paris"},
+    {name:"Le Cri du Radis Chamant",secteur:"Epicerie",street:"4 Rue de la Seigneurie",city:"Lamorlaye",country:"France",address:"4 Rue de la Seigneurie, 60260 Lamorlaye, France",lat:49.1465966,lng:2.4389878,zone:"province"},
+    {name:"AFFINEZ - Fromagerie L'affinez",secteur:"Fromagerie",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong 91230 MONTGERON",lat:48.7012489,lng:2.4663173,zone:"idf"},
+    {name:"COFFEE YA (Japan Sweets)",secteur:"Coffee shop",street:"25 Boulevard Voltaire",city:"Paris",country:"France",address:"25 Boulevard Voltaire, Paris, France",lat:48.8650482,lng:2.3683696,zone:"paris"},
+    {name:"Pépins",secteur:"Restaurant",street:"21 Rue de Miromesnil",city:"Paris",country:"France",address:"21 Rue de Miromesnil, 75008 Paris, France",lat:48.8725884,lng:2.3158809,zone:"paris"},
+    {name:"SCAROR - Scarabée or",secteur:"Chocolatier",street:"",city:"Enghien-les-Bains",country:"France",address:"95880 Enghien-les-Bains, France",lat:48.9708759,lng:2.3034849,zone:"province"},
+    {name:"LHELAM - LHERISSON LAMMASA",secteur:"Epicerie",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.6910989,lng:2.2114313,zone:"idf"},
+    {name:"Apertivus - Saint Antoine",secteur:"Epicerie",street:"83 Rue Saint-Antoine",city:"Paris",country:"France",address:"83 Rue Saint-Antoine, 75004 Paris, France",lat:48.8544838,lng:2.3628079,zone:"paris"},
+    {name:"Davoli",secteur:"Epicerie",street:"34 Rue Cler",city:"Paris",country:"France",address:"34 Rue Cler, Paris, France",lat:48.856935,lng:2.3061789,zone:"paris"},
+    {name:"Epicerie Bon Sens",secteur:"Epicerie",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet, France",lat:48.8693409,lng:2.4197533,zone:"idf"},
+    {name:"Bizas - La vie de quartier",secteur:"Epicerie",street:"25 Rue Custine",city:"Paris",country:"France",address:"25 Rue Custine, 75018 Paris, France",lat:48.8887766,lng:2.3462842,zone:"paris"},
+    {name:"L'ANNEXE",secteur:"Epicerie",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris, France",lat:48.880671,lng:2.3333708,zone:"paris"},
+    {name:"MATS - MATSURI",secteur:"Chaine de restaurant",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.8575475,lng:2.3513765,zone:"paris"},
+    {name:"HANGY - Hangar Y",secteur:"Restaurant",street:"9 Avenue de Trivaux",city:"Meudon",country:"France",address:"9 Avenue Trivaux 92190 MEUDON France",lat:48.7978537,lng:2.2331842,zone:"idf"},
+    {name:"Affinord",secteur:"Grossiste",street:"15 Avenue Du Great Eastern",city:"Longueau",country:"France",address:"15 Avenue Du Great Eastern, 80330 Longueau, France",lat:49.870889,lng:2.37303,zone:"province"},
+    {name:"Léonie Bakery",secteur:"Chaine de boulangerie",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris, France",lat:48.8785685,lng:2.2953419,zone:"paris"},
+    {name:"Léonie Sacré Coeur",secteur:"Chaine de boulangerie",street:"15 Avenue Trudaine",city:"Paris",country:"France",address:"15 Avenue Trudaine, 75009 Paris, France",lat:48.8814471,lng:2.3450334,zone:"paris"},
+    {name:"Léonie Saint Germain",secteur:"Chaine de boulangerie",street:"2 Passage Jaqueline Giraud",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris, France",lat:48.848194,lng:2.385906400000001,zone:"paris"},
+    {name:"Léonie Erlanger",secteur:"Chaine de boulangerie",street:"2 Passage Jaqueline Giraud",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris, France",lat:48.848194,lng:2.385906400000001,zone:"paris"},
+    {name:"Léonie Hauteville",secteur:"Chaine de boulangerie",street:"2 Passage Jaqueline Giraud",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris, France",lat:48.848194,lng:2.385906400000001,zone:"paris"},
+    {name:"Léonie Ternes",secteur:"Chaine de boulangerie",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris, France",lat:48.8785685,lng:2.2953419,zone:"paris"},
+    {name:"Léonie Headquarter",secteur:"Chaine de boulangerie",street:"96 Rue de Lévis",city:"Paris",country:"France",address:"96 Rue de Lévis, 75017 Paris, France",lat:48.8851062,lng:2.3114547,zone:"paris"},
+    {name:"La Flottille",secteur:"Restaurant",street:"Allée d'Apollon",city:"Versailles",country:"France",address:"La Petite Venise, Allée d'Apollon, 78000 Versailles, France",lat:48.8087937,lng:2.1108969,zone:"idf"},
+    {name:"Nanie",secteur:"Coffee shop",street:"6 Place de l'Église",city:"Rueil-Malmaison",country:"France",address:"6 Place de l'Église, Rueil-Malmaison, France",lat:48.8767348,lng:2.1809846,zone:"idf"},
+    {name:"Atelier papilles",secteur:"Chaine de boulangerie",street:"320 Avenue Archimède",city:"Aix-en-Provence",country:"France",address:"320 Av. Archimède, Aix-en-Provence, France",lat:43.4910211,lng:5.3400778,zone:"province"},
+    {name:"LAIT FROMAGERES",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
+    {name:"le ginette ( SARL CARSEB )",secteur:"Coffee shop",street:"5 Place Charost",city:"Versailles",country:"France",address:"5 Place Charost, Versailles, France",lat:48.8040296,lng:2.132751,zone:"idf"},
+    {name:"Fromagerie Lou",secteur:"Fromagerie",street:"447 Avenue du Général de Gaulle",city:"Simiane-Collongue",country:"France",address:"Centre commercial le Moulin, 447 Avenue du Général de Gaulle, 13109 Simiane-Collongue, France",lat:43.4335324,lng:5.430161099999999,zone:"province"},
+    {name:"VRAC & BOC",secteur:"Epicerie",street:"7 Rue du Docteur Bauer",city:"Saint-Ouen-sur-Seine",country:"France",address:"7 Rue du Dr Bauer, 93400 Saint-Ouen-sur-Seine, France",lat:48.9123685,lng:2.335989,zone:"idf"},
+    {name:"Le Comptoir François - POUR DE BON PRO",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"}
+];
+let map,markers=[],activeZone="all";
+function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]);}
+function sc(s){return SECTEUR_COLORS[s]||"#888";}
+function applyFilters(){const q=(document.getElementById("search").value||"").toLowerCase();const f=DATA.filter(c=>(activeZone==="all"||c.zone===activeZone)&&(!q||c.name.toLowerCase().includes(q)||c.city.toLowerCase().includes(q)||(c.secteur||"").toLowerCase().includes(q)));document.getElementById("count-label").textContent=DATA.length+" points de vente";renderMarkers(f);renderList(f);}
+function renderMarkers(cl){markers.forEach(m=>map.removeLayer(m));markers=[];cl.forEach(c=>{const m=L.marker([c.lat,c.lng],{icon:makeIcon(sc(c.secteur))}).addTo(map).bindPopup(`<strong>${c.name}</strong><br><span style="font-size:11px;color:#888;">${c.secteur}</span><br><span style="font-size:12px;color:#666;">${c.address||c.city}</span>`);m._c=c;markers.push(m);});if(cl.length>0)map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));}
+function renderList(cl){document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");const list=document.getElementById("client-list");if(!cl.length){list.innerHTML='<div class="empty">Aucun résultat</div>';list._c=[];return;}list.innerHTML=cl.map((c,i)=>`<div class="client-card" data-i="${i}" onclick="focusClient(${i})"><div class="cname">${c.name}</div><div class="addr">${c.street?c.street+", ":""}${c.city}</div><div class="badges"><span class="badge" style="background:${sc(c.secteur)}22;color:${sc(c.secteur)};">${c.secteur||"—"}</span><span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone]}</span></div></div>`).join("");list._c=cl;}
+function focusClient(i){const c=document.getElementById("client-list")._c[i];document.querySelectorAll(".client-card").forEach(el=>el.classList.remove("active"));document.querySelector(`.client-card[data-i="${i}"]`)?.classList.add("active");map.setView([c.lat,c.lng],15);const m=markers.find(m=>m._c===c);if(m)m.openPopup();}
+window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zones=["all",...Object.keys(ZONE_COLORS)];const zc={all:DATA.length};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+(zc[z]||0)+")"}</button>`).join("");applyFilters();});
 </script>
 </body>
 </html>
