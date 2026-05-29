@@ -34,7 +34,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">35 points de vente</p></div>
+<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">46 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -53,15 +53,20 @@ const ZONE_LABELS={paris:"Paris",idf:"Île-de-France",province:"Province",export
 const SECTEUR_COLORS={"Epicerie":"#e63946","Épicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd","Chaine de boulangerie":"#7b2d8b","Restaurant":"#888","Chaine de restaurant":"#ff007f","Coffee shop":"#cab641","Chaine de coffee shop":"#333333","Traiteur":"#ff5ac4","Grossiste":"#007eb5","Marché":"#bb3354","Meal box":"#9cd326","Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575","A definir":"#757575"};
 const DATA=[
     {name:"API RESTAURATION site de Saint Gobain",secteur:"Restaurant",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.8575475,lng:2.3513765,zone:"paris"},
+    {name:"Otera Illies",secteur:"GMS",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.5477601,lng:2.8270886,zone:"province"},
     {name:"GOÛT MORNING",secteur:"Boulangerie",street:"27 Rue d'Epluches",city:"Saint-Ouen-l'Aumône",country:"France",address:"27 Rue d'Epluches, Saint-Ouen-l'Aumône, France",lat:49.0580882,lng:2.1217963,zone:"idf"},
+    {name:"Otera Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
     {name:"GO GO KIWI",secteur:"Epicerie",street:"16 Avenue de Laumière",city:"Paris",country:"France",address:"16 Avenue de Laumière, Paris, France",lat:48.8838923,lng:2.3807968,zone:"paris"},
     {name:"Le Cri du Radis Chamant",secteur:"Epicerie",street:"4 Rue de la Seigneurie",city:"Lamorlaye",country:"France",address:"4 Rue de la Seigneurie, 60260 Lamorlaye, France",lat:49.1465966,lng:2.4389878,zone:"province"},
+    {name:"Epic SODIGERMAIN",secteur:"GMS",street:"14 Rue Lobineau",city:"Paris",country:"France",address:"14 Rue Lobineau, 75006 Paris, France",lat:48.8517828,lng:2.3358428,zone:"paris"},
     {name:"AFFINEZ - Fromagerie L'affinez",secteur:"Fromagerie",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong 91230 MONTGERON",lat:48.7012489,lng:2.4663173,zone:"idf"},
     {name:"COFFEE YA (Japan Sweets)",secteur:"Coffee shop",street:"25 Boulevard Voltaire",city:"Paris",country:"France",address:"25 Boulevard Voltaire, Paris, France",lat:48.8650482,lng:2.3683696,zone:"paris"},
     {name:"Pépins",secteur:"Restaurant",street:"21 Rue de Miromesnil",city:"Paris",country:"France",address:"21 Rue de Miromesnil, 75008 Paris, France",lat:48.8725884,lng:2.3158809,zone:"paris"},
     {name:"SCAROR - Scarabée or",secteur:"Chocolatier",street:"",city:"Enghien-les-Bains",country:"France",address:"95880 Enghien-les-Bains, France",lat:48.9708759,lng:2.3034849,zone:"province"},
     {name:"LHELAM - LHERISSON LAMMASA",secteur:"Epicerie",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.6910989,lng:2.2114313,zone:"idf"},
+    {name:"Univers Primeur Eragny",secteur:"GMS",street:"196 Rue de l'Ambassadeur",city:"Éragny",country:"France",address:"UNIVERS PRIMEURS ERAGNY, 196 Rue de l'Ambassadeur, 95610 Éragny, France",lat:49.0117632,lng:2.0977118,zone:"idf"},
     {name:"Apertivus - Saint Antoine",secteur:"Epicerie",street:"83 Rue Saint-Antoine",city:"Paris",country:"France",address:"83 Rue Saint-Antoine, 75004 Paris, France",lat:48.8544838,lng:2.3628079,zone:"paris"},
+    {name:"La Marnière",secteur:"GMS",street:"8 Rue Paul Langevin",city:"Plaisir",country:"France",address:"8 Rue Paul Langevin, 78370 Plaisir, France",lat:48.8305653,lng:1.9529482,zone:"idf"},
     {name:"Chez Virginie Fromagerie",secteur:"Fromagerie",street:"54 Rue Damrémont",city:"Paris",country:"France",address:"54 Rue Damrémont, 75018 Paris, France",lat:48.8904209,lng:2.3344184,zone:"paris"},
     {name:"Davoli",secteur:"Epicerie",street:"34 Rue Cler",city:"Paris",country:"France",address:"34 Rue Cler, Paris, France",lat:48.856935,lng:2.3061789,zone:"paris"},
     {name:"Epicerie Bon Sens",secteur:"Epicerie",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet, France",lat:48.8693409,lng:2.4197533,zone:"idf"},
@@ -69,7 +74,10 @@ const DATA=[
     {name:"L'ANNEXE",secteur:"Epicerie",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris, France",lat:48.880671,lng:2.3333708,zone:"paris"},
     {name:"MATS - MATSURI",secteur:"Chaine de restaurant",street:"",city:"Paris",country:"France",address:"Paris, France",lat:48.8575475,lng:2.3513765,zone:"paris"},
     {name:"HANGY - Hangar Y",secteur:"Restaurant",street:"9 Avenue de Trivaux",city:"Meudon",country:"France",address:"9 Avenue Trivaux 92190 MEUDON France",lat:48.7978537,lng:2.2331842,zone:"idf"},
+    {name:"OTERA - Otera Amiens",secteur:"GMS",street:"151 Avenue Valéry Giscard d'Estaing",city:"Amiens",country:"France",address:"151 Av. Valéry Giscard d'Estaing 80000 AMIENS",lat:49.8839479,lng:2.26474,zone:"province"},
+    {name:"OTEAVE - Otera Avelin",secteur:"GMS",street:"33 Rue de Seclin",city:"Avelin",country:"France",address:"33 Rue de Seclin 59710 AVELIN France",lat:50.5385623,lng:3.077088,zone:"province"},
     {name:"Affinord",secteur:"Grossiste",street:"15 Avenue Du Great Eastern",city:"Longueau",country:"France",address:"15 Avenue Du Great Eastern, 80330 Longueau, France",lat:49.870889,lng:2.37303,zone:"province"},
+    {name:"OTESAR - Otera Sart",secteur:"GMS",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 rue Louis Constant 59491 Villeneuve d'Ascq",lat:50.6530142,lng:3.140879,zone:"province"},
     {name:"Léonie Bakery",secteur:"Chaine de boulangerie",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris, France",lat:48.8785685,lng:2.2953419,zone:"paris"},
     {name:"LES TROIS PARCS - BELLEVUES MRS PARIS",secteur:"Restaurant",street:"12 Avenue du Gros Chêne",city:"Éragny",country:"France",address:"12/14 Avenue du Gros Chêne, 95610 Éragny, France",lat:49.0276947,lng:2.1075259,zone:"idf"},
     {name:"Léonie Sacré Coeur",secteur:"Chaine de boulangerie",street:"15 Avenue Trudaine",city:"Paris",country:"France",address:"15 Avenue Trudaine, 75009 Paris, France",lat:48.8814471,lng:2.3450334,zone:"paris"},
@@ -78,7 +86,10 @@ const DATA=[
     {name:"Léonie Hauteville",secteur:"Chaine de boulangerie",street:"2 Passage Jaqueline Giraud",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris, France",lat:48.848194,lng:2.385906400000001,zone:"paris"},
     {name:"Léonie Ternes",secteur:"Chaine de boulangerie",street:"18 Avenue des Ternes",city:"Paris",country:"France",address:"18 Avenue des Ternes, 75017 Paris, France",lat:48.8785685,lng:2.2953419,zone:"paris"},
     {name:"Léonie Headquarter",secteur:"Chaine de boulangerie",street:"96 Rue de Lévis",city:"Paris",country:"France",address:"96 Rue de Lévis, 75017 Paris, France",lat:48.8851062,lng:2.3114547,zone:"paris"},
+    {name:"Monoprix Nice",secteur:"GMS",street:"42 Avenue Jean Médecin",city:"Nice",country:"France",address:"42 Avenue Jean Médecin, Nice, France",lat:43.7024888,lng:7.267351000000001,zone:"province"},
     {name:"La Flottille",secteur:"Restaurant",street:"Allée d'Apollon",city:"Versailles",country:"France",address:"La Petite Venise, Allée d'Apollon, 78000 Versailles, France",lat:48.8087937,lng:2.1108969,zone:"idf"},
+    {name:"Monoprix 4ème",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
+    {name:"Monoprix Issy les Moulineaux",secteur:"GMS",street:"1 Rue Lamartine",city:"Issy-les-Moulineaux",country:"France",address:"1 Rue Lamartine, 92130 Issy-les-Moulineaux, France",lat:48.8235259,lng:2.2746703,zone:"idf"},
     {name:"Nanie",secteur:"Coffee shop",street:"6 Place de l'Église",city:"Rueil-Malmaison",country:"France",address:"6 Place de l'Église, Rueil-Malmaison, France",lat:48.8767348,lng:2.1809846,zone:"idf"},
     {name:"Atelier papilles",secteur:"Chaine de boulangerie",street:"320 Avenue Archimède",city:"Aix-en-Provence",country:"France",address:"320 Av. Archimède, Aix-en-Provence, France",lat:43.4910211,lng:5.3400778,zone:"province"},
     {name:"LAIT FROMAGERES",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
