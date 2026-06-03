@@ -53,8 +53,8 @@ const ZONE_LABELS={paris:"Paris",idf:"Île-de-France",province:"Province",export
 const SECTEUR_COLORS={"Epicerie":"#e63946","Épicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd","Chaine de boulangerie":"#7b2d8b","Restaurant":"#888","Chaine de restaurant":"#ff007f","Coffee shop":"#cab641","Chaine de coffee shop":"#333333","Traiteur":"#ff5ac4","Grossiste":"#007eb5","Marché":"#bb3354","Meal box":"#9cd326","Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575","A definir":"#757575"};
 const DATA=[
     {name:"Atelier papilles",secteur:"Chaine de boulangerie",street:"320 Avenue Archimède",city:"Aix-en-Provence",country:"France",address:"320 Av. Archimède, Aix-en-Provence, France",lat:43.4910211,lng:5.3400778,zone:"province"},
-    {name:"Otera Illies",secteur:"GMS",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.5477601,lng:2.8270886,zone:"province"},
-    {name:"Otera Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
+    {name:"O'tera Illies",secteur:"GMS",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.5477601,lng:2.8270886,zone:"province"},
+    {name:"O'tera Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
     {name:"From' Garches",secteur:"Fromagerie",street:"118 Grande Rue",city:"Garches",country:"France",address:"118 Grande Rue 116, 92380 Garches, France",lat:48.8436554,lng:2.184783,zone:"province"},
     {name:"Maison Clément",secteur:"Epicerie",street:"Place des Halles",city:"Tours",country:"France",address:"Place des Halles, Tours, France",lat:47.3926527,lng:0.6796449,zone:"province"},
     {name:"La fromagerie de colombes ( fred&cow )",secteur:"Fromagerie",street:"3 Place Maurice Chavany",city:"Colombes",country:"France",address:"3 Place Maurice Chavany, Colombes, France",lat:48.9233482,lng:2.2557991,zone:"province"},
@@ -84,7 +84,7 @@ const DATA=[
     {name:"Miyam Poteau",secteur:"Epicerie",street:"11 Rue du Poteau",city:"Paris",country:"France",address:"11 Rue du Poteau, 75018 Paris, France",lat:48.8931005,lng:2.3428574,zone:"paris"},
     {name:"COFFEE YA (Japan Sweets)",secteur:"Coffee shop",street:"25 Boulevard Voltaire",city:"Paris",country:"France",address:"25 Boulevard Voltaire, Paris, France",lat:48.8650482,lng:2.3683696,zone:"paris"},
     {name:"La Petite épicerie de Harry",secteur:"Epicerie",street:"187 Avenue Achille Peretti",city:"Neuilly-sur-Seine",country:"France",address:"187 Avenue Achille Peretti, 92200 Neuilly-sur-Seine, France",lat:48.8854431,lng:2.2638566,zone:"idf"},
-    {name:"SCAROR - Scarabée or",secteur:"Chocolatier",street:"",city:"Enghien-les-Bains",country:"France",address:"95880 Enghien-les-Bains, France",lat:48.9708759,lng:2.3034849,zone:"province"},
+    {name:"Scarabée or",secteur:"Chocolatier",street:"",city:"Enghien-les-Bains",country:"France",address:"95880 Enghien-les-Bains, France",lat:48.9708759,lng:2.3034849,zone:"province"},
     {name:"LHELAM - LHERISSON LAMMASA",secteur:"Epicerie",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.6910989,lng:2.2114313,zone:"idf"},
     {name:"Univers Primeur Eragny",secteur:"GMS",street:"196 Rue de l'Ambassadeur",city:"Éragny",country:"France",address:"UNIVERS PRIMEURS ERAGNY, 196 Rue de l'Ambassadeur, 95610 Éragny, France",lat:49.0117632,lng:2.0977118,zone:"idf"},
     {name:"Les Toques Concept - ID Buffet",secteur:"Traiteur",street:"9 Rue de Bicêtre",city:"L'Haÿ-les-Roses",country:"France",address:"9 Rue de Bicêtre, 94240 L'Haÿ-les-Roses, France",lat:48.7721585,lng:2.3500158,zone:"province"},
@@ -130,7 +130,7 @@ const DATA=[
     {name:"L'ANNEXE",secteur:"Epicerie",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris, France",lat:48.880671,lng:2.3333708,zone:"paris"},
     {name:"Otera Amiens",secteur:"GMS",street:"151 Avenue Valéry Giscard d'Estaing",city:"Amiens",country:"France",address:"151 Av. Valéry Giscard d'Estaing 80000 AMIENS",lat:49.8839479,lng:2.26474,zone:"province"},
     {name:"Fromagerie Lou",secteur:"Fromagerie",street:"447 Avenue du Général de Gaulle",city:"Simiane-Collongue",country:"France",address:"Centre commercial le Moulin, 447 Avenue du Général de Gaulle, 13109 Simiane-Collongue, France",lat:43.4335324,lng:5.430161099999999,zone:"province"},
-    {name:"OTESAR - Otera Sart",secteur:"GMS",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 rue Louis Constant 59491 Villeneuve d'Ascq",lat:50.6530142,lng:3.140879,zone:"province"},
+    {name:"O'tera Sart",secteur:"GMS",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 rue Louis Constant 59491 Villeneuve d'Ascq",lat:50.6530142,lng:3.140879,zone:"province"},
     {name:"LA FERME DE VILTAIN",secteur:"Cueillette",street:"Chemin de Viltain",city:"Jouy-en-Josas",country:"France",address:"Chemin de Viltain, 78350 Jouy-en-Josas, France",lat:48.7564609,lng:2.1530978,zone:"province"},
     {name:"AGRIFRAIS",secteur:"Epicerie",street:"Rue d'Enencourt",city:"Chaumont-en-Vexin",country:"France",address:"Rue d'Enencourt, 60240 Chaumont-en-Vexin, France",lat:49.2749759,lng:1.8935511,zone:"province"},
     {name:"Univers Primeur Osny",secteur:"GMS",street:"87 Route d'Ennery",city:"Osny",country:"France",address:"87 Route d'Ennery, 95520 Osny, France",lat:49.0707253,lng:2.0810778,zone:"province"},
@@ -163,12 +163,12 @@ const DATA=[
     {name:"LAIT FROMAGERES",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
     {name:"Léonie Reuilly",secteur:"Chaine de boulangerie",street:"2 Passage Jaqueline Giraud",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris, France",lat:48.848194,lng:2.385906400000001,zone:"paris"},
     {name:"GOÛT MORNING",secteur:"Boulangerie",street:"27 Rue d'Epluches",city:"Saint-Ouen-l'Aumône",country:"France",address:"27 Rue d'Epluches, Saint-Ouen-l'Aumône, France",lat:49.0580882,lng:2.1217963,zone:"idf"},
-    {name:"MONOPRIX - ST GERMAIN EN LAYE",secteur:"GMS",street:"18 Rue Grande Fontaine",city:"Saint-Germain-en-Laye",country:"France",address:"18 Rue Grande Fontaine, 78100 Saint-Germain-en-Laye, France",lat:48.8970776,lng:2.0873164,zone:"province"},
+    {name:"MONOPRIX - St Germain En Laye",secteur:"GMS",street:"18 Rue Grande Fontaine",city:"Saint-Germain-en-Laye",country:"France",address:"18 Rue Grande Fontaine, 78100 Saint-Germain-en-Laye, France",lat:48.8970776,lng:2.0873164,zone:"province"},
     {name:"Le ginette",secteur:"Coffee shop",street:"5 Place Charost",city:"Versailles",country:"France",address:"5 Place Charost, Versailles, France",lat:48.8040296,lng:2.132751,zone:"idf"},
     {name:"la Boutique des Eleveurs (Epicure Lafayette)",secteur:"Epicerie",street:"18 Rue Descartes",city:"Nantes",country:"France",address:"18 Rue Descartes, 44000 Nantes, France",lat:47.2171666,lng:-1.5638463,zone:"province"},
     {name:"Apertivus - Belleville",secteur:"Epicerie",street:"117 Rue de Belleville",city:"Paris",country:"France",address:"117 Rue de Belleville, Paris, France",lat:48.8748365,lng:2.3877619,zone:"paris"},
     {name:"Le Clos",secteur:"Fromagerie",street:"17 Rue Raspail",city:"Levallois-Perret",country:"France",address:"17 Rue Raspail, 92300 Levallois-Perret, France",lat:48.8964078,lng:2.2927667,zone:"province"},
-    {name:"Monoprix 4ème",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
+    {name:"Monoprix Saint Paul",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
     {name:"Le Comptoir François",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"}
 ];
 let map,markers=[],activeZone="all";
