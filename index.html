@@ -57,7 +57,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 const ZONE_COLORS={paris:"#178bff",idf:"#1d9e75",province:"#e07b00",export:"#9d50dd",autre:"#888"};
 const ZONE_LABELS={paris:"Paris",idf:"Île-de-France",province:"Province",export:"Export",autre:"Autre"};
 const SECTEUR_COLORS={"Epicerie":"#e63946","Épicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd","Chaine de boulangerie":"#7b2d8b","Restaurant":"#888","Chaine de restaurant":"#ff007f","Coffee shop":"#cab641","Chaine de coffee shop":"#333333","Traiteur":"#ff5ac4","Grossiste":"#007eb5","Marché":"#bb3354","Meal box":"#9cd326","Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575","GMS":"#3a86ff","A definir":"#757575"};
- 
+
 const DATA=[
 {name:"Atelier papilles",secteur:"Chaine de boulangerie",street:"320 Avenue Archimède",city:"Aix-en-Provence",address:"320 Av. Archimède, Aix-en-Provence, France",lat:43.4910211,lng:5.3400778,zone:"province"},
 {name:"O'tera Illies",secteur:"GMS",street:"31 Rue de l'Avenir",city:"Illies",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.5477601,lng:2.8270886,zone:"province"},
@@ -178,17 +178,17 @@ const DATA=[
 {name:"Monoprix Saint Paul",secteur:"GMS",street:"",city:"Paris",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
 {name:"Le Comptoir François",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"}
 ];
- 
+
 let map,markers=[],activeZone="all";
 function sc(s){return SECTEUR_COLORS[s]||"#888";}
 function makeIcon(s){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${sc(s)};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]});}
- 
+
 function applyFilters(){
   const q=(document.getElementById("search").value||"").toLowerCase();
   const f=DATA.filter(c=>(activeZone==="all"||c.zone===activeZone)&&(!q||c.name.toLowerCase().includes(q)||c.city.toLowerCase().includes(q)||(c.secteur||"").toLowerCase().includes(q)));
   renderMarkers(f);renderList(f);
 }
- 
+
 function renderMarkers(cl){
   markers.forEach(m=>map.removeLayer(m));markers=[];
   cl.forEach(c=>{
@@ -198,7 +198,7 @@ function renderMarkers(cl){
   });
   if(cl.length>0) map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));
 }
- 
+
 function renderList(cl){
   document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");
   const list=document.getElementById("client-list");
@@ -214,7 +214,7 @@ function renderList(cl){
     </div>`).join("");
   list._c=cl;
 }
- 
+
 function focusClient(i){
   const c=document.getElementById("client-list")._c[i];
   document.querySelectorAll(".client-card").forEach(el=>el.classList.remove("active"));
@@ -223,7 +223,7 @@ function focusClient(i){
   const m=markers.find(m=>m._c===c);
   if(m) m.openPopup();
 }
- 
+
 window.addEventListener("load",()=>{
   map=L.map("map").setView([46.5,2.5],6);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);
