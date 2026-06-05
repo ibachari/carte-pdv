@@ -34,7 +34,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">122 points de vente</p></div>
+<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">121 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -106,7 +106,7 @@ const DATA=[
     {name:"Axelo Fromagerie",secteur:"Fromagerie",street:"52 Rue du Général de Gaulle",city:"Villiers-sur-Marne",country:"France",address:"52 Rue du Général de Gaulle, 94350 Villiers-sur-Marne, France",lat:48.8270575,lng:2.5429412,zone:"idf"},
     {name:"Les Jardins du Mesnil",secteur:"Cueillette",street:"45 Rue Maurice Berteaux",city:"Le Mesnil-le-Roi",country:"France",address:"45 Rue Maurice Berteaux, 78600 Le Mesnil-le-Roi, France",lat:48.9244605,lng:2.1202073,zone:"province"},
     {name:"Les Saisonniers - Maubeuge",secteur:"Epicerie",street:"74 Rue de Maubeuge",city:"Paris",country:"France",address:"74 Rue de Maubeuge, 75009 Paris, France",lat:48.8789972,lng:2.3476813,zone:"paris"},
-    {name:"SAS de la FERME DU LOGIS",secteur:"Epicerie",street:"",city:"Jumeauville",country:"France",address:"La Ferme du Logis (Horaires boutique), 78580 Jumeauville, France",lat:48.90419379999999,lng:1.7918864,zone:"province"},
+    {name:"La Ferme du Logis",secteur:"Epicerie",street:"",city:"Jumeauville",country:"France",address:"La Ferme du Logis (Horaires boutique), 78580 Jumeauville, France",lat:48.90419379999999,lng:1.7918864,zone:"province"},
     {name:"Epicerie Bon Sens",secteur:"Epicerie",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet, France",lat:48.8693409,lng:2.4197533,zone:"idf"},
     {name:"Kilogramme",secteur:"Epicerie",street:"10 Rue de Meaux",city:"Paris",country:"France",address:"10 Rue de Meaux, 75019 Paris, France",lat:48.8785765,lng:2.3711126,zone:"paris"},
     {name:"Les Saisonniers - Poissonnière",secteur:"Epicerie",street:"10 Rue Poissonnière",city:"Paris",country:"France",address:"10 Rue Poissonnière, 75002 Paris, France",lat:48.8688757,lng:2.3479333,zone:"paris"},
@@ -130,7 +130,7 @@ const DATA=[
     {name:"Marché de la Ferme de Viltain",secteur:"Cueillette",street:"Chemin de Viltain",city:"Jouy-en-Josas",country:"France",address:"Chemin de Viltain, 78350 Jouy-en-Josas, France",lat:48.7564609,lng:2.1530978,zone:"province"},
     {name:"AGRIFRAIS",secteur:"Epicerie",street:"Rue d'Enencourt",city:"Chaumont-en-Vexin",country:"France",address:"Rue d'Enencourt, 60240 Chaumont-en-Vexin, France",lat:49.2749759,lng:1.8935511,zone:"province"},
     {name:"Univers Primeur - Osny",secteur:"GMS",street:"87 Route d'Ennery",city:"Osny",country:"France",address:"87 Route d'Ennery, 95520 Osny, France",lat:49.0707253,lng:2.0810778,zone:"province"},
-    {name:"SAS BEILLOT - La Marnière Maurepas",secteur:"GMS",street:"31 Rue de Chevreuse",city:"Maurepas",country:"France",address:"31 Rue de Chevreuse, 78310 Maurepas, France",lat:48.7626397,lng:1.9268922,zone:"province"},
+    {name:"Grand Marché Marnière",secteur:"GMS",street:"31 Rue de Chevreuse",city:"Maurepas",country:"France",address:"31 Rue de Chevreuse, 78310 Maurepas, France",lat:48.7626397,lng:1.9268922,zone:"province"},
     {name:"Les Commis",secteur:"Meal box",street:"10 Rue Traversière",city:"Gennevilliers",country:"France",address:"10 Rue Traversière, Gennevilliers, France",lat:48.920131,lng:2.3059726,zone:"province"},
     {name:"La Bièvre Primeurs",secteur:"Epicerie",street:"16 Route de Palaiseau",city:"Massy",country:"France",address:"16 Route de Palaiseau, 91300 Massy, France",lat:48.7287885,lng:2.245879,zone:"province"},
     {name:"RB Pâtisserie",secteur:"Marché",street:"97 Boulevard Maurice Berteaux",city:"Sannois",country:"France",address:"97 Boulevard Maurice Berteaux, 95110 Sannois, France",lat:48.9679343,lng:2.2707038,zone:"province"},
@@ -153,27 +153,26 @@ const DATA=[
     {name:"Léonie Bakery - Batignolles",secteur:"Boulangerie",street:"96 Rue de Lévis",city:"Paris",country:"France",address:"96 Rue de Lévis, 75017 Paris, France",lat:48.8851062,lng:2.3114547,zone:"paris"},
     {name:"Monoprix Nice",secteur:"GMS",street:"42 Avenue Jean Médecin",city:"Nice",country:"France",address:"42 Avenue Jean Médecin, Nice, France",lat:43.7024888,lng:7.267351000000001,zone:"province"},
     {name:"Les fromages de Gambetta",secteur:"Fromagerie",street:"259 Rue des Pyrénées",city:"Paris",country:"France",address:"259 Rue des Pyrénées, Paris, France",lat:48.866812,lng:2.3966809,zone:"paris"},
-    {name:"CREEM",secteur:"Coffee shop",street:"16 Rue Saint-Antoine",city:"Paris",country:"France",address:"16 Rue Saint-Antoine, 75004 Paris, France",lat:48.8539319,lng:2.3664905,zone:"paris"},
-    {name:"LES JARDINS DE FAREMOUTIERS",secteur:"Cueillette",street:"5 Impasse des Saules",city:"Faremoutiers",country:"France",address:"5 Impasse des Saules, 77515 Faremoutiers, France",lat:48.800424,lng:2.9865027,zone:"province"},
+    {name:"Creem Coffee Shop – Bastille / Marais",secteur:"Coffee shop",street:"16 Rue Saint-Antoine",city:"Paris",country:"France",address:"16 Rue Saint-Antoine, 75004 Paris, France",lat:48.8539319,lng:2.3664905,zone:"paris"},
+    {name:"Les Jardins de Faremoutiers",secteur:"Cueillette",street:"5 Impasse des Saules",city:"Faremoutiers",country:"France",address:"5 Impasse des Saules, 77515 Faremoutiers, France",lat:48.800424,lng:2.9865027,zone:"province"},
     {name:"Nanie",secteur:"Coffee shop",street:"6 Place de l'Église",city:"Rueil-Malmaison",country:"France",address:"6 Place de l'Église, Rueil-Malmaison, France",lat:48.8767348,lng:2.1809846,zone:"idf"},
     {name:"LAIT Fromagères",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
     {name:"Léonie Bakery - Reuilly",secteur:"Boulangerie",street:"2 Passage Jaqueline Giraud",city:"Paris",country:"France",address:"2 Passage Emma Calve, 75012 Paris, France",lat:48.848194,lng:2.385906400000001,zone:"paris"},
-    {name:"la Boutique des Eleveurs (Epicure Lafayette)",secteur:"Epicerie",street:"18 Rue Descartes",city:"Nantes",country:"France",address:"18 Rue Descartes, 44000 Nantes, France",lat:47.2171666,lng:-1.5638463,zone:"province"},
+    {name:"la Boutique des Eleveurs",secteur:"Epicerie",street:"18 Rue Descartes",city:"Nantes",country:"France",address:"18 Rue Descartes, 44000 Nantes, France",lat:47.2171666,lng:-1.5638463,zone:"province"},
     {name:"Apertivus - Belleville",secteur:"Epicerie",street:"117 Rue de Belleville",city:"Paris",country:"France",address:"117 Rue de Belleville, Paris, France",lat:48.8748365,lng:2.3877619,zone:"paris"},
     {name:"Le Clos",secteur:"Fromagerie",street:"17 Rue Raspail",city:"Levallois-Perret",country:"France",address:"17 Rue Raspail, 92300 Levallois-Perret, France",lat:48.8964078,lng:2.2927667,zone:"province"},
-    {name:"Monoprix Saint Paul",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
+    {name:"Monoprix - Saint Paul",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
     {name:"La Cave du marché",secteur:"Marché",street:"31 Rue du Château d'Eau",city:"Paris",country:"France",address:"31 Rue du Château d'Eau, 75010 Paris, France",lat:48.8709654,lng:2.3585407,zone:"paris"},
-    {name:"Le Comptoir François - PDB",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"},
-    {name:"La Fromagerie par Bruno - Les fromages de Pierre François et Charles - POUR DE BON PRO",secteur:"Fromagerie",street:"2 Rue de l'Hôtel de ville",city:"Brive-la-Gaillarde",country:"France",address:"2 Rue de l'Hôtel de ville, Brive-la-Gaillarde, France",lat:45.1582691,lng:1.5323422,zone:"province"},
-    {name:"ID Croisé - Romain Vallon - POUR DE BON PRO",secteur:"A definir",street:"7 Allée Camille Pissaro",city:"Bourg-lès-Valence",country:"France",address:"7 All. Camille Pissaro, Bourg-lès-Valence, France",lat:44.9429969,lng:4.9035039,zone:"province"},
-    {name:"B&C Épicerie - PDB",secteur:"Epicerie",street:"1bis Route nationale",city:"Laroque-de-Fa",country:"France",address:"B&C EPICERIE Laroque-de-Fa, Route nationale 1 bis, 11330 Laroque-de-Fa, France",lat:42.9569358,lng:2.5627422,zone:"province"},
-    {name:"Lait Prés Verts - PDB",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
-    {name:"La Fromagerie Fregier / La Fromagerie PonPon Valence - PDB",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, 07300 Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
-    {name:"L'Univers du Fromage -PDB",secteur:"Fromagerie",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris, France",lat:48.852461,lng:2.3838192,zone:"paris"},
-    {name:"RUVA/ Toqué de fromages - Maison Bory - PDB",secteur:"Fromagerie",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes, France",lat:43.5805759,lng:7.1229416,zone:"province"},
-    {name:"Fromagerie Bonaparte - PDB",secteur:"Fromagerie",street:"",city:"Nice",country:"France",address:"Nice",lat:43.7101728,lng:7.261953200000001,zone:"province"},
-    {name:"La farandole de fromages - PDB",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
-    {name:"FROMAGERIE FROUMAI - PDB",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"}
+    {name:"Le Comptoir François",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"},
+    {name:"La Fromagerie par Bruno",secteur:"Fromagerie",street:"2 Rue de l'Hôtel de ville",city:"Brive-la-Gaillarde",country:"France",address:"2 Rue de l'Hôtel de ville, Brive-la-Gaillarde, France",lat:45.1582691,lng:1.5323422,zone:"province"},
+    {name:"B&C Épicerie",secteur:"Epicerie",street:"1bis Route nationale",city:"Laroque-de-Fa",country:"France",address:"B&C EPICERIE Laroque-de-Fa, Route nationale 1 bis, 11330 Laroque-de-Fa, France",lat:42.9569358,lng:2.5627422,zone:"province"},
+    {name:"Lait Prés Verts",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
+    {name:"La Fromagerie Fregier / La Fromagerie PonPon Valence",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, 07300 Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
+    {name:"L'Univers du Fromage",secteur:"Fromagerie",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris, France",lat:48.852461,lng:2.3838192,zone:"paris"},
+    {name:"Toqué de fromages - Maison Bory",secteur:"Fromagerie",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes, France",lat:43.5805759,lng:7.1229416,zone:"province"},
+    {name:"Fromagerie Bonaparte",secteur:"Fromagerie",street:"",city:"Nice",country:"France",address:"Nice",lat:43.7101728,lng:7.261953200000001,zone:"province"},
+    {name:"La farandole de fromages",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
+    {name:"Fromagerie Froumai",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"}
 ];
 let map,markers=[],activeZone="all";
 function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]);}
