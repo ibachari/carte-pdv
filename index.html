@@ -142,11 +142,11 @@ const DATA=[
     {name:"Miyam Saint-Ouen",secteur:"Epicerie",street:"62 Bis Avenue Gabriel Péri",city:"Saint-Ouen-sur-Seine",country:"France",address:"62 Bis Avenue Gabriel Péri, 93400 Saint-Ouen-sur-Seine, France",lat:48.9073726,lng:2.3321029,zone:"idf"},
     {name:"La Fromagerie PonPon Tournon",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
     {name:"Le Comptoir François",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"},
-    {name:"La Fromagerie Fregier / La Fromagerie PonPon Valence - PDB",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, 07300 Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
-    {name:"L'Univers du Fromage - PDB",secteur:"Fromagerie",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris, France",lat:48.852461,lng:2.3838192,zone:"paris"},
-    {name:"Toqué de fromages - Maison Bory - PDB",secteur:"Fromagerie",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes, France",lat:43.5805759,lng:7.1229416,zone:"province"},
-    {name:"La farandole de fromages - PDB",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
-    {name:"Fromagerie Froumai - PDB",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"}
+    {name:"La Fromagerie Fregier / La Fromagerie PonPon Valence",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, 07300 Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
+    {name:"L'Univers du Fromage",secteur:"Fromagerie",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris, France",lat:48.852461,lng:2.3838192,zone:"paris"},
+    {name:"Toqué de fromages - Maison Bory",secteur:"Fromagerie",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes, France",lat:43.5805759,lng:7.1229416,zone:"province"},
+    {name:"La farandole de fromages",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
+    {name:"Fromagerie Froumai",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"}
 ];
 let map,markers=[],activeZone="all";
 function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]});}
