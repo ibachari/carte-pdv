@@ -2,218 +2,160 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f9f7f4;color:#1a1a1a}
-header{background:#fff;border-bottom:1px solid #e8e4de;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-h1{font-size:17px;font-weight:600}
-header p{font-size:13px;color:#888;margin-top:2px}
-.filters{display:flex;gap:6px;flex-wrap:wrap}
-.filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#555;white-space:nowrap}
-.filter-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
-.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:220px}
-.search-bar input{border:none;outline:none;width:100%;font-size:13px}
-.layout{display:flex;height:calc(100vh - 65px)}
-#sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column}
-.sidebar-header{padding:12px 16px;border-bottom:1px solid #f0ede8;font-size:12px;color:#888;background:#faf9f7}
-.client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer}
-.client-card:hover{background:#faf9f7}
-.client-card.active{background:#f0ede8}
-.cname{font-size:13px;font-weight:500;margin-bottom:2px}
-.addr{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
-.badge{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500}
-#map{flex:1}
-.status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8}
-.empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px}
-@media(max-width:640px){.layout{flex-direction:column}#sidebar{width:100%;height:200px}#map{height:400px}}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;}
+header{background:#fff;border-bottom:1px solid #e8e4de;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+header h1{font-size:17px;font-weight:600;letter-spacing:-.3px;}
+header p{font-size:13px;color:#888;margin-top:2px;}
+.filters{display:flex;gap:6px;flex-wrap:wrap;}
+.filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#555;white-space:nowrap;}
+.filter-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
+.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:220px;}
+.search-bar input{border:none;outline:none;width:100%;font-size:13px;background:transparent;}
+.layout{display:flex;height:calc(100vh - 65px);}
+#sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column;}
+.sidebar-header{padding:12px 16px;border-bottom:1px solid #f0ede8;font-size:12px;color:#888;background:#faf9f7;}
+.client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer;transition:background .1s;}
+.client-card:hover{background:#faf9f7;}
+.client-card.active{background:#f0ede8;}
+.client-card .cname{font-size:13px;font-weight:500;margin-bottom:2px;}
+.client-card .addr{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.client-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
+.badge{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500;}
+#map{flex:1;}
+.status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8;}
+.empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
+@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}#map{height:400px;}}
 </style>
 </head>
 <body>
 <header>
-  <div>
-    <h1>Nos Points de Vente - Maison Savary</h1>
-    <p id="count-label">121 points de vente</p>
-  </div>
-  <div class="search-bar">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2">
-      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-    </svg>
-    <input type="text" id="search" placeholder="Rechercher..."/>
-  </div>
-  <div class="filters" id="filter-btns"></div>
+<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">95 points de vente</p></div>
+<div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
+<div class="filters" id="filter-btns"></div>
 </header>
 <div class="layout">
-  <div id="sidebar">
-    <div class="sidebar-header" id="sidebar-count">-</div>
-    <div id="client-list"><div class="empty">Chargement...</div></div>
-    <div class="status-bar">Mis a jour le 05/06/2026</div>
-  </div>
-  <div id="map"></div>
+<div id="sidebar">
+<div class="sidebar-header" id="sidebar-count">—</div>
+<div id="client-list"><div class="empty">Chargement…</div></div>
+<div class="status-bar">Mis à jour le 17/06/2026</div>
 </div>
-<script type="application/json" id="map-data">[{"name": "O’tera - Illies", "secteur": "GMS", "street": "31 Rue de l’Avenir", "city": "Illies", "country": "France", "address": "31 Rue de l’Avenir, 59480 Illies, France", "lat": 50.5477601, "lng": 2.8270886, "zone": "france"}, {"name": "O’tera - Brest", "secteur": "GMS", "street": "122 Boulevard de Plymouth", "city": "Brest", "country": "France", "address": "122 Bd de Plymouth, 29200 Brest", "lat": 48.38677, "lng": -4.5293397, "zone": "france"}, {"name": "From’ Garches", "secteur": "Fromagerie", "street": "118 Grande Rue", "city": "Garches", "country": "France", "address": "118 Grande Rue 116, 92380 Garches, France", "lat": 48.8436554, "lng": 2.184783, "zone": "france"}, {"name": "Maison Clément", "secteur": "Epicerie", "street": "Place des Halles", "city": "Tours", "country": "France", "address": "Place des Halles, Tours, France", "lat": 47.3926527, "lng": 0.6796449, "zone": "france"}, {"name": "La fromagerie de colombes ( fred&cow )", "secteur": "Fromagerie", "street": "3 Place Maurice Chavany", "city": "Colombes", "country": "France", "address": "3 Place Maurice Chavany, Colombes, France", "lat": 48.9233482, "lng": 2.2557991, "zone": "france"}, {"name": "Rendez-vous en Italie", "secteur": "Traiteur", "street": "3 Place de la Liberté", "city": "Bandol", "country": "France", "address": "3 Place de la Liberté, 83150 Bandol, France", "lat": 43.1362102, "lng": 5.7544734, "zone": "france"}, {"name": "Berrie Family", "secteur": "Epicerie", "street": "62 Rue de la Sablière", "city": "Asnières-sur-Seine", "country": "France", "address": "62 Rue de la Sablière, 92600 Asnières-sur-Seine, France", "lat": 48.9063691, "lng": 2.2688542, "zone": "idf"}, {"name": "Sarl Didière", "secteur": "Fromagerie", "street": "Rue du Marché", "city": "Royan", "country": "France", "address": "Marché Central de Royan, Rue du Marché, Royan, France", "lat": 45.6276659, "lng": -1.031295, "zone": "france"}, {"name": "GO GO KIWI", "secteur": "Epicerie", "street": "16 Avenue de Laumière", "city": "Paris", "country": "France", "address": "16 Avenue de Laumière, Paris, France", "lat": 48.8838923, "lng": 2.3807968, "zone": "paris"}, {"name": "Le Cri du Radis Chamant", "secteur": "Epicerie", "street": "4 Rue de la Seigneurie", "city": "Lamorlaye", "country": "France", "address": "4 Rue de la Seigneurie, 60260 Lamorlaye, France", "lat": 49.1465966, "lng": 2.4389878, "zone": "france"}, {"name": "la fourmi verte - Bures-sur-Yvette", "secteur": "Epicerie", "street": "88 Rue Charles de Gaulle", "city": "Bures-sur-Yvette", "country": "France", "address": "88 Rue Charles de Gaulle, 91440 Bures-sur-Yvette, France", "lat": 48.6966352, "lng": 2.1552038, "zone": "france"}, {"name": "L’Epicerie", "secteur": "Epicerie", "street": "79 Rue du Général de Gaulle", "city": "Enghien-les-Bains", "country": "France", "address": "79 Rue du Général de Gaulle, 95880 Enghien-les-Bains, France", "lat": 48.9692161, "lng": 2.3054581, "zone": "france"}, {"name": "Le Comptoir de la Grange", "secteur": "Epicerie", "street": "28 Rue des Vergers", "city": "Les Alluets-le-Roi", "country": "France", "address": "28 Rue des Vergers lotissement a5, 78580 Les Alluets-le-Roi, France", "lat": 48.9097261, "lng": 1.9117673, "zone": "france"}, {"name": "Epic SODIGERMAIN", "secteur": "GMS", "street": "14 Rue Lobineau", "city": "Paris", "country": "France", "address": "14 Rue Lobineau, 75006 Paris, France", "lat": 48.8517828, "lng": 2.3358428, "zone": "paris"}, {"name": "Fromagerie L’affinez", "secteur": "Fromagerie", "street": "2 Rue du Général Lelong", "city": "Montgeron", "country": "France", "address": "2 Rue du Général Lelong 91230 MONTGERON", "lat": 48.7012489, "lng": 2.4663173, "zone": "idf"}, {"name": "Comptoir du Frais", "secteur": "GMS", "street": "6 Rue Sainte-Claire Déville", "city": "Verneuil-en-Halatte", "country": "France", "address": "6 Rue Sainte-Claire Déville, 60550 Verneuil-en-Halatte, France", "lat": 49.2712734, "lng": 2.5075102, "zone": "france"}, {"name": "LIBRE FRUIT MAGNY", "secteur": "Cueillette", "street": "5 Rue Copernic", "city": "Magny-en-Vexin", "country": "France", "address": "5 Rue Copernic, 95420 Magny-en-Vexin, France", "lat": 49.1459904, "lng": 1.7870717, "zone": "france"}, {"name": "Josette", "secteur": "Coffee shop", "street": "93bis Avenue Achille Peretti", "city": "Neuilly-sur-Seine", "country": "France", "address": "93 Bis Sarl, Avenue Achille Peretti, 92200 Neuilly-sur-Seine, France", "lat": 48.8832453, "lng": 2.2729715, "zone": "idf"}, {"name": "Marché Frais Orgeval", "secteur": "GMS", "street": "1561 Route de Quarante Sous", "city": "Orgeval", "country": "France", "address": "1561 Route de Quarante Sous, Orgeval, France", "lat": 48.9284823, "lng": 1.9796339, "zone": "france"}, {"name": "Pribon", "secteur": "Epicerie", "street": "70 Rue Douy Délcupe", "city": "Montreuil", "country": "France", "address": "70 Rue Douy Délcupe, 93100 Montreuil, France", "lat": 48.85589239999999, "lng": 2.4292867, "zone": "france"}, {"name": "Epicerie Tounette", "secteur": "Epicerie", "street": "12 Rue du Borrégo", "city": "Paris", "country": "France", "address": "12 Rue du Borrégo, 75020 Paris, France", "lat": 48.8726169, "lng": 2.3990806, "zone": "paris"}, {"name": "Marché Frais Meulan - FLM", "secteur": "GMS", "street": "25 Avenue des Aulnes", "city": "Meulan-en-Yvelines", "country": "France", "address": "25 Avenue des Aulnes, 78250 Meulan-en-Yvelines, France", "lat": 49.0115473, "lng": 1.9015974, "zone": "idf"}, {"name": "Le Garde-Manger des Hameaux", "secteur": "Epicerie", "street": "1 Rue Mathilde de Garlande", "city": "Magny-les-Hameaux", "country": "France", "address": "de Guerlande, 1 Rue Mathilde de Garlande, 78114 Magny-les-Hameaux, France", "lat": 48.7406246, "lng": 2.0354042, "zone": "france"}, {"name": "La cueillette de Cergy - le Marché de Caroline", "secteur": "Cueillette", "street": "Chemin de Courcelles", "city": "Puiseux-Pontoise", "country": "France", "address": "Chemin de Courcelles, 95650 Puiseux-Pontoise, France", "lat": 49.0625186, "lng": 2.0019371, "zone": "idf"}, {"name": "DEMAIN - Timbaud", "secteur": "Boulangerie", "street": "133 Rue Saint-Maur", "city": "Paris", "country": "France", "address": "133 Rue Saint-Maur, 75011 Paris, France", "lat": 48.8673449, "lng": 2.3756999, "zone": "paris"}, {"name": "Les Vergers d’Attainville", "secteur": "Cueillette", "street": "1 D909", "city": "Attainville", "country": "France", "address": "Cueillette De La Croix Verte, D909, 95570 Attainville, France", "lat": 49.06832, "lng": 2.338657, "zone": "france"}, {"name": "Miyam - Robespierre", "secteur": "Epicerie", "street": "56 bis Rue Robespierre", "city": "Montreuil", "country": "France", "address": "56 bis Rue Robespierre, 93100 Montreuil, France", "lat": 48.8526647, "lng": 2.4236581, "zone": "france"}, {"name": "Miyam - Poteau", "secteur": "Epicerie", "street": "11 Rue du Poteau", "city": "Paris", "country": "France", "address": "11 Rue du Poteau, 75018 Paris, France", "lat": 48.8931005, "lng": 2.3428574, "zone": "paris"}, {"name": "Coffee Ya - Oberkampf", "secteur": "Coffee shop", "street": "25 Boulevard Voltaire", "city": "Paris", "country": "France", "address": "25 Boulevard Voltaire, Paris, France", "lat": 48.8650482, "lng": 2.3683696, "zone": "paris"}, {"name": "La Petite épicerie de Harry", "secteur": "Epicerie", "street": "187 Avenue Achille Peretti", "city": "Neuilly-sur-Seine", "country": "France", "address": "187 Avenue Achille Peretti, 92200 Neuilly-sur-Seine, France", "lat": 48.8854431, "lng": 2.2638566, "zone": "idf"}, {"name": "Scarabée or", "secteur": "Chocolatier", "street": "", "city": "Enghien-les-Bains", "country": "France", "address": "95880 Enghien-les-Bains, France", "lat": 48.9708759, "lng": 2.3034849, "zone": "france"}, {"name": "L’HERISSON LAMMASA", "secteur": "Traiteur", "street": "5 Avenue de Norvège", "city": "Villebon-sur-Yvette", "country": "France", "address": "5 Avenue de Norvège, Villebon-sur-Yvette, France", "lat": 48.6910989, "lng": 2.2114313, "zone": "idf"}, {"name": "Univers Primeur - Eragny", "secteur": "GMS", "street": "196 Rue de l’Ambassadeur", "city": "Éragny", "country": "France", "address": "UNIVERS PRIMEURS ERAGNY, 196 Rue de l’Ambassadeur, 95610 Éragny, France", "lat": 49.0117632, "lng": 2.0977118, "zone": "idf"}, {"name": "PRIBON - TOLBIAC", "secteur": "Fromagerie", "street": "8 Rue du Moulin de la Pointe", "city": "Paris", "country": "France", "address": "8 Rue du Moulin de la Pointe, 75013 Paris, France", "lat": 48.8245235, "lng": 2.3570285, "zone": "paris"}, {"name": "Savary & Co", "secteur": "Marché", "street": "31 Rue Pierre Brossolette", "city": "Presles", "country": "France", "address": "31 Rue Pierre Brossolette, 95590 Presles, France", "lat": 49.11009860000001, "lng": 2.2813414, "zone": "france"}, {"name": "Jardinerie de Chevreuse", "secteur": "Cueillette", "street": "84 Rue de Rambouillet", "city": "Chevreuse", "country": "France", "address": "84 Rue de Rambouillet, 78460 Chevreuse, France", "lat": 48.6986928, "lng": 2.0260743, "zone": "france"}, {"name": "Victoire Épicerie Vivante", "secteur": "Epicerie", "street": "1 bis Rue Friant", "city": "Paris", "country": "France", "address": "1 bis Rue Friant, 75014 Paris, France", "lat": 48.8270169, "lng": 2.3252478, "zone": "paris"}, {"name": "PONPON Rose - Le Plessis-Robinson", "secteur": "Epicerie", "street": "18 Grand’place", "city": "Le Plessis-Robinson", "country": "France", "address": "18 Grand’place, 92350 Le Plessis-Robinson, France", "lat": 48.7816419, "lng": 2.2626801, "zone": "france"}, {"name": "La Prairie - Epicerie Gourmande", "secteur": "Epicerie", "street": "29 Rue de Lille", "city": "Armentières", "country": "France", "address": "29 Rue de Lille, 59280 Armentières, France", "lat": 50.6845025, "lng": 2.8814519, "zone": "france"}, {"name": "Les Saisonniers - Saint Placide", "secteur": "Epicerie", "street": "62 Rue Saint-Placide", "city": "Paris", "country": "France", "address": "62 Rue Saint-Placide, 75006 Paris, France", "lat": 48.8470813, "lng": 2.3264153, "zone": "paris"}, {"name": "Apertivus - Saint Antoine", "secteur": "Epicerie", "street": "83 Rue Saint-Antoine", "city": "Paris", "country": "France", "address": "83 Rue Saint-Antoine, 75004 Paris, France", "lat": 48.8544838, "lng": 2.3628079, "zone": "paris"}, {"name": "Apertivus - Cambronne", "secteur": "Epicerie", "street": "88 Rue Cambronne", "city": "Paris", "country": "France", "address": "88 Rue Cambronne, Paris, France", "lat": 48.8422563, "lng": 2.3027802, "zone": "paris"}, {"name": "Café Vasily", "secteur": "Coffee shop", "street": "82 Avenue Mozart", "city": "Paris", "country": "France", "address": "82 Avenue Mozart, 75016 Paris, France", "lat": 48.85221079999999, "lng": 2.2678806, "zone": "paris"}, {"name": "Les Saisonniers - Alesia", "secteur": "Epicerie", "street": "100 Rue d’Alésia", "city": "Paris", "country": "France", "address": "100 Rue d’Alésia, 75014 Paris, France", "lat": 48.82928829999999, "lng": 2.3231175, "zone": "paris"}, {"name": "La Fromagerie PonPon - Sceaux", "secteur": "Fromagerie", "street": "198 Rue Houdan", "city": "Sceaux", "country": "France", "address": "198 Rue Houdan, 92330 Sceaux, France", "lat": 48.7792013, "lng": 2.2814951, "zone": "france"}, {"name": "La Marnière", "secteur": "GMS", "street": "8 Rue Paul Langevin", "city": "Plaisir", "country": "France", "address": "8 Rue Paul Langevin, 78370 Plaisir, France", "lat": 48.8305653, "lng": 1.9529482, "zone": "idf"}, {"name": "Miyam - Lilas", "secteur": "Epicerie", "street": "97 Rue de Paris", "city": "Les Lilas", "country": "France", "address": "97 Rue de Paris, Les Lilas, France", "lat": 48.8794169, "lng": 2.4143797, "zone": "france"}, {"name": "Les Saisonniers - Loing", "secteur": "Epicerie", "street": "67 Rue d’Alésia", "city": "Paris", "country": "France", "address": "67 Rue d’Alésia, 75014 Paris, France", "lat": 48.8276506, "lng": 2.3294907, "zone": "paris"}, {"name": "Davoli", "secteur": "Epicerie", "street": "34 Rue Cler", "city": "Paris", "country": "France", "address": "34 Rue Cler, Paris, France", "lat": 48.856935, "lng": 2.3061789, "zone": "paris"}, {"name": "Les Saisonniers - Censier", "secteur": "Epicerie", "street": "41 Rue Censier", "city": "Paris", "country": "France", "address": "41 Rue Censier, 75005 Paris, France", "lat": 48.8398979, "lng": 2.3517752, "zone": "paris"}, {"name": "Deuxieme Etape ( Fromageire Amblard )", "secteur": "Fromagerie", "street": "44 Rue du Général Leclerc", "city": "Saint-Leu-la-Forêt", "country": "France", "address": "44 Rue du Général Leclerc, 95320 Saint-Leu-la-Forêt, France", "lat": 49.0184466, "lng": 2.2445421, "zone": "france"}, {"name": "Axelo Fromagerie", "secteur": "Fromagerie", "street": "52 Rue du Général de Gaulle", "city": "Villiers-sur-Marne", "country": "France", "address": "52 Rue du Général de Gaulle, 94350 Villiers-sur-Marne, France", "lat": 48.8270575, "lng": 2.5429412, "zone": "idf"}, {"name": "Les Jardins du Mesnil", "secteur": "Cueillette", "street": "45 Rue Maurice Berteaux", "city": "Le Mesnil-le-Roi", "country": "France", "address": "45 Rue Maurice Berteaux, 78600 Le Mesnil-le-Roi, France", "lat": 48.9244605, "lng": 2.1202073, "zone": "france"}, {"name": "Les Saisonniers - Maubeuge", "secteur": "Epicerie", "street": "74 Rue de Maubeuge", "city": "Paris", "country": "France", "address": "74 Rue de Maubeuge, 75009 Paris, France", "lat": 48.8789972, "lng": 2.3476813, "zone": "paris"}, {"name": "La Ferme du Logis", "secteur": "Epicerie", "street": "", "city": "Jumeauville", "country": "France", "address": "La Ferme du Logis (Horaires boutique), 78580 Jumeauville, France", "lat": 48.90419379999999, "lng": 1.7918864, "zone": "france"}, {"name": "Epicerie Bon Sens", "secteur": "Epicerie", "street": "64 Rue Sadi Carnot", "city": "Bagnolet", "country": "France", "address": "64 Rue Sadi Carnot, 93170 Bagnolet, France", "lat": 48.8693409, "lng": 2.4197533, "zone": "idf"}, {"name": "Kilogramme", "secteur": "Epicerie", "street": "10 Rue de Meaux", "city": "Paris", "country": "France", "address": "10 Rue de Meaux, 75019 Paris, France", "lat": 48.8785765, "lng": 2.3711126, "zone": "paris"}, {"name": "Les Saisonniers - Poissonnière", "secteur": "Epicerie", "street": "10 Rue Poissonnière", "city": "Paris", "country": "France", "address": "10 Rue Poissonnière, 75002 Paris, France", "lat": 48.8688757, "lng": 2.3479333, "zone": "paris"}, {"name": "Les Saisonniers - Legendre", "secteur": "Epicerie", "street": "64 Rue Legendre", "city": "Paris", "country": "France", "address": "64 Rue Legendre, 75017 Paris, France", "lat": 48.8855144, "lng": 2.3167031, "zone": "paris"}, {"name": "Les Saisonniers - Rochechouart", "secteur": "Epicerie", "street": "74 Rue Marguerite de Rochechouart", "city": "Paris", "country": "France", "address": "74 Rue Marguerite de Rochechouart, 75009 Paris, France", "lat": 48.8818494, "lng": 2.3466729, "zone": "paris"}, {"name": "Les Saisonniers - Pernety", "secteur": "Epicerie", "street": "32 Rue Pernety", "city": "Paris", "country": "France", "address": "32 Rue Pernety, 75014 Paris, France", "lat": 48.8335839, "lng": 2.3189572, "zone": "paris"}, {"name": "Les saisonniers - Vaugirard", "secteur": "Epicerie", "street": "323 Rue de Vaugirard", "city": "Paris", "country": "France", "address": "323 Rue de Vaugirard, 75015 Paris, France", "lat": 48.838181, "lng": 2.2983732, "zone": "paris"}, {"name": "Miyam Croix de Chavaux", "secteur": "Epicerie", "street": "9 Avenue de la Résistance", "city": "Montreuil", "country": "France", "address": "9 Avenue de la Résistance, 93100 Montreuil, France", "lat": 48.85857679999999, "lng": 2.4362794, "zone": "france"}, {"name": "O’Grain Gourmand", "secteur": "Epicerie", "street": "20 Avenue Jean Jaurès", "city": "Clamart", "country": "France", "address": "20 Avenue Jean Jaurès, 92140 Clamart, France", "lat": 48.8012632, "lng": 2.2640722, "zone": "france"}, {"name": "Des Halles et des Gourmets", "secteur": "Epicerie", "street": "26 Bis Route de Bouchemaine", "city": "Angers", "country": "France", "address": "26 Bis Route de Bouchemaine, 49000 Angers, France", "lat": 47.4470409, "lng": -0.575131, "zone": "france"}, {"name": "Le Cri du Radis Lamorlaye", "secteur": "GMS", "street": "4 Rue de la Seigneurie", "city": "Lamorlaye", "country": "France", "address": "4 Rue de la Seigneurie, 60260 Lamorlaye, France", "lat": 49.1465966, "lng": 2.4389878, "zone": "france"}, {"name": "La Petite Épicerie", "secteur": "Epicerie", "street": "12 Rue de l’Église", "city": "Montreuil", "country": "France", "address": "12 Rue de l’Église, 93100 Montreuil, France", "lat": 48.863802, "lng": 2.44259, "zone": "france"}, {"name": "Bizas - La vie de quartier", "secteur": "Epicerie", "street": "25 Rue Custine", "city": "Paris", "country": "France", "address": "25 Rue Custine, 75018 Paris, France", "lat": 48.8887766, "lng": 2.3462842, "zone": "paris"}, {"name": "Monoprix Issy les Moulineaux", "secteur": "GMS", "street": "1 Rue Lamartine", "city": "Issy-les-Moulineaux", "country": "France", "address": "1 Rue Lamartine, 92130 Issy-les-Moulineaux, France", "lat": 48.8235259, "lng": 2.2746703, "zone": "idf"}, {"name": "Marché de Rutel", "secteur": "Epicerie", "street": "Rutel", "city": "Villenoy", "country": "France", "address": "Ferme de Rutel, Rutel, 77124 Villenoy, France", "lat": 48.9496079, "lng": 2.85514, "zone": "france"}, {"name": "Maison Tenart - Ferme du Mont de Cuy", "secteur": "Epicerie", "street": "52 Rue Notre Dame des Champs", "city": "Paris", "country": "France", "address": "52 Rue Notre Dame des Champs, 75006 Paris, France", "lat": 48.8440458, "lng": 2.3302426, "zone": "paris"}, {"name": "L’ANNEXE", "secteur": "Epicerie", "street": "15 Rue Chaptal", "city": "Paris", "country": "France", "address": "15 Rue Chaptal, 75009 Paris, France", "lat": 48.880671, "lng": 2.3333708, "zone": "paris"}, {"name": "O’tera - Amiens", "secteur": "GMS", "street": "151 Avenue Valéry Giscard d’Estaing", "city": "Amiens", "country": "France", "address": "151 Av. Valéry Giscard d’Estaing 80000 AMIENS", "lat": 49.8839479, "lng": 2.26474, "zone": "france"}, {"name": "Fromagerie Lou", "secteur": "Fromagerie", "street": "447 Avenue du Général de Gaulle", "city": "Simiane-Collongue", "country": "France", "address": "Centre commercial le Moulin, 447 Avenue du Général de Gaulle, 13109 Simiane-Collongue, France", "lat": 43.4335324, "lng": 5.430161099999999, "zone": "france"}, {"name": "O’tera Sart", "secteur": "GMS", "street": "1 Rue Louis Constant", "city": "Villeneuve-d’Ascq", "country": "France", "address": "1 rue Louis Constant 59491 Villeneuve d’Ascq", "lat": 50.6530142, "lng": 3.140879, "zone": "france"}, {"name": "Marché de la Ferme de Viltain", "secteur": "Cueillette", "street": "Chemin de Viltain", "city": "Jouy-en-Josas", "country": "France", "address": "Chemin de Viltain, 78350 Jouy-en-Josas, France", "lat": 48.7564609, "lng": 2.1530978, "zone": "france"}, {"name": "AGRIFRAIS", "secteur": "Epicerie", "street": "Rue d’Enencourt", "city": "Chaumont-en-Vexin", "country": "France", "address": "Rue d’Enencourt, 60240 Chaumont-en-Vexin, France", "lat": 49.2749759, "lng": 1.8935511, "zone": "france"}, {"name": "Univers Primeur - Osny", "secteur": "GMS", "street": "87 Route d’Ennery", "city": "Osny", "country": "France", "address": "87 Route d’Ennery, 95520 Osny, France", "lat": 49.0707253, "lng": 2.0810778, "zone": "france"}, {"name": "Grand Marché Marnière", "secteur": "GMS", "street": "31 Rue de Chevreuse", "city": "Maurepas", "country": "France", "address": "31 Rue de Chevreuse, 78310 Maurepas, France", "lat": 48.7626397, "lng": 1.9268922, "zone": "france"}, {"name": "Les Commis", "secteur": "Meal box", "street": "10 Rue Traversière", "city": "Gennevilliers", "country": "France", "address": "10 Rue Traversière, Gennevilliers, France", "lat": 48.920131, "lng": 2.3059726, "zone": "france"}, {"name": "La Bièvre Primeurs", "secteur": "Epicerie", "street": "16 Route de Palaiseau", "city": "Massy", "country": "France", "address": "16 Route de Palaiseau, 91300 Massy, France", "lat": 48.7287885, "lng": 2.245879, "zone": "france"}, {"name": "RB Pâtisserie", "secteur": "Marché", "street": "97 Boulevard Maurice Berteaux", "city": "Sannois", "country": "France", "address": "97 Boulevard Maurice Berteaux, 95110 Sannois, France", "lat": 48.9679343, "lng": 2.2707038, "zone": "france"}, {"name": "Hep’Istache - ARA", "secteur": "Epicerie", "street": "15 Rue du Maréchal Foch", "city": "Versailles", "country": "France", "address": "15 Rue du Maréchal Foch, 78000 Versailles, France", "lat": 48.8059014, "lng": 2.1314331, "zone": "idf"}, {"name": "Les saisonniers - Caulaincourt", "secteur": "Epicerie", "street": "8 Place Constantin Pecqueur", "city": "Paris", "country": "France", "address": "8 Place Constantin Pecqueur, 75018 Paris, France", "lat": 48.8894059, "lng": 2.3384974, "zone": "paris"}, {"name": "Miyam - Pantin", "secteur": "Epicerie", "street": "45 Rue Hoche", "city": "Pantin", "country": "France", "address": "45 Rue Hoche, 93500 Pantin, France", "lat": 48.8941658, "lng": 2.4015983, "zone": "france"}, {"name": "Choupette et Gourmandises", "secteur": "Epicerie", "street": "60 Avenue de Champagne", "city": "Morangis", "country": "France", "address": "60 Avenue de Champagne, Morangis, France", "lat": 48.702472, "lng": 2.344848, "zone": "france"}, {"name": "Les Saisonniers - Levallois-Perret", "secteur": "Epicerie", "street": "103 Rue Louis Rouquier", "city": "Levallois-Perret", "country": "France", "address": "103 Rue Louis Rouquier, 92300 Levallois-Perret, France", "lat": 48.8924531, "lng": 2.2909171, "zone": "france"}, {"name": "Miyam - Aligre", "secteur": "Epicerie", "street": "161 Rue du Faubourg Saint-Antoine", "city": "Paris", "country": "France", "address": "161 Rue du Faubourg Saint-Antoine, 75011 Paris, France", "lat": 48.850646, "lng": 2.3798116, "zone": "paris"}, {"name": "VRAC & BOC", "secteur": "Epicerie", "street": "7 Rue du Docteur Bauer", "city": "Saint-Ouen-sur-Seine", "country": "France", "address": "7 Rue du Dr Bauer, 93400 Saint-Ouen-sur-Seine, France", "lat": 48.9123685, "lng": 2.335989, "zone": "idf"}, {"name": "La Ferme des Sablons", "secteur": "Epicerie", "street": "Sente de la Procession", "city": "Génicourt", "country": "France", "address": "Sente de la Procession, 95650 Génicourt, France", "lat": 49.0868508, "lng": 2.0664383, "zone": "france"}, {"name": "Les Saisonniers - Orsel", "secteur": "Epicerie", "street": "22 Rue d’Orsel", "city": "Paris", "country": "France", "address": "22 Rue d’Orsel, 75018 Paris, France", "lat": 48.883934, "lng": 2.3441534, "zone": "paris"}, {"name": "Miyam - Beaubourg", "secteur": "Epicerie", "street": "82 Rue Beaubourg", "city": "Paris", "country": "France", "address": "82 Rue Beaubourg, 75003 Paris, France", "lat": 48.8643783, "lng": 2.3554305, "zone": "paris"}, {"name": "Les Saisonniers - Sèvres", "secteur": "Epicerie", "street": "4 Route Charles Tillon", "city": "Orly", "country": "France", "address": "4 Route Charles Tillon, 94310 Orly, France", "lat": 48.741543, "lng": 2.3863499, "zone": "france"}, {"name": "Léonie Bakery - Sacré Coeur", "secteur": "Boulangerie", "street": "15 Avenue Trudaine", "city": "Paris", "country": "France", "address": "15 Avenue Trudaine, 75009 Paris, France", "lat": 48.8814471, "lng": 2.3450334, "zone": "paris"}, {"name": "Léonie Bakery - Saint Germain", "secteur": "Boulangerie", "street": "2 Rue Clément", "city": "Paris", "country": "France", "address": "2 Rue Clément, 75006 Paris, France", "lat": 48.8525794, "lng": 2.3366733, "zone": "paris"}, {"name": "Léonie Bakery - Erlanger", "secteur": "Boulangerie", "street": "47 Rue Erlanger", "city": "Paris", "country": "France", "address": "47 Rue Erlanger, 75016 Paris, France", "lat": 48.8450864, "lng": 2.2605567, "zone": "paris"}, {"name": "Léonie Bakery - Hauteville", "secteur": "Boulangerie", "street": "94 Rue d’Hauteville", "city": "Paris", "country": "France", "address": "94 Rue d’Hauteville, 75010 Paris, France", "lat": 48.8771686, "lng": 2.3515885, "zone": "paris"}, {"name": "Léonie Bakery - Ternes", "secteur": "Boulangerie", "street": "18 Avenue des Ternes", "city": "Paris", "country": "France", "address": "18 Avenue des Ternes, 75017 Paris, France", "lat": 48.8785685, "lng": 2.2953419, "zone": "paris"}, {"name": "Léonie Bakery - Batignolles", "secteur": "Boulangerie", "street": "96 Rue de Lévis", "city": "Paris", "country": "France", "address": "96 Rue de Lévis, 75017 Paris, France", "lat": 48.8851062, "lng": 2.3114547, "zone": "paris"}, {"name": "Monoprix Nice", "secteur": "GMS", "street": "42 Avenue Jean Médecin", "city": "Nice", "country": "France", "address": "42 Avenue Jean Médecin, Nice, France", "lat": 43.7024888, "lng": 7.267351000000001, "zone": "france"}, {"name": "Les fromages de Gambetta", "secteur": "Fromagerie", "street": "259 Rue des Pyrénées", "city": "Paris", "country": "France", "address": "259 Rue des Pyrénées, Paris, France", "lat": 48.866812, "lng": 2.3966809, "zone": "paris"}, {"name": "Creem Coffee Shop – Bastille / Marais", "secteur": "Coffee shop", "street": "16 Rue Saint-Antoine", "city": "Paris", "country": "France", "address": "16 Rue Saint-Antoine, 75004 Paris, France", "lat": 48.8539319, "lng": 2.3664905, "zone": "paris"}, {"name": "Les Jardins de Faremoutiers", "secteur": "Cueillette", "street": "5 Impasse des Saules", "city": "Faremoutiers", "country": "France", "address": "5 Impasse des Saules, 77515 Faremoutiers, France", "lat": 48.800424, "lng": 2.9865027, "zone": "france"}, {"name": "Nanie", "secteur": "Coffee shop", "street": "6 Place de l’Église", "city": "Rueil-Malmaison", "country": "France", "address": "6 Place de l’Église, Rueil-Malmaison, France", "lat": 48.8767348, "lng": 2.1809846, "zone": "idf"}, {"name": "LAIT Fromagères", "secteur": "Fromagerie", "street": "", "city": "Domont", "country": "France", "address": "Domont, France", "lat": 49.030343, "lng": 2.326213, "zone": "idf"}, {"name": "Léonie Bakery - Reuilly", "secteur": "Boulangerie", "street": "2 Passage Jaqueline Giraud", "city": "Paris", "country": "France", "address": "2 Passage Emma Calve, 75012 Paris, France", "lat": 48.848194, "lng": 2.385906400000001, "zone": "paris"}, {"name": "la Boutique des Eleveurs", "secteur": "Epicerie", "street": "18 Rue Descartes", "city": "Nantes", "country": "France", "address": "18 Rue Descartes, 44000 Nantes, France", "lat": 47.2171666, "lng": -1.5638463, "zone": "france"}, {"name": "Apertivus - Belleville", "secteur": "Epicerie", "street": "117 Rue de Belleville", "city": "Paris", "country": "France", "address": "117 Rue de Belleville, Paris, France", "lat": 48.8748365, "lng": 2.3877619, "zone": "paris"}, {"name": "Le Clos", "secteur": "Fromagerie", "street": "17 Rue Raspail", "city": "Levallois-Perret", "country": "France", "address": "17 Rue Raspail, 92300 Levallois-Perret, France", "lat": 48.8964078, "lng": 2.2927667, "zone": "france"}, {"name": "Monoprix - Saint Paul", "secteur": "GMS", "street": "", "city": "Paris", "country": "France", "address": "75004 Paris, France", "lat": 48.8534275, "lng": 2.3582788, "zone": "paris"}, {"name": "La Cave du marché", "secteur": "Marché", "street": "31 Rue du Château d’Eau", "city": "Paris", "country": "France", "address": "31 Rue du Château d’Eau, 75010 Paris, France", "lat": 48.8709654, "lng": 2.3585407, "zone": "paris"}, {"name": "Le Comptoir François", "secteur": "Epicerie", "street": "5 Place Rabelais", "city": "Meudon", "country": "France", "address": "Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France", "lat": 48.8114581, "lng": 2.2365418, "zone": "idf"}, {"name": "La Fromagerie par Bruno", "secteur": "Fromagerie", "street": "2 Rue de l’Hôtel de ville", "city": "Brive-la-Gaillarde", "country": "France", "address": "2 Rue de l’Hôtel de ville, Brive-la-Gaillarde, France", "lat": 45.1582691, "lng": 1.5323422, "zone": "france"}, {"name": "B&C Épicerie", "secteur": "Epicerie", "street": "1bis Route nationale", "city": "Laroque-de-Fa", "country": "France", "address": "B&C EPICERIE Laroque-de-Fa, Route nationale 1 bis, 11330 Laroque-de-Fa, France", "lat": 42.9569358, "lng": 2.5627422, "zone": "france"}, {"name": "Lait Prés Verts", "secteur": "Epicerie", "street": "15 Route de Canneve", "city": "Guérande", "country": "France", "address": "15 Route de Canneve, 44350 Guérande, France", "lat": 47.316229, "lng": -2.3763169, "zone": "france"}, {"name": "La Fromagerie Fregier / La Fromagerie PonPon Valence", "secteur": "Fromagerie", "street": "59 Grande Rue", "city": "Tournon-sur-Rhône", "country": "France", "address": "59 Gd Rue, 07300 Tournon-sur-Rhône, France", "lat": 45.0665927, "lng": 4.833537199999999, "zone": "france"}, {"name": "L’Univers du Fromage", "secteur": "Fromagerie", "street": "16 Rue Chanzy", "city": "Paris", "country": "France", "address": "16 Rue Chanzy, 75011 Paris, France", "lat": 48.852461, "lng": 2.3838192, "zone": "paris"}, {"name": "Toqué de fromages - Maison Bory", "secteur": "Fromagerie", "street": "8 Rue de la République", "city": "Antibes", "country": "France", "address": "8 Rue de la République, Antibes, France", "lat": 43.5805759, "lng": 7.1229416, "zone": "france"}, {"name": "Fromagerie Bonaparte", "secteur": "Fromagerie", "street": "", "city": "Nice", "country": "France", "address": "Nice", "lat": 43.7101728, "lng": 7.261953200000001, "zone": "france"}, {"name": "La farandole de fromages", "secteur": "Fromagerie", "street": "3 Place Albert Mossion", "city": "Gémozac", "country": "France", "address": "3 Place Albert Mossion, Gémozac, France", "lat": 45.5679214, "lng": -0.676483, "zone": "france"}, {"name": "Fromagerie Froumai", "secteur": "Fromagerie", "street": "150 La Canebière", "city": "Marseille", "country": "France", "address": "150 La Canebière, Marseille, France", "lat": 43.2984521, "lng": 5.3842118, "zone": "france"}]</script>
+<div id="map"></div>
+</div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-var ZC = {paris:"#178bff",idf:"#1d9e75",france:"#e07b00",export:"#9d50dd",autre:"#888"};
-var ZL = {paris:"Paris",idf:"Ile-de-France",france:"France",export:"Export",autre:"Autre"};
-var SC = {
-  Epicerie:"#e63946",Fromagerie:"#784bd1",Boulangerie:"#9d50dd",
-  "Chaine de boulangerie":"#7b2d8b",Restaurant:"#999",
-  "Chaine de restaurant":"#ff007f","Coffee shop":"#cab641",
-  Traiteur:"#ff5ac4",Grossiste:"#007eb5",GMS:"#0080ff",
-  "Meal box":"#9cd326",Chocolatier:"#ffcb00",Cueillette:"#ff7575"
-};
-var DATA = JSON.parse(document.getElementById("map-data").textContent);
-var map, markers = [], activeZone = "all";
-
-function sc(s) { return SC[s] || "#888"; }
-
-function makeIcon(color) {
-  var d = document.createElement("div");
-  d.style.width = "12px";
-  d.style.height = "12px";
-  d.style.borderRadius = "50%";
-  d.style.background = color;
-  d.style.border = "2.5px solid #fff";
-  d.style.boxShadow = "0 1px 4px rgba(0,0,0,.3)";
-  return L.divIcon({className:"", html:d.outerHTML, iconSize:[12,12], iconAnchor:[6,6]});
-}
-
-function applyFilters() {
-  var q = (document.getElementById("search").value || "").toLowerCase();
-  var f = DATA.filter(function(c) {
-    var zOk = activeZone === "all" || c.zone === activeZone;
-    var sOk = !q
-      || c.name.toLowerCase().indexOf(q) !== -1
-      || (c.city || "").toLowerCase().indexOf(q) !== -1
-      || (c.secteur || "").toLowerCase().indexOf(q) !== -1;
-    return zOk && sOk;
-  });
-  document.getElementById("count-label").textContent = DATA.length + " points de vente";
-  renderMarkers(f);
-  renderList(f);
-}
-
-function renderMarkers(cl) {
-  markers.forEach(function(m) { map.removeLayer(m); });
-  markers = [];
-  cl.forEach(function(c) {
-    var color = sc(c.secteur) || ZC[c.zone] || "#888";
-    var popup = document.createElement("div");
-    var t = document.createElement("strong");
-    t.textContent = c.name;
-    var s = document.createElement("small");
-    s.textContent = c.secteur || "";
-    var a = document.createElement("span");
-    a.textContent = c.address || c.city || "";
-    popup.appendChild(t);
-    popup.appendChild(document.createElement("br"));
-    popup.appendChild(s);
-    popup.appendChild(document.createElement("br"));
-    popup.appendChild(a);
-    var m = L.marker([c.lat, c.lng], {icon:makeIcon(color)}).addTo(map).bindPopup(popup);
-    m._c = c;
-    markers.push(m);
-  });
-  if (cl.length > 0) map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));
-}
-
-function renderList(cl) {
-  document.getElementById("sidebar-count").textContent = cl.length + " resultat" + (cl.length > 1 ? "s" : "");
-  var list = document.getElementById("client-list");
-  list._c = cl;
-  while (list.firstChild) list.removeChild(list.firstChild);
-  if (!cl.length) {
-    var e = document.createElement("div");
-    e.className = "empty";
-    e.textContent = "Aucun resultat";
-    list.appendChild(e);
-    return;
-  }
-  var frag = document.createDocumentFragment();
-  for (var i = 0; i < cl.length; i++) {
-    var c = cl[i];
-    var card = document.createElement("div");
-    card.className = "client-card";
-    card.setAttribute("data-i", i);
-    var nm = document.createElement("div");
-    nm.className = "cname";
-    nm.textContent = c.name;
-    var ad = document.createElement("div");
-    ad.className = "addr";
-    ad.textContent = (c.street ? c.street + ", " : "") + (c.city || "");
-    var bg = document.createElement("div");
-    bg.className = "badges";
-    var b1 = document.createElement("span");
-    b1.className = "badge";
-    b1.textContent = c.secteur || "-";
-    var sC = sc(c.secteur);
-    b1.style.background = sC + "22";
-    b1.style.color = sC;
-    var b2 = document.createElement("span");
-    b2.className = "badge";
-    b2.textContent = ZL[c.zone] || c.zone || "";
-    var zC = ZC[c.zone] || "#888";
-    b2.style.background = zC + "22";
-    b2.style.color = zC;
-    bg.appendChild(b1);
-    bg.appendChild(b2);
-    card.appendChild(nm);
-    card.appendChild(ad);
-    card.appendChild(bg);
-    card.addEventListener("click", function() {
-      focusClient(parseInt(this.getAttribute("data-i")));
-    });
-    frag.appendChild(card);
-  }
-  list.appendChild(frag);
-}
-
-function focusClient(i) {
-  var cl = document.getElementById("client-list")._c;
-  if (!cl || !cl[i]) return;
-  var c = cl[i];
-  var cards = document.querySelectorAll(".client-card");
-  for (var k = 0; k < cards.length; k++) { cards[k].classList.remove("active"); }
-  var card = document.querySelector(".client-card[data-i='" + i + "']");
-  if (card) { card.classList.add("active"); card.scrollIntoView({block:"nearest"}); }
-  map.setView([c.lat, c.lng], 15);
-  for (var j = 0; j < markers.length; j++) {
-    if (markers[j]._c === c) { markers[j].openPopup(); break; }
-  }
-}
-
-window.addEventListener("load", function() {
-  map = L.map("map").setView([46.5, 2.5], 6);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:"© OpenStreetMap", maxZoom:19
-  }).addTo(map);
-  document.getElementById("search").addEventListener("input", applyFilters);
-  var zc = {all:DATA.length};
-  DATA.forEach(function(c) { zc[c.zone] = (zc[c.zone] || 0) + 1; });
-  var zones = ["all","paris","idf","france","export","autre"];
-  var container = document.getElementById("filter-btns");
-  zones.forEach(function(z) {
-    if (z !== "all" && !zc[z]) return;
-    var label = z === "all" ? "Tous (" + DATA.length + ")" : (ZL[z]||z) + " (" + (zc[z]||0) + ")";
-    var btn = document.createElement("button");
-    btn.className = "filter-btn" + (z === "all" ? " active" : "");
-    btn.textContent = label;
-    btn.setAttribute("data-zone", z);
-    btn.addEventListener("click", function() {
-      activeZone = this.getAttribute("data-zone");
-      var btns = document.querySelectorAll(".filter-btn");
-      for (var b = 0; b < btns.length; b++) { btns[b].classList.remove("active"); }
-      this.classList.add("active");
-      applyFilters();
-    });
-    container.appendChild(btn);
-  });
-  applyFilters();
-});
+const ZONE_COLORS={paris:"#178bff",idf:"#1d9e75",province:"#e07b00",export:"#9d50dd",autre:"#888"};
+const ZONE_LABELS={paris:"Paris",idf:"Île-de-France",province:"Province",export:"Export",autre:"Autre"};
+const SECTEUR_COLORS={"Epicerie":"#e63946","Épicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":"#9d50dd","Chaine de boulangerie":"#7b2d8b","Restaurant":"#888","Chaine de restaurant":"#ff007f","Coffee shop":"#cab641","Chaine de coffee shop":"#333333","Traiteur":"#ff5ac4","Grossiste":"#007eb5","Marché":"#bb3354","Meal box":"#9cd326","Sous-traitant":"#66ccff","Chocolatier":"#ffcb00","Cueillette":"#ff7575","A definir":"#757575"};
+const DATA=[
+    {name:"la Civette",secteur:"Restaurant",street:"",city:"Chambly",country:"France",address:"chambly",lat:49.165882,lng:2.244301,zone:"idf"},
+    {name:"O'tera - Illies",secteur:"GMS",street:"31 Rue de l'Avenir",city:"Illies",country:"France",address:"31 Rue de l'Avenir, 59480 Illies, France",lat:50.5477601,lng:2.8270886,zone:"province"},
+    {name:"O'tera - Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
+    {name:"From' Garches",secteur:"Fromagerie",street:"118 Grande Rue",city:"Garches",country:"France",address:"118 Grande Rue 116, 92380 Garches, France",lat:48.8436554,lng:2.184783,zone:"province"},
+    {name:"Maison Clément",secteur:"Epicerie",street:"Place des Halles",city:"Tours",country:"France",address:"Place des Halles, Tours, France",lat:47.3926527,lng:0.6796449,zone:"province"},
+    {name:"La fromagerie de colombes ( fred&cow )",secteur:"Fromagerie",street:"3 Place Maurice Chavany",city:"Colombes",country:"France",address:"3 Place Maurice Chavany, Colombes, France",lat:48.9233482,lng:2.2557991,zone:"province"},
+    {name:"Berrie Family",secteur:"Epicerie",street:"62 Rue de la Sablière",city:"Asnières-sur-Seine",country:"France",address:"62 Rue de la Sablière, 92600 Asnières-sur-Seine, France",lat:48.9063691,lng:2.2688542,zone:"idf"},
+    {name:"Sarl Didière",secteur:"Fromagerie",street:"Rue du Marché",city:"Royan",country:"France",address:"Marché Central de Royan, Rue du Marché, Royan, France",lat:45.6276659,lng:-1.031295,zone:"province"},
+    {name:"GO GO KIWI",secteur:"Epicerie",street:"16 Avenue de Laumière",city:"Paris",country:"France",address:"16 Avenue de Laumière, Paris, France",lat:48.8838923,lng:2.3807968,zone:"paris"},
+    {name:"Le Cri du Radis Chamant",secteur:"Epicerie",street:"4 Rue de la Seigneurie",city:"Lamorlaye",country:"France",address:"4 Rue de la Seigneurie, 60260 Lamorlaye, France",lat:49.1465966,lng:2.4389878,zone:"province"},
+    {name:"la fourmi verte - Bures-sur-Yvette",secteur:"Epicerie",street:"88 Rue Charles de Gaulle",city:"Bures-sur-Yvette",country:"France",address:"88 Rue Charles de Gaulle, 91440 Bures-sur-Yvette, France",lat:48.6966352,lng:2.1552038,zone:"province"},
+    {name:"L'Epicerie",secteur:"Epicerie",street:"79 Rue du Général de Gaulle",city:"Enghien-les-Bains",country:"France",address:"79 Rue du Général de Gaulle, 95880 Enghien-les-Bains, France",lat:48.9692161,lng:2.3054581,zone:"province"},
+    {name:"Le Comptoir de la Grange",secteur:"Epicerie",street:"28 Rue des Vergers",city:"Les Alluets-le-Roi",country:"France",address:"28 Rue des Vergers lotissement a5, 78580 Les Alluets-le-Roi, France",lat:48.9097261,lng:1.9117673,zone:"province"},
+    {name:"Epic SODIGERMAIN",secteur:"GMS",street:"14 Rue Lobineau",city:"Paris",country:"France",address:"14 Rue Lobineau, 75006 Paris, France",lat:48.8517828,lng:2.3358428,zone:"paris"},
+    {name:"Fromagerie L'affinez",secteur:"Fromagerie",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong 91230 MONTGERON",lat:48.7012489,lng:2.4663173,zone:"idf"},
+    {name:"Marché Frais Orgeval",secteur:"GMS",street:"1561 Route de Quarante Sous",city:"Orgeval",country:"France",address:"1561 Route de Quarante Sous, Orgeval, France",lat:48.9284823,lng:1.9796339,zone:"province"},
+    {name:"Pribon",secteur:"Epicerie",street:"70 Rue Douy Délcupe",city:"Montreuil",country:"France",address:"70 Rue Douy Délcupe, 93100 Montreuil, France",lat:48.85589239999999,lng:2.4292867,zone:"province"},
+    {name:"Epicerie Tounette",secteur:"Epicerie",street:"12 Rue du Borrégo",city:"Paris",country:"France",address:"12 Rue du Borrégo, 75020 Paris, France",lat:48.8726169,lng:2.3990806,zone:"paris"},
+    {name:"Marché Frais Meulan - FLM",secteur:"GMS",street:"25 Avenue des Aulnes",city:"Meulan-en-Yvelines",country:"France",address:"25 Avenue des Aulnes, 78250 Meulan-en-Yvelines, France",lat:49.0115473,lng:1.9015974,zone:"idf"},
+    {name:"Le Garde-Manger des Hameaux",secteur:"Epicerie",street:"1 Rue Mathilde de Garlande",city:"Magny-les-Hameaux",country:"France",address:"de Guerlande, 1 Rue Mathilde de Garlande, 78114 Magny-les-Hameaux, France",lat:48.7406246,lng:2.0354042,zone:"province"},
+    {name:"La cueillette de Cergy - le Marché de Caroline",secteur:"Cueillette",street:"Chemin de Courcelles",city:"Puiseux-Pontoise",country:"France",address:"Chemin de Courcelles, 95650 Puiseux-Pontoise, France",lat:49.0625186,lng:2.0019371,zone:"idf"},
+    {name:"DEMAIN - Timbaud",secteur:"Boulangerie",street:"133 Rue Saint-Maur",city:"Paris",country:"France",address:"133 Rue Saint-Maur, 75011 Paris, France",lat:48.8673449,lng:2.3756999,zone:"paris"},
+    {name:"Les Vergers d'Attainville",secteur:"Cueillette",street:"1 D909",city:"Attainville",country:"France",address:"Cueillette De La Croix Verte, D909, 95570 Attainville, France",lat:49.06832,lng:2.338657,zone:"province"},
+    {name:"Miyam - Robespierre",secteur:"Epicerie",street:"56 bis Rue Robespierre",city:"Montreuil",country:"France",address:"56 bis Rue Robespierre, 93100 Montreuil, France",lat:48.8526647,lng:2.4236581,zone:"province"},
+    {name:"Miyam - Poteau",secteur:"Epicerie",street:"11 Rue du Poteau",city:"Paris",country:"France",address:"11 Rue du Poteau, 75018 Paris, France",lat:48.8931005,lng:2.3428574,zone:"paris"},
+    {name:"La Petite épicerie de Harry",secteur:"Epicerie",street:"187 Avenue Achille Peretti",city:"Neuilly-sur-Seine",country:"France",address:"187 Avenue Achille Peretti, 92200 Neuilly-sur-Seine, France",lat:48.8854431,lng:2.2638566,zone:"idf"},
+    {name:"L'HERISSON LAMMASA",secteur:"Traiteur",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.6910989,lng:2.2114313,zone:"idf"},
+    {name:"Univers Primeur - Eragny",secteur:"GMS",street:"196 Rue de l'Ambassadeur",city:"Éragny",country:"France",address:"UNIVERS PRIMEURS ERAGNY, 196 Rue de l'Ambassadeur, 95610 Éragny, France",lat:49.0117632,lng:2.0977118,zone:"idf"},
+    {name:"PRIBON - TOLBIAC",secteur:"Fromagerie",street:"8 Rue du Moulin de la Pointe",city:"Paris",country:"France",address:"8 Rue du Moulin de la Pointe, 75013 Paris, France",lat:48.8245235,lng:2.3570285,zone:"paris"},
+    {name:"Savary & Co",secteur:"Marché",street:"31 Rue Pierre Brossolette",city:"Presles",country:"France",address:"31 Rue Pierre Brossolette, 95590 Presles, France",lat:49.11009860000001,lng:2.2813414,zone:"province"},
+    {name:"Jardinerie de Chevreuse",secteur:"Cueillette",street:"84 Rue de Rambouillet",city:"Chevreuse",country:"France",address:"84 Rue de Rambouillet, 78460 Chevreuse, France",lat:48.6986928,lng:2.0260743,zone:"province"},
+    {name:"Victoire Épicerie Vivante",secteur:"Epicerie",street:"1 bis Rue Friant",city:"Paris",country:"France",address:"1 bis Rue Friant, 75014 Paris, France",lat:48.8270169,lng:2.3252478,zone:"paris"},
+    {name:"PONPON Rose - Le Plessis-Robinson",secteur:"Epicerie",street:"18 Grand'place",city:"Le Plessis-Robinson",country:"France",address:"18 Grand'place, 92350 Le Plessis-Robinson, France",lat:48.7816419,lng:2.2626801,zone:"province"},
+    {name:"Les Saisonniers - Saint Placide",secteur:"Epicerie",street:"62 Rue Saint-Placide",city:"Paris",country:"France",address:"62 Rue Saint-Placide, 75006 Paris, France",lat:48.8470813,lng:2.3264153,zone:"paris"},
+    {name:"Apertivus - Saint Antoine",secteur:"Epicerie",street:"83 Rue Saint-Antoine",city:"Paris",country:"France",address:"83 Rue Saint-Antoine, 75004 Paris, France",lat:48.8544838,lng:2.3628079,zone:"paris"},
+    {name:"Les Saisonniers - Alesia",secteur:"Epicerie",street:"100 Rue d'Alésia",city:"Paris",country:"France",address:"100 Rue d'Alésia, 75014 Paris, France",lat:48.82928829999999,lng:2.3231175,zone:"paris"},
+    {name:"La Fromagerie PonPon - Sceaux",secteur:"Fromagerie",street:"198 Rue Houdan",city:"Sceaux",country:"France",address:"198 Rue Houdan, 92330 Sceaux, France",lat:48.7792013,lng:2.2814951,zone:"province"},
+    {name:"La Marnière",secteur:"GMS",street:"8 Rue Paul Langevin",city:"Plaisir",country:"France",address:"8 Rue Paul Langevin, 78370 Plaisir, France",lat:48.8305653,lng:1.9529482,zone:"idf"},
+    {name:"Miyam - Lilas",secteur:"Epicerie",street:"97 Rue de Paris",city:"Les Lilas",country:"France",address:"97 Rue de Paris, Les Lilas, France",lat:48.8794169,lng:2.4143797,zone:"province"},
+    {name:"Les Saisonniers - Loing",secteur:"Epicerie",street:"67 Rue d'Alésia",city:"Paris",country:"France",address:"67 Rue d'Alésia, 75014 Paris, France",lat:48.8276506,lng:2.3294907,zone:"paris"},
+    {name:"Les Saisonniers - Censier",secteur:"Epicerie",street:"41 Rue Censier",city:"Paris",country:"France",address:"41 Rue Censier, 75005 Paris, France",lat:48.8398979,lng:2.3517752,zone:"paris"},
+    {name:"Axelo Fromagerie",secteur:"Fromagerie",street:"52 Rue du Général de Gaulle",city:"Villiers-sur-Marne",country:"France",address:"52 Rue du Général de Gaulle, 94350 Villiers-sur-Marne, France",lat:48.8270575,lng:2.5429412,zone:"idf"},
+    {name:"Les Jardins du Mesnil",secteur:"Cueillette",street:"45 Rue Maurice Berteaux",city:"Le Mesnil-le-Roi",country:"France",address:"45 Rue Maurice Berteaux, 78600 Le Mesnil-le-Roi, France",lat:48.9244605,lng:2.1202073,zone:"province"},
+    {name:"Les Saisonniers - Maubeuge",secteur:"Epicerie",street:"74 Rue de Maubeuge",city:"Paris",country:"France",address:"74 Rue de Maubeuge, 75009 Paris, France",lat:48.8789972,lng:2.3476813,zone:"paris"},
+    {name:"La Ferme du Logis",secteur:"Epicerie",street:"",city:"Jumeauville",country:"France",address:"La Ferme du Logis (Horaires boutique), 78580 Jumeauville, France",lat:48.90419379999999,lng:1.7918864,zone:"province"},
+    {name:"Epicerie Bon Sens",secteur:"Epicerie",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet, France",lat:48.8693409,lng:2.4197533,zone:"idf"},
+    {name:"Kilogramme",secteur:"Epicerie",street:"10 Rue de Meaux",city:"Paris",country:"France",address:"10 Rue de Meaux, 75019 Paris, France",lat:48.8785765,lng:2.3711126,zone:"paris"},
+    {name:"Les Saisonniers - Poissonnière",secteur:"Epicerie",street:"10 Rue Poissonnière",city:"Paris",country:"France",address:"10 Rue Poissonnière, 75002 Paris, France",lat:48.8688757,lng:2.3479333,zone:"paris"},
+    {name:"Les Saisonniers - Legendre",secteur:"Epicerie",street:"64 Rue Legendre",city:"Paris",country:"France",address:"64 Rue Legendre, 75017 Paris, France",lat:48.8855144,lng:2.3167031,zone:"paris"},
+    {name:"Les Saisonniers - Rochechouart",secteur:"Epicerie",street:"74 Rue Marguerite de Rochechouart",city:"Paris",country:"France",address:"74 Rue Marguerite de Rochechouart, 75009 Paris, France",lat:48.8818494,lng:2.3466729,zone:"paris"},
+    {name:"Les Saisonniers - Pernety",secteur:"Epicerie",street:"32 Rue Pernety",city:"Paris",country:"France",address:"32 Rue Pernety, 75014 Paris, France",lat:48.8335839,lng:2.3189572,zone:"paris"},
+    {name:"Les saisonniers - Vaugirard",secteur:"Epicerie",street:"323 Rue de Vaugirard",city:"Paris",country:"France",address:"323 Rue de Vaugirard, 75015 Paris, France",lat:48.838181,lng:2.2983732,zone:"paris"},
+    {name:"Miyam Croix de Chavaux",secteur:"Epicerie",street:"9 Avenue de la Résistance",city:"Montreuil",country:"France",address:"9 Avenue de la Résistance, 93100 Montreuil, France",lat:48.85857679999999,lng:2.4362794,zone:"province"},
+    {name:"Le Cri du Radis Lamorlaye",secteur:"GMS",street:"4 Rue de la Seigneurie",city:"Lamorlaye",country:"France",address:"4 Rue de la Seigneurie, 60260 Lamorlaye, France",lat:49.1465966,lng:2.4389878,zone:"province"},
+    {name:"La Petite Épicerie",secteur:"Epicerie",street:"12 Rue de l'Église",city:"Montreuil",country:"France",address:"12 Rue de l'Église, 93100 Montreuil, France",lat:48.863802,lng:2.44259,zone:"province"},
+    {name:"Bizas - La vie de quartier",secteur:"Epicerie",street:"25 Rue Custine",city:"Paris",country:"France",address:"25 Rue Custine, 75018 Paris, France",lat:48.8887766,lng:2.3462842,zone:"paris"},
+    {name:"Marché de Rutel",secteur:"Epicerie",street:"Rutel",city:"Villenoy",country:"France",address:"Ferme de Rutel, Rutel, 77124 Villenoy, France",lat:48.9496079,lng:2.85514,zone:"province"},
+    {name:"Maison Tenart - Ferme du Mont de Cuy",secteur:"Epicerie",street:"52 Rue Notre Dame des Champs",city:"Paris",country:"France",address:"52 Rue Notre Dame des Champs, 75006 Paris, France",lat:48.8440458,lng:2.3302426,zone:"paris"},
+    {name:"L'ANNEXE",secteur:"Epicerie",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris, France",lat:48.880671,lng:2.3333708,zone:"paris"},
+    {name:"O'tera - Amiens",secteur:"GMS",street:"151 Avenue Valéry Giscard d'Estaing",city:"Amiens",country:"France",address:"151 Av. Valéry Giscard d'Estaing 80000 AMIENS",lat:49.8839479,lng:2.26474,zone:"province"},
+    {name:"Affinord",secteur:"Grossiste",street:"15 Avenue Du Great Eastern",city:"Longueau",country:"France",address:"15 Avenue Du Great Eastern, 80330 Longueau, France",lat:49.870889,lng:2.37303,zone:"province"},
+    {name:"Fromagerie Lou",secteur:"Fromagerie",street:"447 Avenue du Général de Gaulle",city:"Simiane-Collongue",country:"France",address:"Centre commercial le Moulin, 447 Avenue du Général de Gaulle, 13109 Simiane-Collongue, France",lat:43.4335324,lng:5.430161099999999,zone:"province"},
+    {name:"O'tera Sart",secteur:"GMS",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 rue Louis Constant 59491 Villeneuve d'Ascq",lat:50.6530142,lng:3.140879,zone:"province"},
+    {name:"Marché de la Ferme de Viltain",secteur:"Cueillette",street:"Chemin de Viltain",city:"Jouy-en-Josas",country:"France",address:"Chemin de Viltain, 78350 Jouy-en-Josas, France",lat:48.7564609,lng:2.1530978,zone:"province"},
+    {name:"AGRIFRAIS",secteur:"Epicerie",street:"Rue d'Enencourt",city:"Chaumont-en-Vexin",country:"France",address:"Rue d'Enencourt, 60240 Chaumont-en-Vexin, France",lat:49.2749759,lng:1.8935511,zone:"province"},
+    {name:"Univers Primeur - Osny",secteur:"GMS",street:"87 Route d'Ennery",city:"Osny",country:"France",address:"87 Route d'Ennery, 95520 Osny, France",lat:49.0707253,lng:2.0810778,zone:"province"},
+    {name:"Grand Marché Marnière",secteur:"GMS",street:"31 Rue de Chevreuse",city:"Maurepas",country:"France",address:"31 Rue de Chevreuse, 78310 Maurepas, France",lat:48.7626397,lng:1.9268922,zone:"province"},
+    {name:"Les Commis",secteur:"Meal box",street:"10 Rue Traversière",city:"Gennevilliers",country:"France",address:"10 Rue Traversière, Gennevilliers, France",lat:48.920131,lng:2.3059726,zone:"province"},
+    {name:"La Bièvre Primeurs",secteur:"Epicerie",street:"16 Route de Palaiseau",city:"Massy",country:"France",address:"16 Route de Palaiseau, 91300 Massy, France",lat:48.7287885,lng:2.245879,zone:"province"},
+    {name:"RB Pâtisserie",secteur:"Marché",street:"97 Boulevard Maurice Berteaux",city:"Sannois",country:"France",address:"97 Boulevard Maurice Berteaux, 95110 Sannois, France",lat:48.9679343,lng:2.2707038,zone:"province"},
+    {name:"Hep'Istache - ARA",secteur:"Epicerie",street:"15 Rue du Maréchal Foch",city:"Versailles",country:"France",address:"15 Rue du Maréchal Foch, 78000 Versailles, France",lat:48.8059014,lng:2.1314331,zone:"idf"},
+    {name:"Les saisonniers - Caulaincourt",secteur:"Epicerie",street:"8 Place Constantin Pecqueur",city:"Paris",country:"France",address:"8 Place Constantin Pecqueur, 75018 Paris, France",lat:48.8894059,lng:2.3384974,zone:"paris"},
+    {name:"Miyam - Pantin",secteur:"Epicerie",street:"45 Rue Hoche",city:"Pantin",country:"France",address:"45 Rue Hoche, 93500 Pantin, France",lat:48.8941658,lng:2.4015983,zone:"province"},
+    {name:"Les Saisonniers - Levallois-Perret",secteur:"Epicerie",street:"103 Rue Louis Rouquier",city:"Levallois-Perret",country:"France",address:"103 Rue Louis Rouquier, 92300 Levallois-Perret, France",lat:48.8924531,lng:2.2909171,zone:"province"},
+    {name:"Miyam - Aligre",secteur:"Epicerie",street:"161 Rue du Faubourg Saint-Antoine",city:"Paris",country:"France",address:"161 Rue du Faubourg Saint-Antoine, 75011 Paris, France",lat:48.850646,lng:2.3798116,zone:"paris"},
+    {name:"La Ferme des Sablons",secteur:"Epicerie",street:"Sente de la Procession",city:"Génicourt",country:"France",address:"Sente de la Procession, 95650 Génicourt, France",lat:49.0868508,lng:2.0664383,zone:"province"},
+    {name:"Les Saisonniers - Orsel",secteur:"Epicerie",street:"22 Rue d'Orsel",city:"Paris",country:"France",address:"22 Rue d'Orsel, 75018 Paris, France",lat:48.883934,lng:2.3441534,zone:"paris"},
+    {name:"Miyam - Beaubourg",secteur:"Epicerie",street:"82 Rue Beaubourg",city:"Paris",country:"France",address:"82 Rue Beaubourg, 75003 Paris, France",lat:48.8643783,lng:2.3554305,zone:"paris"},
+    {name:"Les fromages de Gambetta",secteur:"Fromagerie",street:"259 Rue des Pyrénées",city:"Paris",country:"France",address:"259 Rue des Pyrénées, Paris, France",lat:48.866812,lng:2.3966809,zone:"paris"},
+    {name:"Les Jardins de Faremoutiers",secteur:"Cueillette",street:"5 Impasse des Saules",city:"Faremoutiers",country:"France",address:"5 Impasse des Saules, 77515 Faremoutiers, France",lat:48.800424,lng:2.9865027,zone:"province"},
+    {name:"LAIT Fromagères",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
+    {name:"la Boutique des Eleveurs",secteur:"Epicerie",street:"18 Rue Descartes",city:"Nantes",country:"France",address:"18 Rue Descartes, 44000 Nantes, France",lat:47.2171666,lng:-1.5638463,zone:"province"},
+    {name:"Apertivus - Belleville",secteur:"Epicerie",street:"117 Rue de Belleville",city:"Paris",country:"France",address:"117 Rue de Belleville, Paris, France",lat:48.8748365,lng:2.3877619,zone:"paris"},
+    {name:"Monoprix - Saint Paul",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
+    {name:"La Cave du marché",secteur:"Marché",street:"31 Rue du Château d'Eau",city:"Paris",country:"France",address:"31 Rue du Château d'Eau, 75010 Paris, France",lat:48.8709654,lng:2.3585407,zone:"paris"},
+    {name:"O'tera Avelin",secteur:"GMS",street:"33 Rue de Seclin",city:"Avelin",country:"France",address:"33 Rue de Seclin 59710 AVELIN France",lat:50.5385623,lng:3.077088,zone:"province"},
+    {name:"Chez Virginie Fromagerie",secteur:"Fromagerie",street:"54 Rue Damrémont",city:"Paris",country:"France",address:"54 Rue Damrémont, 75018 Paris, France",lat:48.8904209,lng:2.3344184,zone:"paris"},
+    {name:"Miyam Saint-Ouen",secteur:"Epicerie",street:"62 Bis Avenue Gabriel Péri",city:"Saint-Ouen-sur-Seine",country:"France",address:"62 Bis Avenue Gabriel Péri, 93400 Saint-Ouen-sur-Seine, France",lat:48.9073726,lng:2.3321029,zone:"idf"},
+    {name:"La Fromagerie PonPon Tournon",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
+    {name:"Le Comptoir François",secteur:"Epicerie",street:"5 Place Rabelais",city:"Meudon",country:"France",address:"Le Comptoir François, 5 Place Rabelais, 92190 Meudon, France",lat:48.8114581,lng:2.2365418,zone:"idf"},
+    {name:"La Fromagerie Fregier / La Fromagerie PonPon Valence - PDB",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, 07300 Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
+    {name:"L'Univers du Fromage - PDB",secteur:"Fromagerie",street:"16 Rue Chanzy",city:"Paris",country:"France",address:"16 Rue Chanzy, 75011 Paris, France",lat:48.852461,lng:2.3838192,zone:"paris"},
+    {name:"Toqué de fromages - Maison Bory - PDB",secteur:"Fromagerie",street:"8 Rue de la République",city:"Antibes",country:"France",address:"8 Rue de la République, Antibes, France",lat:43.5805759,lng:7.1229416,zone:"province"},
+    {name:"La farandole de fromages - PDB",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
+    {name:"Fromagerie Froumai - PDB",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"}
+];
+let map,markers=[],activeZone="all";
+function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]});}
+function sc(s){return SECTEUR_COLORS[s]||"#888";}
+function applyFilters(){const q=(document.getElementById("search").value||"").toLowerCase();const f=DATA.filter(c=>(activeZone==="all"||c.zone===activeZone)&&(!q||c.name.toLowerCase().includes(q)||c.city.toLowerCase().includes(q)||(c.secteur||"").toLowerCase().includes(q)));document.getElementById("count-label").textContent=DATA.length+" points de vente";renderMarkers(f);renderList(f);}
+function renderMarkers(cl){markers.forEach(m=>map.removeLayer(m));markers=[];cl.forEach(c=>{const m=L.marker([c.lat,c.lng],{icon:makeIcon(sc(c.secteur))}).addTo(map).bindPopup(`<strong>${c.name}</strong><br><span style="font-size:11px;color:#888;">${c.secteur}</span><br><span style="font-size:12px;color:#666;">${c.address||c.city}</span>`);m._c=c;markers.push(m);});if(cl.length>0)map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));}
+function renderList(cl){document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");const list=document.getElementById("client-list");if(!cl.length){list.innerHTML='<div class="empty">Aucun résultat</div>';list._c=[];return;}list.innerHTML=cl.map((c,i)=>`<div class="client-card" data-i="${i}" onclick="focusClient(${i})"><div class="cname">${c.name}</div><div class="addr">${c.street?c.street+", ":""}${c.city}</div><div class="badges"><span class="badge" style="background:${sc(c.secteur)}22;color:${sc(c.secteur)};">${c.secteur||"—"}</span><span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone]}</span></div></div>`).join("");list._c=cl;}
+function focusClient(i){const c=document.getElementById("client-list")._c[i];document.querySelectorAll(".client-card").forEach(el=>el.classList.remove("active"));document.querySelector(`.client-card[data-i="${i}"]`)?.classList.add("active");map.setView([c.lat,c.lng],15);const m=markers.find(m=>m._c===c);if(m)m.openPopup();}
+window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zones=["all",...Object.keys(ZONE_COLORS)];const zc={all:DATA.length};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+(zc[z]||0)+")"}</button>`).join("");applyFilters();});
 </script>
 </body>
 </html>
