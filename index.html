@@ -10,7 +10,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;}
-header{background:#fff;border-bottom:1px solid #e8e4de;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+header{background:#fff;border-bottom:1px solid #e8e4de;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;}
 header h1{font-size:17px;font-weight:600;letter-spacing:-.3px;}
 header p{font-size:13px;color:#888;margin-top:2px;}
 .filters{display:flex;gap:6px;flex-wrap:wrap;}
@@ -22,9 +22,9 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 .locate-btn:disabled{opacity:.65;cursor:wait;}
 .locate-btn svg{flex-shrink:0;}
 .locate-link{background:none;border:none;color:#178bff;font-size:11px;text-decoration:underline;cursor:pointer;padding:4px 2px;}
-#manual-locate-input{font-size:12px;padding:6px 10px;border:1px solid #ddd;border-radius:14px;outline:none;width:150px;}
+#manual-locate-input{font-size:12px;padding:6px 10px;border:1px solid #ddd;border-radius:14px;outline:none;width:100%;max-width:150px;flex:1 1 120px;}
 #manual-locate-input:focus{border-color:#178bff;}
-.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:220px;}
+.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:100%;max-width:220px;flex:1 1 160px;}
 .search-bar input{border:none;outline:none;width:100%;font-size:13px;background:transparent;}
 .layout{display:flex;height:calc(100vh - 65px);}
 #sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column;}
@@ -39,17 +39,15 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 #map{flex:1;}
 .status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8;}
 .empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
-@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}#map{height:400px;}}
+.locate-group{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}#map{height:400px;}header{padding:12px;}header h1{font-size:15px;}.search-bar{max-width:none;flex:1 1 100%;}.locate-group{width:100%;}}
 </style>
 </head>
 <body>
 <header>
 <div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">114 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
-<button id="locate-btn" class="locate-btn" onclick="locateMe()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span id="locate-label">Rechercher près de moi</span></button>
-<span id="locate-status" style="font-size:11px;color:#c0392b;"></span>
-<button type="button" class="locate-link" onclick="toggleManualLocate()">ou indiquer ma ville</button>
-<div id="manual-locate-wrap" style="display:none;align-items:center;gap:6px;"><input id="manual-locate-input" type="text" placeholder="Ville ou code postal" onkeydown="if(event.key==='Enter')manualLocate()"/><button type="button" class="locate-btn" style="padding:6px 10px;" onclick="manualLocate()">OK</button></div>
+<div class="locate-group"><button id="locate-btn" class="locate-btn" onclick="locateMe()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><span id="locate-label">Rechercher près de moi</span></button><button type="button" class="locate-link" onclick="toggleManualLocate()">ou indiquer ma ville</button><span id="locate-status" style="font-size:11px;color:#c0392b;"></span><div id="manual-locate-wrap" style="display:none;align-items:center;gap:6px;"><input id="manual-locate-input" type="text" placeholder="Ville ou code postal" onkeydown="if(event.key==='Enter')manualLocate()"/><button type="button" class="locate-btn" style="padding:6px 10px;" onclick="manualLocate()">OK</button></div></div>
 <div class="filters" id="filter-btns"></div>
 </header>
 <div class="layout">
