@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609080421"/>
+<meta name="build" content="202609080941"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
@@ -36,7 +36,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">99 points de vente</p></div>
+<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">98 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -57,7 +57,6 @@ function normS(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]
 const SMAP={};Object.keys(SECTEUR_COLORS).forEach(k=>{SMAP[normS(k)]=SECTEUR_COLORS[k];});
 function sc(s){return SMAP[normS(s)]||"#888";}
 const DATA=[
-  {name:"la Civette",secteur:"Restaurant",street:"253 Place de l'Église",city:"Chambly",country:"France",address:"253 Pl. de l'Église, 60230 Chambly, France",lat:49.1662706,lng:2.2451959,zone:"province"},
   {name:"O'tera - Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
   {name:"From' Garches",secteur:"Fromagerie",street:"118 Grande Rue",city:"Garches",country:"France",address:"118 Grande Rue 116, 92380 Garches, France",lat:48.8436554,lng:2.184783,zone:"idf"},
   {name:"Maison Clément",secteur:"Epicerie",street:"Place des Halles",city:"Tours",country:"France",address:"Place des Halles, Tours, France",lat:47.3926527,lng:0.6796449,zone:"province"},
