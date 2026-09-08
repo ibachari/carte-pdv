@@ -9,8 +9,9 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;}
-header{background:#fff;border-bottom:1px solid #e8e4de;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;}
+html,body{height:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;display:flex;flex-direction:column;}
+header{background:#fff;border-bottom:1px solid #e8e4de;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;flex:0 0 auto;}
 header h1{font-size:17px;font-weight:600;letter-spacing:-.3px;}
 header p{font-size:13px;color:#888;margin-top:2px;}
 .filters{display:flex;gap:6px;flex-wrap:wrap;}
@@ -26,7 +27,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 #manual-locate-input:focus{border-color:#178bff;}
 .search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:100%;max-width:220px;flex:1 1 160px;}
 .search-bar input{border:none;outline:none;width:100%;font-size:13px;background:transparent;}
-.layout{display:flex;height:calc(100vh - 65px);}
+.layout{display:flex;flex:1 1 auto;min-height:0;}
 #sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column;}
 .sidebar-header{padding:12px 16px;border-bottom:1px solid #f0ede8;font-size:12px;color:#888;background:#faf9f7;}
 .client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer;transition:background .1s;}
@@ -195,7 +196,8 @@ function applyFilters(){const q=normS(document.getElementById("search").value);c
 function renderMarkers(cl){markers.forEach(m=>map.removeLayer(m));markers=[];cl.forEach(c=>{const m=L.marker([c.lat,c.lng],{icon:makeIcon(sc(c.secteur))}).addTo(map).bindPopup(`<strong>${c.name}</strong><br><span style="font-size:11px;color:#888;">${c.secteur}</span><br><span style="font-size:12px;color:#666;">${c.address||c.city}</span>`);m._c=c;markers.push(m);});if(cl.length>0)map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));}
 function renderList(cl){document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");const list=document.getElementById("client-list");if(!cl.length){list.innerHTML='<div class="empty">Aucun résultat</div>';list._c=[];return;}const ld=cl.slice();if(userPos){ld.forEach(c=>{c._dist=haversine(userPos.lat,userPos.lng,c.lat,c.lng);});ld.sort((a,b)=>a._dist-b._dist);}list.innerHTML=ld.map((c,i)=>`<div class="client-card" data-i="${i}" onclick="focusClient(${i})"><div class="cname">${c.name}${userPos&&i===0?' <span class="badge" style="background:#178bff22;color:#178bff;">Le plus proche</span>':""}</div><div class="addr">${addrLine(c)}${c._dist!=null?" · "+c._dist.toFixed(1)+" km":""}</div><div class="badges"><span class="badge" style="background:${sc(c.secteur)}22;color:${sc(c.secteur)};">${c.secteur||"—"}</span><span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone]}</span></div></div>`).join("");list._c=ld;}
 function focusClient(i){const c=document.getElementById("client-list")._c[i];document.querySelectorAll(".client-card").forEach(el=>el.classList.remove("active"));document.querySelector(`.client-card[data-i="${i}"]`)?.classList.add("active");map.setView([c.lat,c.lng],15);const m=markers.find(m=>m._c===c);if(m)m.openPopup();}
-window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zc={};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});const zones=["all",...Object.keys(ZONE_COLORS)];document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+zc[z]+")"}</button>`).join("");applyFilters();});
+window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zc={};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});const zones=["all",...Object.keys(ZONE_COLORS)];document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+zc[z]+")"}</button>`).join("");applyFilters();setTimeout(()=>map.invalidateSize(),200);});
+window.addEventListener("resize",()=>{if(map)map.invalidateSize();});
 </script>
 </body>
 </html>
