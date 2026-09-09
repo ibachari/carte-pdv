@@ -9,16 +9,17 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;}
-header{background:#fff;border-bottom:1px solid #e8e4de;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+html,body{height:100%;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f9f7f4;color:#1a1a1a;display:flex;flex-direction:column;}
+header{background:#fff;border-bottom:1px solid #e8e4de;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;flex:0 0 auto;}
 header h1{font-size:17px;font-weight:600;letter-spacing:-.3px;}
 header p{font-size:13px;color:#888;margin-top:2px;}
 .filters{display:flex;gap:6px;flex-wrap:wrap;}
 .filter-btn{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid #ddd;background:#fff;cursor:pointer;color:#555;white-space:nowrap;}
 .filter-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a;}
-.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:220px;}
+.search-bar{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #ddd;border-radius:8px;padding:6px 12px;width:100%;max-width:220px;flex:1 1 160px;}
 .search-bar input{border:none;outline:none;width:100%;font-size:13px;background:transparent;}
-.layout{display:flex;height:calc(100vh - 65px);}
+.layout{display:flex;flex:1 1 auto;min-height:0;}
 #sidebar{width:320px;flex-shrink:0;background:#fff;border-right:1px solid #e8e4de;overflow-y:auto;display:flex;flex-direction:column;}
 .sidebar-header{padding:12px 16px;border-bottom:1px solid #f0ede8;font-size:12px;color:#888;background:#faf9f7;}
 .client-card{padding:12px 16px;border-bottom:1px solid #f0ede8;cursor:pointer;transition:background .1s;}
@@ -28,10 +29,22 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 .client-card .addr{font-size:12px;color:#888;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .client-card .badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;}
 .badge{font-size:10px;padding:1px 6px;border-radius:10px;font-weight:500;}
-#map{flex:1;}
+.map-wrap{position:relative;flex:1;}
+#map{position:absolute;inset:0;}
 .status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8;}
+.map-locate-btn{position:absolute;top:12px;right:12px;z-index:1000;width:44px;height:44px;border-radius:50%;background:#fff;border:1.5px solid #178bff;color:#178bff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:background .15s,color .15s,box-shadow .15s;}
+.map-locate-btn:hover{background:#178bff11;}
+.map-locate-btn.active{background:#178bff;color:#fff;box-shadow:0 2px 10px rgba(23,139,255,.5);}
+.map-locate-btn:disabled{opacity:.65;cursor:wait;}
+.locate-panel{position:absolute;top:64px;right:12px;z-index:1000;background:#fff;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.2);padding:10px 12px;width:220px;display:none;}
+.locate-panel.show{display:block;}
+#locate-status{font-size:12px;color:#c0392b;margin-bottom:6px;}
+#locate-status:empty{display:none;margin:0;}
+#manual-locate-input{font-size:12px;padding:6px 10px;border:1px solid #ddd;border-radius:14px;outline:none;flex:1;min-width:0;}
+#manual-locate-input:focus{border-color:#178bff;}
+.map-locate-ok{font-size:12px;font-weight:600;padding:6px 12px;border-radius:14px;border:1.5px solid #178bff;background:#178bff;color:#fff;cursor:pointer;flex-shrink:0;}
 .empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
-@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}#map{height:400px;}}
+@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}.map-wrap{height:400px;}header{padding:12px;}header h1{font-size:15px;}.search-bar{max-width:none;flex:1 1 100%;}}
 </style>
 </head>
 <body>
@@ -46,7 +59,11 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="client-list"><div class="empty">Chargement…</div></div>
 <div class="status-bar">Mis à jour le 09/09/2026</div>
 </div>
+<div class="map-wrap">
 <div id="map"></div>
+<button id="locate-btn" class="map-locate-btn" onclick="locateMe()" title="Trouver le point de vente le plus proche"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
+<div id="locate-panel" class="locate-panel"><div id="locate-status"></div><div style="display:flex;gap:6px;"><input id="manual-locate-input" type="text" placeholder="Ville ou code postal" onkeydown="if(event.key==='Enter')manualLocate()"/><button type="button" class="map-locate-ok" onclick="manualLocate()">OK</button></div></div>
+</div>
 </div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -56,6 +73,14 @@ const SECTEUR_COLORS={"Epicerie":"#e63946","Fromagerie":"#784bd1","Boulangerie":
 function normS(s){return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();}
 const SMAP={};Object.keys(SECTEUR_COLORS).forEach(k=>{SMAP[normS(k)]=SECTEUR_COLORS[k];});
 function sc(s){return SMAP[normS(s)]||"#888";}
+function addrLine(c){if(c.street&&c.city)return c.street+", "+c.city;if(c.street)return c.street;if(c.city)return c.city;return c.address||"";}
+let userPos=null,userMarker=null;
+function haversine(lat1,lng1,lat2,lng2){const R=6371,toRad=d=>d*Math.PI/180;const dLat=toRad(lat2-lat1),dLng=toRad(lng2-lng1);const a=Math.sin(dLat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));}
+function showLocatePanel(msg){document.getElementById("locate-panel").classList.add("show");document.getElementById("locate-status").textContent=msg||"";}
+function hideLocatePanel(){document.getElementById("locate-panel").classList.remove("show");}
+function setUserPos(lat,lng,label){userPos={lat:lat,lng:lng};document.getElementById("locate-btn").classList.add("active");hideLocatePanel();if(userMarker)map.removeLayer(userMarker);userMarker=L.marker([lat,lng],{icon:L.divIcon({className:"",html:'<div style="width:14px;height:14px;border-radius:50%;background:#178bff;border:3px solid #fff;box-shadow:0 0 0 2px #178bff55,0 1px 4px rgba(0,0,0,.4);"></div>',iconSize:[14,14],iconAnchor:[7,7]})}).addTo(map).bindPopup(label||"Vous êtes ici");applyFilters();const cl=document.getElementById("client-list")._c;if(cl&&cl.length)focusClient(0);}
+function manualLocate(){const input=document.getElementById("manual-locate-input"),q=input.value.trim();if(!q){document.getElementById("locate-status").textContent="Entrez une ville ou un code postal.";return;}document.getElementById("locate-status").textContent="Recherche…";fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=fr&q="+encodeURIComponent(q)).then(r=>r.json()).then(res=>{if(!res||!res.length){document.getElementById("locate-status").textContent="Ville ou code postal introuvable.";return;}setUserPos(parseFloat(res[0].lat),parseFloat(res[0].lon),"Position indiquée : "+q);}).catch(()=>{document.getElementById("locate-status").textContent="Erreur réseau, réessayez.";});}
+function locateMe(){const btn=document.getElementById("locate-btn");if(window.isSecureContext===false){showLocatePanel("Connexion non sécurisée : indiquez votre ville ci-dessous.");return;}if(!navigator.geolocation){showLocatePanel("Géolocalisation non supportée : indiquez votre ville ci-dessous.");return;}btn.disabled=true;hideLocatePanel();navigator.geolocation.getCurrentPosition(pos=>{btn.disabled=false;setUserPos(pos.coords.latitude,pos.coords.longitude,"Vous êtes ici");},err=>{btn.disabled=false;const msgs={1:"Localisation refusée ou bloquée (fréquent en navigation privée) — indiquez votre ville ci-dessous.",2:"Position indisponible — indiquez votre ville ci-dessous.",3:"Délai dépassé — indiquez votre ville ci-dessous."};showLocatePanel(msgs[err.code]||"Géolocalisation impossible — indiquez votre ville ci-dessous.");},{enableHighAccuracy:true,timeout:10000});}
 const DATA=[
   {name:"O'tera - Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
   {name:"From' Garches",secteur:"Fromagerie",street:"",city:"",country:"",address:"116 Grande Rue, 92380 Garches, France",lat:48.8436647,lng:2.1848742,zone:"idf"},
@@ -176,9 +201,10 @@ let map,markers=[],activeZone="all";
 function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]});}
 function applyFilters(){const q=normS(document.getElementById("search").value);const f=DATA.filter(c=>(activeZone==="all"||c.zone===activeZone)&&(!q||normS(c.name).includes(q)||normS(c.city).includes(q)||normS(c.secteur).includes(q)));document.getElementById("count-label").textContent=DATA.length+" points de vente";renderMarkers(f);renderList(f);}
 function renderMarkers(cl){markers.forEach(m=>map.removeLayer(m));markers=[];cl.forEach(c=>{const m=L.marker([c.lat,c.lng],{icon:makeIcon(sc(c.secteur))}).addTo(map).bindPopup(`<strong>${c.name}</strong><br><span style="font-size:11px;color:#888;">${c.secteur}</span><br><span style="font-size:12px;color:#666;">${c.address||c.city}</span>`);m._c=c;markers.push(m);});if(cl.length>0)map.fitBounds(L.featureGroup(markers).getBounds().pad(0.1));}
-function renderList(cl){document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");const list=document.getElementById("client-list");if(!cl.length){list.innerHTML='<div class="empty">Aucun résultat</div>';list._c=[];return;}list.innerHTML=cl.map((c,i)=>`<div class="client-card" data-i="${i}" onclick="focusClient(${i})"><div class="cname">${c.name}</div><div class="addr">${c.street?c.street+", ":""}${c.city}</div><div class="badges"><span class="badge" style="background:${sc(c.secteur)}22;color:${sc(c.secteur)};">${c.secteur||"—"}</span><span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone]}</span></div></div>`).join("");list._c=cl;}
+function renderList(cl){document.getElementById("sidebar-count").textContent=cl.length+" résultat"+(cl.length>1?"s":"");const list=document.getElementById("client-list");if(!cl.length){list.innerHTML='<div class="empty">Aucun résultat</div>';list._c=[];return;}const ld=cl.slice();if(userPos){ld.forEach(c=>{c._dist=haversine(userPos.lat,userPos.lng,c.lat,c.lng);});ld.sort((a,b)=>a._dist-b._dist);}list.innerHTML=ld.map((c,i)=>`<div class="client-card" data-i="${i}" onclick="focusClient(${i})"><div class="cname">${c.name}${userPos&&i===0?' <span class="badge" style="background:#178bff22;color:#178bff;">Le plus proche</span>':""}</div><div class="addr">${addrLine(c)}${c._dist!=null?" · "+c._dist.toFixed(1)+" km":""}</div><div class="badges"><span class="badge" style="background:${sc(c.secteur)}22;color:${sc(c.secteur)};">${c.secteur||"—"}</span><span class="badge" style="background:${ZONE_COLORS[c.zone]}22;color:${ZONE_COLORS[c.zone]};">${ZONE_LABELS[c.zone]}</span></div></div>`).join("");list._c=ld;}
 function focusClient(i){const c=document.getElementById("client-list")._c[i];document.querySelectorAll(".client-card").forEach(el=>el.classList.remove("active"));document.querySelector(`.client-card[data-i="${i}"]`)?.classList.add("active");map.setView([c.lat,c.lng],15);const m=markers.find(m=>m._c===c);if(m)m.openPopup();}
-window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zc={};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});const zones=["all",...Object.keys(ZONE_COLORS)];document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+zc[z]+")"}</button>`).join("");applyFilters();});
+window.addEventListener("load",()=>{map=L.map("map").setView([46.5,2.5],6);L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{attribution:"© OpenStreetMap",maxZoom:19}).addTo(map);const zc={};DATA.forEach(c=>{zc[c.zone]=(zc[c.zone]||0)+1;});const zones=["all",...Object.keys(ZONE_COLORS)];document.getElementById("filter-btns").innerHTML=zones.filter(z=>z==="all"||zc[z]).map(z=>`<button class="filter-btn${z==="all"?" active":""}" onclick="activeZone='${z}';document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active');applyFilters();">${z==="all"?"Tous ("+DATA.length+")":ZONE_LABELS[z]+" ("+zc[z]+")"}</button>`).join("");applyFilters();setTimeout(()=>map.invalidateSize(),200);});
+window.addEventListener("resize",()=>{if(map)map.invalidateSize();});
 </script>
 </body>
 </html>
