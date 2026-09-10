@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609090421"/>
+<meta name="build" content="202609100412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
@@ -32,6 +32,8 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 .map-wrap{position:relative;flex:1;}
 #map{position:absolute;inset:0;}
 .status-bar{padding:8px 16px;font-size:12px;color:#888;background:#faf9f7;border-top:1px solid #f0ede8;}
+.empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
+@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}.map-wrap{height:400px;}header{padding:12px;}header h1{font-size:15px;}.search-bar{max-width:none;flex:1 1 100%;}}
 .map-locate-btn{position:absolute;top:12px;right:12px;z-index:1000;width:44px;height:44px;border-radius:50%;background:#fff;border:1.5px solid #178bff;color:#178bff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:background .15s,color .15s,box-shadow .15s;}
 .map-locate-btn:hover{background:#178bff11;}
 .map-locate-btn.active{background:#178bff;color:#fff;box-shadow:0 2px 10px rgba(23,139,255,.5);}
@@ -43,13 +45,11 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 #manual-locate-input{font-size:12px;padding:6px 10px;border:1px solid #ddd;border-radius:14px;outline:none;flex:1;min-width:0;}
 #manual-locate-input:focus{border-color:#178bff;}
 .map-locate-ok{font-size:12px;font-weight:600;padding:6px 12px;border-radius:14px;border:1.5px solid #178bff;background:#178bff;color:#fff;cursor:pointer;flex-shrink:0;}
-.empty{padding:32px 16px;text-align:center;color:#aaa;font-size:13px;}
-@media(max-width:640px){.layout{flex-direction:column;}#sidebar{width:100%;height:220px;}.map-wrap{height:400px;}header{padding:12px;}header h1{font-size:15px;}.search-bar{max-width:none;flex:1 1 100%;}}
 </style>
 </head>
 <body>
 <header>
-<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">114 points de vente</p></div>
+<div><h1>Nos Points de Vente - Maison Savary</h1><p id="count-label">115 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -57,7 +57,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 09/09/2026</div>
+<div class="status-bar">Mis à jour le 10/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -146,6 +146,7 @@ const DATA=[
   {name:"Marché de Rutel",secteur:"Epicerie",street:"Rutel",city:"Villenoy",country:"France",address:"Ferme de Rutel, Rutel, 77124 Villenoy, France",lat:48.9496079,lng:2.85514,zone:"idf"},
   {name:"Maison Tenart - Ferme du Mont de Cuy",secteur:"Epicerie",street:"52 Rue Notre Dame des Champs",city:"Paris",country:"France",address:"52 Rue Notre Dame des Champs, 75006 Paris, France",lat:48.8440458,lng:2.3302426,zone:"paris"},
   {name:"L'ANNEXE",secteur:"Epicerie",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris, France",lat:48.880671,lng:2.3333708,zone:"paris"},
+  {name:"O'tera - Amiens",secteur:"GMS",street:"151 Avenue Valéry Giscard d'Estaing",city:"Amiens",country:"France",address:"151 Av. Valéry Giscard d'Estaing 80000 AMIENS",lat:49.8839479,lng:2.26474,zone:"province"},
   {name:"Affinord",secteur:"Grossiste",street:"15 Avenue Du Great Eastern",city:"Longueau",country:"France",address:"15 Avenue Du Great Eastern, 80330 Longueau, France",lat:49.870889,lng:2.37303,zone:"province"},
   {name:"O'tera Sart",secteur:"GMS",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 rue Louis Constant 59491 Villeneuve d'Ascq",lat:50.6530142,lng:3.140879,zone:"province"},
   {name:"Marché de la Ferme de Viltain",secteur:"Cueillette",street:"Chemin de Viltain",city:"Jouy-en-Josas",country:"France",address:"Chemin de Viltain, 78350 Jouy-en-Josas, France",lat:48.7564609,lng:2.1530978,zone:"idf"},
