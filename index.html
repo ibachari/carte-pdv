@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609120421"/>
+<meta name="build" content="202609130412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">116 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 12/09/2026</div>
+<div class="status-bar">Mis à jour le 13/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -157,6 +157,7 @@ const DATA=[
   {name:"O'tera Sart",secteur:"GMS",street:"1 Rue Louis Constant",city:"Villeneuve-d'Ascq",country:"France",address:"1 rue Louis Constant 59491 Villeneuve d'Ascq",lat:50.6530142,lng:3.140879,zone:"province"},
   {name:"Marché de la Ferme de Viltain",secteur:"Cueillette",street:"Chemin de Viltain",city:"Jouy-en-Josas",country:"France",address:"Chemin de Viltain, 78350 Jouy-en-Josas, France",lat:48.7564609,lng:2.1530978,zone:"idf"},
   {name:"Univers Primeur - Osny",secteur:"GMS",street:"87 Route d'Ennery",city:"Osny",country:"France",address:"87 Route d'Ennery, 95520 Osny, France",lat:49.0707253,lng:2.0810778,zone:"idf"},
+  {name:"Grand Marché Marnière",secteur:"GMS",street:"31 Rue de Chevreuse",city:"Maurepas",country:"France",address:"31 Rue de Chevreuse, 78310 Maurepas, France",lat:48.7626397,lng:1.9268922,zone:"idf"},
   {name:"Les Commis",secteur:"Meal box",street:"",city:"",country:"",address:"84 rue Paul Vaillant Couturier, 92230 Gennevilliers, France",lat:48.9169438,lng:2.2996105,zone:"idf"},
   {name:"La Bièvre Primeurs",secteur:"Epicerie",street:"16 Route de Palaiseau",city:"Massy",country:"France",address:"16 Route de Palaiseau, 91300 Massy, France",lat:48.7287885,lng:2.245879,zone:"idf"},
   {name:"Hep'Istache - ARA",secteur:"Epicerie",street:"15 Rue du Maréchal Foch",city:"Versailles",country:"France",address:"15 Rue du Maréchal Foch, 78000 Versailles, France",lat:48.8059014,lng:2.1314331,zone:"idf"},
