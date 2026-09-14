@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609130421"/>
+<meta name="build" content="202609140412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">118 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 13/09/2026</div>
+<div class="status-bar">Mis à jour le 14/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -136,6 +136,7 @@ const DATA=[
   {name:"Les Jardins du Mesnil",secteur:"Cueillette",street:"45 Rue Maurice Berteaux",city:"Le Mesnil-le-Roi",country:"France",address:"45 Rue Maurice Berteaux, 78600 Le Mesnil-le-Roi, France",lat:48.9244605,lng:2.1202073,zone:"idf"},
   {name:"Les Saisonniers - Maubeuge",secteur:"Epicerie",street:"74 Rue de Maubeuge",city:"Paris",country:"France",address:"74 Rue de Maubeuge, 75009 Paris, France",lat:48.8789972,lng:2.3476813,zone:"paris"},
   {name:"La Ferme du Logis",secteur:"Epicerie",street:"",city:"",country:"",address:"La Ferme du Logis, 78580 Jumeauville, France",lat:48.9041938,lng:1.7918864,zone:"idf"},
+  {name:"Epicerie Bon Sens",secteur:"Epicerie",street:"64 Rue Sadi Carnot",city:"Bagnolet",country:"France",address:"64 Rue Sadi Carnot, 93170 Bagnolet, France",lat:48.8693409,lng:2.4197533,zone:"idf"},
   {name:"Les Saisonniers - Poissonnière",secteur:"Epicerie",street:"10 Rue Poissonnière",city:"Paris",country:"France",address:"10 Rue Poissonnière, 75002 Paris, France",lat:48.8688757,lng:2.3479333,zone:"paris"},
   {name:"Les Saisonniers - Legendre",secteur:"Epicerie",street:"64 Rue Legendre",city:"Paris",country:"France",address:"64 Rue Legendre, 75017 Paris, France",lat:48.8855144,lng:2.3167031,zone:"paris"},
   {name:"Les Saisonniers - Rochechouart",secteur:"Epicerie",street:"74 Rue Marguerite de Rochechouart",city:"Paris",country:"France",address:"74 Rue Marguerite de Rochechouart, 75009 Paris, France",lat:48.8818494,lng:2.3466729,zone:"paris"},
