@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609160421"/>
+<meta name="build" content="202609170412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">118 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 16/09/2026</div>
+<div class="status-bar">Mis à jour le 17/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -116,6 +116,7 @@ const DATA=[
   {name:"La Petite épicerie de Harry",secteur:"Epicerie",street:"187 Avenue Achille Peretti",city:"Neuilly-sur-Seine",country:"France",address:"187 Avenue Achille Peretti, 92200 Neuilly-sur-Seine, France",lat:48.8854431,lng:2.2638566,zone:"idf"},
   {name:"L'HERISSON LAMMASA",secteur:"Traiteur",street:"5 Avenue de Norvège",city:"Villebon-sur-Yvette",country:"France",address:"5 Avenue de Norvège, Villebon-sur-Yvette, France",lat:48.6910989,lng:2.2114313,zone:"province"},
   {name:"Univers Primeur - Eragny",secteur:"GMS",street:"196 Rue de l'Ambassadeur",city:"Éragny",country:"France",address:"UNIVERS PRIMEURS ERAGNY, 196 Rue de l'Ambassadeur, 95610 Éragny, France",lat:49.0117632,lng:2.0977118,zone:"idf"},
+  {name:"PRIBON - TOLBIAC",secteur:"Fromagerie",street:"8 Rue du Moulin de la Pointe",city:"Paris",country:"France",address:"8 Rue du Moulin de la Pointe, 75013 Paris, France",lat:48.8245235,lng:2.3570285,zone:"paris"},
   {name:"Savary & Co",secteur:"Marché",street:"31 Rue Pierre Brossolette",city:"Presles",country:"France",address:"31 Rue Pierre Brossolette, 95590 Presles, France",lat:49.11009860000001,lng:2.2813414,zone:"idf"},
   {name:"Jardinerie de Chevreuse",secteur:"Cueillette",street:"84 Rue de Rambouillet",city:"Chevreuse",country:"France",address:"84 Rue de Rambouillet, 78460 Chevreuse, France",lat:48.6986928,lng:2.0260743,zone:"idf"},
   {name:"Victoire Épicerie Vivante",secteur:"Epicerie",street:"1 bis Rue Friant",city:"Paris",country:"France",address:"1 bis Rue Friant, 75014 Paris, France",lat:48.8270169,lng:2.3252478,zone:"paris"},
@@ -192,7 +193,6 @@ const DATA=[
   {name:"Apertivus - Bayen",secteur:"Epicerie",street:"",city:"",country:"",address:"9 rue Bayen, 75017 Paris, France",lat:48.8789191,lng:2.2953866,zone:"paris"},
   {name:"LA FROMAGERIE DE MEUDON",secteur:"Fromagerie",street:"",city:"",country:"",address:"20 rue Marcel Allégot, 92190 Meudon, France",lat:48.8220011,lng:2.2264135,zone:"idf"},
   {name:"Fromagerie Froumai",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"},
-  {name:"sas GASTON ( JOSETTE)",secteur:"Coffee shop",street:"73 Rue Montorgueil",city:"Paris",country:"France",address:"73 Rue Montorgueil, 75002 Paris, France",lat:48.8663247,lng:2.3469966,zone:"paris"},
   {name:"Miyam Parmentier",secteur:"Epicerie",street:"",city:"",country:"",address:"101 avenue Parmentier, 75011 Paris, France",lat:48.8667423,lng:2.3732818,zone:"paris"},
   {name:"Grande Galerie de l'Evolution",secteur:"GMS",street:"",city:"",country:"",address:"36 bis rue Geoffroy Saint-Hilaire, 75005 Paris, France",lat:48.8404449,lng:2.3562222,zone:"paris"},
   {name:"Les Saisonniers - Guy Moquet",secteur:"Epicerie",street:"",city:"",country:"",address:"68 avenue de Saint-Ouen, 75018 Paris, France",lat:48.8914932,lng:2.3270884,zone:"paris"},
@@ -203,7 +203,8 @@ const DATA=[
   {name:"Lait Prés Verts",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
   {name:"Arsene et compagnie - VRAC & BOC",secteur:"Epicerie",street:"",city:"",country:"",address:"7 rue du Docteur Bauer, 93400 Saint-Ouen-sur-Seine, France",lat:48.9125013,lng:2.3357085,zone:"idf"},
   {name:"VALFAB - Huguette et Henri - POUR DE BON PRO",secteur:"Epicerie",street:"40 Rue Sedaine",city:"Paris",country:"France",address:"40 Rue Sedaine, Paris, France",lat:48.8568234,lng:2.3747488,zone:"paris"},
-  {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"}
+  {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
+  {name:"La Cachette Gourmande",secteur:"Coffee shop",street:"",city:"Beauvais",country:"France",address:"Beauvais, France",lat:49.42953869999999,lng:2.0807123,zone:"province"}
 ];
 let map,markers=[],activeZone="all";
 function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]});}
