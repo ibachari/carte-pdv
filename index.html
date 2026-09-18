@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609170421"/>
+<meta name="build" content="202609180412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">118 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">116 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 17/09/2026</div>
+<div class="status-bar">Mis à jour le 18/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -101,7 +101,6 @@ const DATA=[
   {name:"Epic SODIGERMAIN",secteur:"GMS",street:"14 Rue Lobineau",city:"Paris",country:"France",address:"14 Rue Lobineau, 75006 Paris, France",lat:48.8517828,lng:2.3358428,zone:"paris"},
   {name:"Fromagerie L'affinez",secteur:"Fromagerie",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong 91230 MONTGERON",lat:48.7012489,lng:2.4663173,zone:"idf"},
   {name:"LIBRE FRUIT MAGNY",secteur:"Cueillette",street:"",city:"",country:"",address:"9 rue Ampère, 95420 Magny-en-Vexin, France",lat:49.145771,lng:1.7856006,zone:"idf"},
-  {name:"L'Epicerie des Julie-Pontoise",secteur:"Epicerie",street:"",city:"",country:"",address:"8 rue de l'Hôtel de Ville, 95300 Pontoise, France",lat:49.050302,lng:2.0991673,zone:"idf"},
   {name:"Marché Frais Orgeval",secteur:"GMS",street:"",city:"",country:"",address:"988 route de Quarante Sous, 78630 Orgeval, France",lat:48.927058,lng:1.986226,zone:"idf"},
   {name:"Epicerie Riondet - JUKE",secteur:"Hôtel",street:"3 Rue du Capitaine Ferber",city:"Paris",country:"France",address:"3 Rue du Capitaine Ferber, 75020 Paris, France",lat:48.86501200000001,lng:2.404787,zone:"paris"},
   {name:"Epicerie Tounette",secteur:"Epicerie",street:"12 Rue du Borrégo",city:"Paris",country:"France",address:"12 Rue du Borrégo, 75020 Paris, France",lat:48.8726169,lng:2.3990806,zone:"paris"},
@@ -177,7 +176,6 @@ const DATA=[
   {name:"LAIT Fromagères",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
   {name:"la Boutique des Eleveurs",secteur:"Epicerie",street:"18 Rue Descartes",city:"Nantes",country:"France",address:"18 Rue Descartes, 44000 Nantes, France",lat:47.2171666,lng:-1.5638463,zone:"province"},
   {name:"Apertivus - Belleville",secteur:"Epicerie",street:"117 Rue de Belleville",city:"Paris",country:"France",address:"117 Rue de Belleville, Paris, France",lat:48.8748365,lng:2.3877619,zone:"paris"},
-  {name:"Monoprix - Saint Paul",secteur:"GMS",street:"",city:"Paris",country:"France",address:"75004 Paris, France",lat:48.8534275,lng:2.3582788,zone:"paris"},
   {name:"La Cave du marché",secteur:"Marché",street:"31 Rue du Château d'Eau",city:"Paris",country:"France",address:"31 Rue du Château d'Eau, 75010 Paris, France",lat:48.8709654,lng:2.3585407,zone:"paris"},
   {name:"O'tera Avelin",secteur:"GMS",street:"33 Rue de Seclin",city:"Avelin",country:"France",address:"33 Rue de Seclin 59710 AVELIN France",lat:50.5385623,lng:3.077088,zone:"province"},
   {name:"Chez Virginie Fromagerie",secteur:"Fromagerie",street:"54 Rue Damrémont",city:"Paris",country:"France",address:"54 Rue Damrémont, 75018 Paris, France",lat:48.8904209,lng:2.3344184,zone:"paris"},
