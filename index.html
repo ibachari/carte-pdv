@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609200421"/>
+<meta name="build" content="202609210412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">116 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 20/09/2026</div>
+<div class="status-bar">Mis à jour le 21/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -173,6 +173,7 @@ const DATA=[
   {name:"Miyam - Beaubourg",secteur:"Epicerie",street:"82 Rue Beaubourg",city:"Paris",country:"France",address:"82 Rue Beaubourg, 75003 Paris, France",lat:48.8643783,lng:2.3554305,zone:"paris"},
   {name:"Les Saisonniers - Sèvres",secteur:"Epicerie",street:"",city:"",country:"",address:"125 rue de Sèvres, 75006 Paris, France",lat:48.8475721,lng:2.3188913,zone:"paris"},
   {name:"Les fromages de Gambetta",secteur:"Fromagerie",street:"259 Rue des Pyrénées",city:"Paris",country:"France",address:"259 Rue des Pyrénées, Paris, France",lat:48.866812,lng:2.3966809,zone:"paris"},
+  {name:"Les Jardins de Faremoutiers",secteur:"Cueillette",street:"5 Impasse des Saules",city:"Faremoutiers",country:"France",address:"5 Impasse des Saules, 77515 Faremoutiers, France",lat:48.800424,lng:2.9865027,zone:"idf"},
   {name:"LAIT Fromagères",secteur:"Fromagerie",street:"",city:"Domont",country:"France",address:"Domont, France",lat:49.030343,lng:2.326213,zone:"idf"},
   {name:"la Boutique des Eleveurs",secteur:"Epicerie",street:"18 Rue Descartes",city:"Nantes",country:"France",address:"18 Rue Descartes, 44000 Nantes, France",lat:47.2171666,lng:-1.5638463,zone:"province"},
   {name:"Apertivus - Belleville",secteur:"Epicerie",street:"117 Rue de Belleville",city:"Paris",country:"France",address:"117 Rue de Belleville, Paris, France",lat:48.8748365,lng:2.3877619,zone:"paris"},
