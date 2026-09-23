@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609220421"/>
+<meta name="build" content="202609230412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">119 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 22/09/2026</div>
+<div class="status-bar">Mis à jour le 23/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -180,6 +180,7 @@ const DATA=[
   {name:"La Cave du marché",secteur:"Marché",street:"31 Rue du Château d'Eau",city:"Paris",country:"France",address:"31 Rue du Château d'Eau, 75010 Paris, France",lat:48.8709654,lng:2.3585407,zone:"paris"},
   {name:"O'tera Avelin",secteur:"GMS",street:"33 Rue de Seclin",city:"Avelin",country:"France",address:"33 Rue de Seclin 59710 AVELIN France",lat:50.5385623,lng:3.077088,zone:"province"},
   {name:"Chez Virginie Fromagerie",secteur:"Fromagerie",street:"54 Rue Damrémont",city:"Paris",country:"France",address:"54 Rue Damrémont, 75018 Paris, France",lat:48.8904209,lng:2.3344184,zone:"paris"},
+  {name:"Terroirs et Régalades",secteur:"Epicerie",street:"93 Boulevard de la République",city:"Vaucresson",country:"France",address:"93 Boulevard de la République, 92420 Vaucresson, France",lat:48.8373358,lng:2.1541815,zone:"idf"},
   {name:"Miyam Saint-Ouen",secteur:"Epicerie",street:"62 Bis Avenue Gabriel Péri",city:"Saint-Ouen-sur-Seine",country:"France",address:"62 Bis Avenue Gabriel Péri, 93400 Saint-Ouen-sur-Seine, France",lat:48.9073726,lng:2.3321029,zone:"idf"},
   {name:"La Fromagerie PonPon Tournon",secteur:"Fromagerie",street:"59 Grande Rue",city:"Tournon-sur-Rhône",country:"France",address:"59 Gd Rue, Tournon-sur-Rhône, France",lat:45.0665927,lng:4.833537199999999,zone:"province"},
   {name:"Fromagerie Felix",secteur:"Fromagerie",street:"",city:"",country:"",address:"31 avenue Felix Faure, 75015 Paris, France",lat:48.8415313,lng:2.2892307,zone:"paris"},
@@ -200,6 +201,7 @@ const DATA=[
   {name:"Carrefour Hyper Venette",secteur:"GMS",street:"",city:"",country:"",address:"6 avenue de l'Europe, 60280 Venette, France",lat:49.4078641,lng:2.7849176,zone:"province"},
   {name:"Champs Libres",secteur:"Epicerie",street:"222 Rue de Charenton",city:"Paris",country:"France",address:"222 Rue de Charenton, 75012 Paris, France",lat:48.8401883,lng:2.3880534,zone:"paris"},
   {name:"Lait Prés Verts",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
+  {name:"La farandole de fromages",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
   {name:"Arsene et compagnie - VRAC & BOC",secteur:"Epicerie",street:"",city:"",country:"",address:"7 rue du Docteur Bauer, 93400 Saint-Ouen-sur-Seine, France",lat:48.9125013,lng:2.3357085,zone:"idf"},
   {name:"VALFAB - Huguette et Henri - POUR DE BON PRO",secteur:"Epicerie",street:"40 Rue Sedaine",city:"Paris",country:"France",address:"40 Rue Sedaine, Paris, France",lat:48.8568234,lng:2.3747488,zone:"paris"},
   {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
