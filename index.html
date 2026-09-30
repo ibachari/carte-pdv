@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202609290421"/>
+<meta name="build" content="202609300412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">121 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">122 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 29/09/2026</div>
+<div class="status-bar">Mis à jour le 30/09/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -193,6 +193,7 @@ const DATA=[
   {name:"Apertivus - Bayen",secteur:"Epicerie",street:"",city:"",country:"",address:"9 rue Bayen, 75017 Paris, France",lat:48.8789191,lng:2.2953866,zone:"paris"},
   {name:"LA FROMAGERIE DE MEUDON",secteur:"Fromagerie",street:"",city:"",country:"",address:"20 rue Marcel Allégot, 92190 Meudon, France",lat:48.8220011,lng:2.2264135,zone:"idf"},
   {name:"Fromagerie Froumai",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"},
+  {name:"sas GASTON ( JOSETTE)",secteur:"Coffee shop",street:"73 Rue Montorgueil",city:"Paris",country:"France",address:"73 Rue Montorgueil, 75002 Paris, France",lat:48.8663247,lng:2.3469966,zone:"paris"},
   {name:"Miyam Parmentier",secteur:"Epicerie",street:"",city:"",country:"",address:"101 avenue Parmentier, 75011 Paris, France",lat:48.8667423,lng:2.3732818,zone:"paris"},
   {name:"Grande Galerie de l'Evolution",secteur:"GMS",street:"",city:"",country:"",address:"36 bis rue Geoffroy Saint-Hilaire, 75005 Paris, France",lat:48.8404449,lng:2.3562222,zone:"paris"},
   {name:"Les Saisonniers - Guy Moquet",secteur:"Epicerie",street:"",city:"",country:"",address:"68 avenue de Saint-Ouen, 75018 Paris, France",lat:48.8914932,lng:2.3270884,zone:"paris"},
