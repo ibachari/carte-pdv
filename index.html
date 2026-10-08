@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202610070421"/>
+<meta name="build" content="202610080412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">119 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">118 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 07/10/2026</div>
+<div class="status-bar">Mis à jour le 08/10/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -96,7 +96,6 @@ const DATA=[
   {name:"Le Cri du Radis Chamant",secteur:"Epicerie",street:"",city:"",country:"",address:"18 avenue du Poteau, 60300 Chamant, France",lat:49.2206261,lng:2.5927245,zone:"province"},
   {name:"la fourmi verte - Bures-sur-Yvette",secteur:"Epicerie",street:"88 Rue Charles de Gaulle",city:"Bures-sur-Yvette",country:"France",address:"88 Rue Charles de Gaulle, 91440 Bures-sur-Yvette, France",lat:48.6966352,lng:2.1552038,zone:"idf"},
   {name:"L'Epicerie",secteur:"Epicerie",street:"",city:"",country:"",address:"55 bis rue du Général de Gaulle, 95880 Enghien-les-Bains, France",lat:48.9704062,lng:2.3067224,zone:"idf"},
-  {name:"Le Comptoir de la Grange",secteur:"Epicerie",street:"",city:"",country:"",address:"20 rue des Vergers, 78580 Les Alluets-le-Roi, France",lat:48.9098628,lng:1.9111089,zone:"idf"},
   {name:"Epic SODIGERMAIN",secteur:"GMS",street:"14 Rue Lobineau",city:"Paris",country:"France",address:"14 Rue Lobineau, 75006 Paris, France",lat:48.8517828,lng:2.3358428,zone:"paris"},
   {name:"Fromagerie L'affinez",secteur:"Fromagerie",street:"2 Rue du Général Lelong",city:"Montgeron",country:"France",address:"2 Rue du Général Lelong 91230 MONTGERON",lat:48.7012489,lng:2.4663173,zone:"idf"},
   {name:"LIBRE FRUIT MAGNY",secteur:"Cueillette",street:"",city:"",country:"",address:"9 rue Ampère, 95420 Magny-en-Vexin, France",lat:49.145771,lng:1.7856006,zone:"idf"},
@@ -203,7 +202,7 @@ const DATA=[
   {name:"Lait Prés Verts",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
   {name:"Les fromages de MaLo",secteur:"Fromagerie",street:"",city:"Angoulême",country:"France",address:"Angoulême, France",lat:45.6488766,lng:0.1567288,zone:"province"},
   {name:"Arsene et compagnie - VRAC & BOC",secteur:"Epicerie",street:"",city:"",country:"",address:"7 rue du Docteur Bauer, 93400 Saint-Ouen-sur-Seine, France",lat:48.9125013,lng:2.3357085,zone:"idf"},
-  {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
+  {name:"VALFAB - Huguette et Henri - POUR DE BON PRO",secteur:"Epicerie",street:"40 Rue Sedaine",city:"Paris",country:"France",address:"40 Rue Sedaine, Paris, France",lat:48.8568234,lng:2.3747488,zone:"paris"},
   {name:"La Cachette Gourmande",secteur:"Coffee shop",street:"",city:"Beauvais",country:"France",address:"Beauvais, France",lat:49.42953869999999,lng:2.0807123,zone:"province"},
   {name:"Columbus ( Wagram )",secteur:"Chaine de coffee shop",street:"103 Rue La Fayette",city:"Paris",country:"France",address:"103 Rue La Fayette, 75010 Paris",lat:48.8777677,lng:2.3502624,zone:"paris"}
 ];
