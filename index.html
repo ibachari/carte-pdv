@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202610130421"/>
+<meta name="build" content="202610140412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">119 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 13/10/2026</div>
+<div class="status-bar">Mis à jour le 14/10/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -105,6 +105,7 @@ const DATA=[
   {name:"Marché Frais Meulan - FLM",secteur:"GMS",street:"25 Avenue des Aulnes",city:"Meulan-en-Yvelines",country:"France",address:"25 Avenue des Aulnes, 78250 Meulan-en-Yvelines, France",lat:49.0115473,lng:1.9015974,zone:"idf"},
   {name:"Le Garde-Manger des Hameaux",secteur:"Epicerie",street:"1 Rue Mathilde de Garlande",city:"Magny-les-Hameaux",country:"France",address:"de Guerlande, 1 Rue Mathilde de Garlande, 78114 Magny-les-Hameaux, France",lat:48.7406246,lng:2.0354042,zone:"idf"},
   {name:"La cueillette de Cergy - le Marché de Caroline",secteur:"Cueillette",street:"Chemin de Courcelles",city:"Puiseux-Pontoise",country:"France",address:"Chemin de Courcelles, 95650 Puiseux-Pontoise, France",lat:49.0625186,lng:2.0019371,zone:"idf"},
+  {name:"DEMAIN - Timbaud",secteur:"Boulangerie",street:"133 Rue Saint-Maur",city:"Paris",country:"France",address:"133 Rue Saint-Maur, 75011 Paris, France",lat:48.8673449,lng:2.3756999,zone:"paris"},
   {name:"Les Vergers d'Attainville",secteur:"Cueillette",street:"1 D909",city:"Attainville",country:"France",address:"Cueillette De La Croix Verte, D909, 95570 Attainville, France",lat:49.06832,lng:2.338657,zone:"idf"},
   {name:"Miyam - Robespierre",secteur:"Epicerie",street:"56 bis Rue Robespierre",city:"Montreuil",country:"France",address:"56 bis Rue Robespierre, 93100 Montreuil, France",lat:48.8526647,lng:2.4236581,zone:"idf"},
   {name:"Miyam - Poteau",secteur:"Epicerie",street:"11 Rue du Poteau",city:"Paris",country:"France",address:"11 Rue du Poteau, 75018 Paris, France",lat:48.8931005,lng:2.3428574,zone:"paris"},
@@ -202,6 +203,7 @@ const DATA=[
   {name:"Les fromages de MaLo",secteur:"Fromagerie",street:"",city:"Angoulême",country:"France",address:"Angoulême, France",lat:45.6488766,lng:0.1567288,zone:"province"},
   {name:"Arsene et compagnie - VRAC & BOC",secteur:"Epicerie",street:"",city:"",country:"",address:"7 rue du Docteur Bauer, 93400 Saint-Ouen-sur-Seine, France",lat:48.9125013,lng:2.3357085,zone:"idf"},
   {name:"VALFAB - Huguette et Henri - POUR DE BON PRO",secteur:"Epicerie",street:"40 Rue Sedaine",city:"Paris",country:"France",address:"40 Rue Sedaine, Paris, France",lat:48.8568234,lng:2.3747488,zone:"paris"},
+  {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
   {name:"La Cachette Gourmande",secteur:"Coffee shop",street:"",city:"Beauvais",country:"France",address:"Beauvais, France",lat:49.42953869999999,lng:2.0807123,zone:"province"},
   {name:"Columbus ( Wagram )",secteur:"Chaine de coffee shop",street:"103 Rue La Fayette",city:"Paris",country:"France",address:"103 Rue La Fayette, 75010 Paris",lat:48.8777677,lng:2.3502624,zone:"paris"}
 ];
