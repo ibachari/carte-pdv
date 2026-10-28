@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202610271640"/>
+<meta name="build" content="202610280412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 27/10/2026</div>
+<div class="status-bar">Mis à jour le 28/10/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -87,10 +87,6 @@ function setUserPos(lat,lng,label){userPos={lat:lat,lng:lng};document.getElement
 function manualLocate(){const input=document.getElementById("manual-locate-input"),q=input.value.trim();if(!q){document.getElementById("locate-status").textContent="Entrez une ville ou un code postal.";return;}document.getElementById("locate-status").textContent="Recherche…";fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=fr&q="+encodeURIComponent(q)).then(r=>r.json()).then(res=>{if(!res||!res.length){document.getElementById("locate-status").textContent="Ville ou code postal introuvable.";return;}setUserPos(parseFloat(res[0].lat),parseFloat(res[0].lon),"Position indiquée : "+q);}).catch(()=>{document.getElementById("locate-status").textContent="Erreur réseau, réessayez.";});}
 function locateMe(){const btn=document.getElementById("locate-btn");if(window.isSecureContext===false){showLocatePanel("Connexion non sécurisée : indiquez votre ville ci-dessous.");return;}if(!navigator.geolocation){showLocatePanel("Géolocalisation non supportée : indiquez votre ville ci-dessous.");return;}btn.disabled=true;hideLocatePanel();navigator.geolocation.getCurrentPosition(pos=>{btn.disabled=false;setUserPos(pos.coords.latitude,pos.coords.longitude,"Vous êtes ici");},err=>{btn.disabled=false;const msgs={1:"Localisation refusée ou bloquée (fréquent en navigation privée) — indiquez votre ville ci-dessous.",2:"Position indisponible — indiquez votre ville ci-dessous.",3:"Délai dépassé — indiquez votre ville ci-dessous."};showLocatePanel(msgs[err.code]||"Géolocalisation impossible — indiquez votre ville ci-dessous.");},{enableHighAccuracy:true,timeout:10000});}
 const DATA=[
-  {name:"Vita street",secteur:"Coffee shop",street:"",city:"",country:"",address:"7 Rue des Manneliers, 59800 Lille, France",lat:50.6369017,lng:3.064389,zone:"province"},
-  {name:"Carrefour Hyper - Creil St Maximin",secteur:"GMS",street:"",city:"",country:"",address:"RN 1016, 60740 Saint-Maximin, France",lat:49.2354936,lng:2.4699228,zone:"province"},
-  {name:"Ami-Amie",secteur:"Coffee shop",street:"",city:"",country:"",address:"Galerie de Tournamy, 762 Avenue de Tournamy, 06250 Mougins, France",lat:43.6041799,lng:6.988015,zone:"province"},
-  {name:"L'épicerie jaune",secteur:"Epicerie",street:"",city:"",country:"",address:"7 bis Rue Paré, 44000 Nantes, France",lat:47.2163333,lng:-1.5597794,zone:"province"},
   {name:"O'tera - Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
   {name:"From' Garches",secteur:"Fromagerie",street:"",city:"",country:"",address:"116 Grande Rue, 92380 Garches, France",lat:48.8436647,lng:2.1848742,zone:"idf"},
   {name:"Maison Clément",secteur:"Epicerie",street:"Place des Halles",city:"Tours",country:"France",address:"Place des Halles, Tours, France",lat:47.3926527,lng:0.6796449,zone:"province"},
@@ -193,17 +189,21 @@ const DATA=[
   {name:"LA FROMAGERIE DE MEUDON",secteur:"Fromagerie",street:"",city:"",country:"",address:"20 rue Marcel Allégot, 92190 Meudon, France",lat:48.8220011,lng:2.2264135,zone:"idf"},
   {name:"Fromagerie Froumai",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"},
   {name:"sas GASTON ( JOSETTE)",secteur:"Coffee shop",street:"73 Rue Montorgueil",city:"Paris",country:"France",address:"73 Rue Montorgueil, 75002 Paris, France",lat:48.8663247,lng:2.3469966,zone:"paris"},
+  {name:"Vita street",secteur:"Coffee shop",street:"",city:"",country:"",address:"7 Rue des Manneliers, 59800 Lille, France",lat:50.6369017,lng:3.064389,zone:"province"},
   {name:"Miyam Parmentier",secteur:"Epicerie",street:"",city:"",country:"",address:"101 avenue Parmentier, 75011 Paris, France",lat:48.8667423,lng:2.3732818,zone:"paris"},
   {name:"Grande Galerie de l'Evolution",secteur:"GMS",street:"",city:"",country:"",address:"36 bis rue Geoffroy Saint-Hilaire, 75005 Paris, France",lat:48.8404449,lng:2.3562222,zone:"paris"},
   {name:"Les Saisonniers - Guy Moquet",secteur:"Epicerie",street:"",city:"",country:"",address:"68 avenue de Saint-Ouen, 75018 Paris, France",lat:48.8914932,lng:2.3270884,zone:"paris"},
   {name:"Les Marionnettes / Concept au Jardin (bertrand hospitality)",secteur:"Coffee shop",street:"",city:"",country:"",address:"5 rue Guynemer, 75006 Paris, France",lat:48.845408,lng:2.3323754,zone:"paris"},
   {name:"Les Saisonniers - Daguerre",secteur:"Epicerie",street:"",city:"",country:"",address:"19 rue Daguerre, 75014 Paris, France",lat:48.8339277,lng:2.329544,zone:"paris"},
   {name:"Carrefour Hyper Venette",secteur:"GMS",street:"",city:"",country:"",address:"6 avenue de l'Europe, 60280 Venette, France",lat:49.4078641,lng:2.7849176,zone:"province"},
+  {name:"Carrefour Hyper - Creil St Maximin",secteur:"GMS",street:"",city:"",country:"",address:"RN 1016, 60740 Saint-Maximin, France",lat:49.2354936,lng:2.4699228,zone:"province"},
   {name:"Champs Libres",secteur:"Epicerie",street:"222 Rue de Charenton",city:"Paris",country:"France",address:"222 Rue de Charenton, 75012 Paris, France",lat:48.8401883,lng:2.3880534,zone:"paris"},
   {name:"Lait Prés Verts",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
   {name:"La farandole de fromages",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
   {name:"VALFAB - Huguette et Henri - POUR DE BON PRO",secteur:"Epicerie",street:"40 Rue Sedaine",city:"Paris",country:"France",address:"40 Rue Sedaine, Paris, France",lat:48.8568234,lng:2.3747488,zone:"paris"},
   {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
+  {name:"Ami-Amie",secteur:"Coffee shop",street:"",city:"",country:"",address:"Galerie de Tournamy, 762 Avenue de Tournamy, 06250 Mougins, France",lat:43.6041799,lng:6.988015,zone:"province"},
+  {name:"L'épicerie jaune",secteur:"Epicerie",street:"",city:"",country:"",address:"7 bis Rue Paré, 44000 Nantes, France",lat:47.2163333,lng:-1.5597794,zone:"province"},
   {name:"La Cachette Gourmande",secteur:"Coffee shop",street:"",city:"Beauvais",country:"France",address:"Beauvais, France",lat:49.42953869999999,lng:2.0807123,zone:"province"},
   {name:"Columbus ( Wagram )",secteur:"Chaine de coffee shop",street:"103 Rue La Fayette",city:"Paris",country:"France",address:"103 Rue La Fayette, 75010 Paris",lat:48.8777677,lng:2.3502624,zone:"paris"}
 ];
