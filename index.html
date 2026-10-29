@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202610280421"/>
+<meta name="build" content="202610290412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">119 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">120 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 28/10/2026</div>
+<div class="status-bar">Mis à jour le 29/10/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -117,6 +117,7 @@ const DATA=[
   {name:"Savary & Co",secteur:"Marché",street:"31 Rue Pierre Brossolette",city:"Presles",country:"France",address:"31 Rue Pierre Brossolette, 95590 Presles, France",lat:49.11009860000001,lng:2.2813414,zone:"idf"},
   {name:"Jardinerie de Chevreuse",secteur:"Cueillette",street:"84 Rue de Rambouillet",city:"Chevreuse",country:"France",address:"84 Rue de Rambouillet, 78460 Chevreuse, France",lat:48.6986928,lng:2.0260743,zone:"idf"},
   {name:"Victoire Épicerie Vivante",secteur:"Epicerie",street:"1 bis Rue Friant",city:"Paris",country:"France",address:"1 bis Rue Friant, 75014 Paris, France",lat:48.8270169,lng:2.3252478,zone:"paris"},
+  {name:"La Fromagerie du Louvre",secteur:"Fromagerie",street:"54 Rue de l'Arbre Sec",city:"Paris",country:"France",address:"54 Rue de l'Arbre Sec, 75001 Paris, France",lat:48.8610626,lng:2.3428049,zone:"paris"},
   {name:"PONPON Rose - Le Plessis-Robinson",secteur:"Epicerie",street:"18 Grand'place",city:"Le Plessis-Robinson",country:"France",address:"18 Grand'place, 92350 Le Plessis-Robinson, France",lat:48.7816419,lng:2.2626801,zone:"idf"},
   {name:"La Prairie - Epicerie Gourmande",secteur:"Epicerie",street:"29 Rue de Lille",city:"Armentières",country:"France",address:"29 Rue de Lille, 59280 Armentières, France",lat:50.6845025,lng:2.8814519,zone:"province"},
   {name:"Les Saisonniers - Saint Placide",secteur:"Epicerie",street:"62 Rue Saint-Placide",city:"Paris",country:"France",address:"62 Rue Saint-Placide, 75006 Paris, France",lat:48.8470813,lng:2.3264153,zone:"paris"},
@@ -200,9 +201,9 @@ const DATA=[
   {name:"Champs Libres",secteur:"Epicerie",street:"222 Rue de Charenton",city:"Paris",country:"France",address:"222 Rue de Charenton, 75012 Paris, France",lat:48.8401883,lng:2.3880534,zone:"paris"},
   {name:"Lait Prés Verts",secteur:"Epicerie",street:"15 Route de Canneve",city:"Guérande",country:"France",address:"15 Route de Canneve, 44350 Guérande, France",lat:47.316229,lng:-2.3763169,zone:"province"},
   {name:"La farandole de fromages",secteur:"Fromagerie",street:"3 Place Albert Mossion",city:"Gémozac",country:"France",address:"3 Place Albert Mossion, Gémozac, France",lat:45.5679214,lng:-0.676483,zone:"province"},
+  {name:"Les fromages de MaLo",secteur:"Fromagerie",street:"",city:"Angoulême",country:"France",address:"Angoulême, France",lat:45.6488766,lng:0.1567288,zone:"province"},
   {name:"VALFAB - Huguette et Henri - POUR DE BON PRO",secteur:"Epicerie",street:"40 Rue Sedaine",city:"Paris",country:"France",address:"40 Rue Sedaine, Paris, France",lat:48.8568234,lng:2.3747488,zone:"paris"},
   {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
-  {name:"Ami-Amie",secteur:"Coffee shop",street:"",city:"",country:"",address:"Galerie de Tournamy, 762 Avenue de Tournamy, 06250 Mougins, France",lat:43.6041799,lng:6.988015,zone:"province"},
   {name:"L'épicerie jaune",secteur:"Epicerie",street:"",city:"",country:"",address:"7 bis Rue Paré, 44000 Nantes, France",lat:47.2163333,lng:-1.5597794,zone:"province"},
   {name:"La Cachette Gourmande",secteur:"Coffee shop",street:"",city:"Beauvais",country:"France",address:"Beauvais, France",lat:49.42953869999999,lng:2.0807123,zone:"province"},
   {name:"Columbus ( Wagram )",secteur:"Chaine de coffee shop",street:"103 Rue La Fayette",city:"Paris",country:"France",address:"103 Rue La Fayette, 75010 Paris",lat:48.8777677,lng:2.3502624,zone:"paris"}
