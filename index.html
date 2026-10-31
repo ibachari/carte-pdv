@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202610300421"/>
+<meta name="build" content="202610310413"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">120 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">122 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 30/10/2026</div>
+<div class="status-bar">Mis à jour le 31/10/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -146,6 +146,7 @@ const DATA=[
   {name:"Le Cri du Radis Lamorlaye",secteur:"GMS",street:"",city:"",country:"",address:"4 route de la Seigneurie, 60260 Lamorlaye, France",lat:49.1464768,lng:2.4397649,zone:"province"},
   {name:"La Petite Épicerie",secteur:"Epicerie",street:"12 Rue de l'Église",city:"Montreuil",country:"France",address:"12 Rue de l'Église, 93100 Montreuil, France",lat:48.863802,lng:2.44259,zone:"idf"},
   {name:"Bizas - La vie de quartier",secteur:"Epicerie",street:"25 Rue Custine",city:"Paris",country:"France",address:"25 Rue Custine, 75018 Paris, France",lat:48.8887766,lng:2.3462842,zone:"paris"},
+  {name:"Monoprix - Issy les Moulineaux",secteur:"GMS",street:"1 Rue Lamartine",city:"Issy-les-Moulineaux",country:"France",address:"1 Rue Lamartine, 92130 Issy-les-Moulineaux, France",lat:48.8235259,lng:2.2746703,zone:"idf"},
   {name:"Marché de Rutel",secteur:"Epicerie",street:"Rutel",city:"Villenoy",country:"France",address:"Ferme de Rutel, Rutel, 77124 Villenoy, France",lat:48.9496079,lng:2.85514,zone:"idf"},
   {name:"Maison Tenart - Ferme du Mont de Cuy",secteur:"Epicerie",street:"52 Rue Notre Dame des Champs",city:"Paris",country:"France",address:"52 Rue Notre Dame des Champs, 75006 Paris, France",lat:48.8440458,lng:2.3302426,zone:"paris"},
   {name:"L'ANNEXE",secteur:"Epicerie",street:"15 Rue Chaptal",city:"Paris",country:"France",address:"15 Rue Chaptal, 75009 Paris, France",lat:48.880671,lng:2.3333708,zone:"paris"},
@@ -206,7 +207,8 @@ const DATA=[
   {name:"Patisserie des gourmets",secteur:"Boulangerie",street:"",city:"",country:"",address:"9 rue de Chartres, 91410 Dourdan, France",lat:48.5297218,lng:2.0118667,zone:"idf"},
   {name:"L'épicerie jaune",secteur:"Epicerie",street:"",city:"",country:"",address:"7 bis Rue Paré, 44000 Nantes, France",lat:47.2163333,lng:-1.5597794,zone:"province"},
   {name:"La Cachette Gourmande",secteur:"Coffee shop",street:"",city:"Beauvais",country:"France",address:"Beauvais, France",lat:49.42953869999999,lng:2.0807123,zone:"province"},
-  {name:"Columbus ( Wagram )",secteur:"Chaine de coffee shop",street:"103 Rue La Fayette",city:"Paris",country:"France",address:"103 Rue La Fayette, 75010 Paris",lat:48.8777677,lng:2.3502624,zone:"paris"}
+  {name:"Columbus ( Wagram )",secteur:"Chaine de coffee shop",street:"103 Rue La Fayette",city:"Paris",country:"France",address:"103 Rue La Fayette, 75010 Paris",lat:48.8777677,lng:2.3502624,zone:"paris"},
+  {name:"Le flamboyant",secteur:"Coffee-Shop",street:"25 Rue Saint-Louis",city:"Le Touquet-Paris-Plage",country:"France",address:"25 Rue Saint-Louis, 62520 Le Touquet-Paris-Plage, France",lat:50.5234952,lng:1.5838463,zone:"province"}
 ];
 let map,markers=[],activeZone="all";
 function makeIcon(c){return L.divIcon({className:"",html:`<div style="width:12px;height:12px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3);"></div>`,iconSize:[12,12],iconAnchor:[6,6]});}
