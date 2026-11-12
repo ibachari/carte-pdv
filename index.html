@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202611110421"/>
+<meta name="build" content="202611120412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 11/11/2026</div>
+<div class="status-bar">Mis à jour le 12/11/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -143,7 +143,6 @@ const DATA=[
   {name:"Les saisonniers - Vaugirard",secteur:"Epicerie multi-site",street:"323 Rue de Vaugirard",city:"Paris",country:"France",address:"323 Rue de Vaugirard, 75015 Paris, France",lat:48.838181,lng:2.2983732,zone:"paris"},
   {name:"Miyam Croix de Chavaux",secteur:"Epicerie multi-site",street:"9 Avenue de la Résistance",city:"Montreuil",country:"France",address:"9 Avenue de la Résistance, 93100 Montreuil, France",lat:48.85857679999999,lng:2.4362794,zone:"idf"},
   {name:"O'Grain Gourmand",secteur:"Epicerie indé",street:"20 Avenue Jean Jaurès",city:"Clamart",country:"France",address:"20 Avenue Jean Jaurès, 92140 Clamart, France",lat:48.8012632,lng:2.2640722,zone:"idf"},
-  {name:"Kilogramme",secteur:"Epicerie indé",street:"10 Rue de Meaux",city:"Paris",country:"France",address:"10 Rue de Meaux, 75019 Paris, France",lat:48.8785765,lng:2.3711126,zone:"paris"},
   {name:"Le Cri du Radis Lamorlaye",secteur:"GMS",street:"",city:"",country:"",address:"4 route de la Seigneurie, 60260 Lamorlaye, France",lat:49.1464768,lng:2.4397649,zone:"province"},
   {name:"La Petite Épicerie",secteur:"Epicerie indé",street:"12 Rue de l'Église",city:"Montreuil",country:"France",address:"12 Rue de l'Église, 93100 Montreuil, France",lat:48.863802,lng:2.44259,zone:"idf"},
   {name:"Bizas - La vie de quartier",secteur:"Epicerie indé",street:"25 Rue Custine",city:"Paris",country:"France",address:"25 Rue Custine, 75018 Paris, France",lat:48.8887766,lng:2.3462842,zone:"paris"},
@@ -186,6 +185,7 @@ const DATA=[
   {name:"Le panier de Caroline",secteur:"Epicerie indé",street:"",city:"",country:"",address:"1 route de Forges, 77930 Chailly-en-Bière, France",lat:48.4669449,lng:2.608877,zone:"idf"},
   {name:"Épicerie Racines",secteur:"Epicerie indé",street:"",city:"",country:"",address:"18 rue Hermel, 75018 Paris, France",lat:48.8909676,lng:2.344404,zone:"paris"},
   {name:"Apertivus - Bayen",secteur:"Epicerie multi-site",street:"",city:"",country:"",address:"9 rue Bayen, 75017 Paris, France",lat:48.8789191,lng:2.2953866,zone:"paris"},
+  {name:"LA FROMAGERIE DE MEUDON",secteur:"Fromagerie",street:"",city:"",country:"",address:"20 rue Marcel Allégot, 92190 Meudon, France",lat:48.8220011,lng:2.2264135,zone:"idf"},
   {name:"Fromagerie Froumai",secteur:"Fromagerie",street:"150 La Canebière",city:"Marseille",country:"France",address:"150 La Canebière, Marseille, France",lat:43.2984521,lng:5.3842118,zone:"province"},
   {name:"sas GASTON ( JOSETTE)",secteur:"Coffee shop",street:"73 Rue Montorgueil",city:"Paris",country:"France",address:"73 Rue Montorgueil, 75002 Paris, France",lat:48.8663247,lng:2.3469966,zone:"paris"},
   {name:"Vita street",secteur:"PDV Monoproduit",street:"",city:"",country:"",address:"7 Rue des Manneliers, 59800 Lille, France",lat:50.6369017,lng:3.064389,zone:"province"},
