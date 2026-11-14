@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, must-revalidate"/>
-<meta name="build" content="202611130421"/>
+<meta name="build" content="202611140412"/>
 <title>Nos Points de Vente - Maison Savary</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="icon" type="image/png" sizes="32x32" href="brand/favicon-32.png"/>
@@ -54,7 +54,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 </head>
 <body>
 <header>
-<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">117 points de vente</p></div>
+<div><div class="brand"><img class="logo" src="brand/logo-noir.png" alt="Maison Savary"><span class="tagline">Points de vente</span></div><p id="count-label">116 points de vente</p></div>
 <div class="search-bar"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><input type="text" id="search" placeholder="Rechercher…" oninput="applyFilters()"/></div>
 <div class="filters" id="filter-btns"></div>
 </header>
@@ -62,7 +62,7 @@ header p{font-size:13px;color:#888;margin-top:2px;}
 <div id="sidebar">
 <div class="sidebar-header" id="sidebar-count">—</div>
 <div id="client-list"><div class="empty">Chargement…</div></div>
-<div class="status-bar">Mis à jour le 13/11/2026</div>
+<div class="status-bar">Mis à jour le 14/11/2026</div>
 </div>
 <div class="map-wrap">
 <div id="map"></div>
@@ -88,7 +88,6 @@ function manualLocate(){const input=document.getElementById("manual-locate-input
 function locateMe(){const btn=document.getElementById("locate-btn");if(window.isSecureContext===false){showLocatePanel("Connexion non sécurisée : indiquez votre ville ci-dessous.");return;}if(!navigator.geolocation){showLocatePanel("Géolocalisation non supportée : indiquez votre ville ci-dessous.");return;}btn.disabled=true;hideLocatePanel();navigator.geolocation.getCurrentPosition(pos=>{btn.disabled=false;setUserPos(pos.coords.latitude,pos.coords.longitude,"Vous êtes ici");},err=>{btn.disabled=false;const msgs={1:"Localisation refusée ou bloquée (fréquent en navigation privée) — indiquez votre ville ci-dessous.",2:"Position indisponible — indiquez votre ville ci-dessous.",3:"Délai dépassé — indiquez votre ville ci-dessous."};showLocatePanel(msgs[err.code]||"Géolocalisation impossible — indiquez votre ville ci-dessous.");},{enableHighAccuracy:true,timeout:10000});}
 const DATA=[
   {name:"la Civette",secteur:"Restaurant",street:"253 Place de l'Église",city:"Chambly",country:"France",address:"253 Pl. de l'Église, 60230 Chambly, France",lat:49.1662706,lng:2.2451959,zone:"province"},
-  {name:"O'tera - Brest",secteur:"GMS",street:"122 Boulevard de Plymouth",city:"Brest",country:"France",address:"122 Bd de Plymouth, 29200 Brest",lat:48.38677,lng:-4.5293397,zone:"province"},
   {name:"From' Garches",secteur:"Fromagerie",street:"",city:"",country:"",address:"116 Grande Rue, 92380 Garches, France",lat:48.8436647,lng:2.1848742,zone:"idf"},
   {name:"Maison Clément",secteur:"Epicerie indé",street:"Place des Halles",city:"Tours",country:"France",address:"Place des Halles, Tours, France",lat:47.3926527,lng:0.6796449,zone:"province"},
   {name:"Berrie Family",secteur:"Epicerie indé",street:"62 Rue de la Sablière",city:"Asnières-sur-Seine",country:"France",address:"62 Rue de la Sablière, 92600 Asnières-sur-Seine, France",lat:48.9063691,lng:2.2688542,zone:"idf"},
